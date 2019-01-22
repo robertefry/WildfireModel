@@ -15,7 +15,7 @@ public class Cell {
 	
 	public Cell( 
 			Grid grid, Vector2i position, 
-			Map<Vector2i,Vector2f> windmap, Map<Vector2i,Float> heightmap, Map<Vector2i,Terrain> terrainmap ) {
+			Map<Vector2i,Terrain> terrainmap, Map<Vector2i,Vector2f> windmap, Map<Vector2i,Float> heightmap ) {
 		this.grid = grid;
 		this.terrain = terrainmap.get(position);
 		this.wind = windmap.get(position);
