@@ -1,3 +1,0 @@
-[submodule "vendor/JOML"]
-	path = vendor/JOML
-	url = https://github.com/JOML-CI/JOML.git
