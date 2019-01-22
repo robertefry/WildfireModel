@@ -1,26 +1,50 @@
 package model;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.joml.Vector2f;
 import org.joml.Vector2i;
 
-public class Grid {
+import model.type.HeightMap;
+import model.type.TerrainMap;
+import model.type.WindMap;
+
+public class Grid implements Sequencable<Grid> {
 	
-	private final Map<Vector2i,Cell> cells;
+	private final Map<Vector2i,Cell> cells = new HashMap<>();
 	
-	public Grid( Map<Vector2i,Cell> cells ) {
-		this.cells = cells;
-	}
-	
-	public void generate(
+	public Grid(
 			int width, int height,
-			Map<Vector2i,Terrain> terrainmap, Map<Vector2i,Vector2f> windmap, Map<Vector2i,Float> heightmap ) {
+			TerrainMap terrainmap, WindMap windmap, HeightMap heightmap ) {
 		for (int x = 0; x < width; x++) for (int y = 0; y < height; y++) {
 			Vector2i position = new Vector2i(x,y);
 			Cell cell = new Cell(this,position,terrainmap,windmap,heightmap);
 			cells.put(position,cell);
 		}
+	}
+	
+	@Override
+	public void next() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public Grid getNext() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public final Grid getSequence(int n) {
+		throw new RuntimeException("No definition for nth term in sequence");
+	}
+	
+	public final Cell getCell( int x, int y ) {
+		for (Vector2i position : cells.keySet()) {
+			if (position.x==x && position.y==y) return cells.get(position);
+		}
+		return null;
 	}
 
 }
