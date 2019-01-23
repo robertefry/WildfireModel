@@ -13,7 +13,7 @@ import model.type.WindMap;
 public class Cell implements Sequencable<Cell> {
 	
 	private final Grid grid;					// grid the cell is on
-	private final Fire fire = new Fire(0); 	// intensity of fire
+	private final Fire fire = new Fire(0); 		// intensity of fire
 	private final Terrain terrain;	
 	private final Wind wind;					// wind vector
 	private final Height height;				// height above sea level
