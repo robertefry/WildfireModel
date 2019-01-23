@@ -1,11 +1,10 @@
 package main;
 
-import engine.LogicEngine;
-import robertefry.penguin.engine.Engine;
+import model.Model;
 
 public class Main {
 	
-	public Engine logic = new LogicEngine();
+	private final Model model = new Model();
 	
 	public static void main(String[] args) {
 		Main main = new Main();
@@ -13,7 +12,7 @@ public class Main {
 	}
 	
 	public void initialise() {
-		logic.start();
+		model.start();
 	}
 
 }
