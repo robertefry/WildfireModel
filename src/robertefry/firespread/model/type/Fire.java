@@ -1,4 +1,5 @@
-package model.type;
+
+package robertefry.firespread.model.type;
 
 public class Fire {
 	

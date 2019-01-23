@@ -1,14 +1,14 @@
-package model;
+
+package robertefry.firespread.model;
 
 import org.joml.Vector2i;
-
-import model.map.HeightMap;
-import model.map.TerrainMap;
-import model.map.WindMap;
-import model.type.Fire;
-import model.type.Height;
-import model.type.Terrain;
-import model.type.Wind;
+import robertefry.firespread.model.map.HeightMap;
+import robertefry.firespread.model.map.TerrainMap;
+import robertefry.firespread.model.map.WindMap;
+import robertefry.firespread.model.type.Fire;
+import robertefry.firespread.model.type.Height;
+import robertefry.firespread.model.type.Terrain;
+import robertefry.firespread.model.type.Wind;
 import robertefry.penguin.engine.target.Targetable;
 
 public class Cell implements Sequencable<Cell>, Targetable {

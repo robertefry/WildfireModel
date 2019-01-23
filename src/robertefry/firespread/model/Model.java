@@ -1,4 +1,5 @@
-package model;
+
+package robertefry.firespread.model;
 
 import robertefry.penguin.engine.Engine;
 

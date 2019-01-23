@@ -1,11 +1,12 @@
-package model;
 
-public interface Sequencable<T> {
-	
+package robertefry.firespread.model;
+
+public interface Sequencable< T > {
+
 	public void next();
-	
+
 	public T getNext();
-	
+
 	public T getSequence( int n );
 
 }
