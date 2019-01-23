@@ -3,5 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="vendor/PenguinEngine/src"/>
+	<classpathentry kind="lib" path="lib/joml-jdk8-1.9.12.jar" sourcepath="lib/joml-1.9.12-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
