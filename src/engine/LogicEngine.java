@@ -2,6 +2,6 @@ package engine;
 
 import robertefry.penguin.engine.Engine;
 
-public class MainEngine extends Engine {
+public class LogicEngine extends Engine {
 
 }
