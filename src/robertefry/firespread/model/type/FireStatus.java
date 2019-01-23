@@ -1,11 +1,11 @@
 
 package robertefry.firespread.model.type;
 
-public class Fire {
+public class FireStatus {
 	
 	float intensity;
 	
-	public Fire( float intensity ) {
+	public FireStatus( float intensity ) {
 		this.intensity = intensity;
 	}
 	

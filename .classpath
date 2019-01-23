@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="vendor/PenguinEngine/src"/>
 	<classpathentry kind="lib" path="lib/joml-jdk8-1.9.12.jar" sourcepath="lib/joml-1.9.12-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections4-4.2.jar" sourcepath="lib/commons-collections4-4.2-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
