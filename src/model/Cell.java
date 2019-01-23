@@ -2,29 +2,32 @@ package model;
 
 import org.joml.Vector2i;
 
+import model.map.HeightMap;
+import model.map.TerrainMap;
+import model.map.WindMap;
 import model.type.Fire;
 import model.type.Height;
-import model.type.HeightMap;
 import model.type.Terrain;
-import model.type.TerrainMap;
 import model.type.Wind;
-import model.type.WindMap;
+import robertefry.penguin.engine.target.Targetable;
 
-public class Cell implements Sequencable<Cell> {
+public class Cell implements Sequencable<Cell>, Targetable {
 	
-	private final Grid grid;					// grid the cell is on
-	private final Fire fire = new Fire(0); 		// intensity of fire
-	private final Terrain terrain;	
-	private final Wind wind;					// wind vector
-	private final Height height;				// height above sea level
+	private final Grid grid;
+	private final Vector2i position;
+	private final Fire fire = new Fire(0);
+	private final TerrainMap terrainmap;	
+	private final WindMap windmap;
+	private final HeightMap heightmap;
 	
 	public Cell( 
 			Grid grid, Vector2i position, 
 			TerrainMap terrainmap, WindMap windmap, HeightMap heightmap ) {
 		this.grid = grid;
-		this.terrain = terrainmap.get(position);
-		this.wind = windmap.get(position);
-		this.height = heightmap.get(position);
+		this.position = position;
+		this.terrainmap = terrainmap;
+		this.windmap = windmap;
+		this.heightmap = heightmap;
 	}
 	
 	@Override
@@ -49,15 +52,15 @@ public class Cell implements Sequencable<Cell> {
 	}
 
 	public final Terrain getTerrain() {
-		return terrain;
+		return terrainmap.get(position);
 	}
 
 	public final Wind getWind() {
-		return wind;
+		return windmap.get(position);
 	}
 
 	public final Height getHeight() {
-		return height;
+		return heightmap.get(position);
 	}
 
 	public final Fire getFire() {

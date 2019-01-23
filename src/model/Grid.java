@@ -5,11 +5,12 @@ import java.util.Map;
 
 import org.joml.Vector2i;
 
-import model.type.HeightMap;
-import model.type.TerrainMap;
-import model.type.WindMap;
+import model.map.HeightMap;
+import model.map.TerrainMap;
+import model.map.WindMap;
+import robertefry.penguin.engine.target.Targetable;
 
-public class Grid implements Sequencable<Grid> {
+public class Grid implements Sequencable<Grid>, Targetable {
 	
 	private final Map<Vector2i,Cell> cells = new HashMap<>();
 	
