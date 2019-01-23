@@ -1,6 +1,6 @@
-[submodule "vendor/JOML"]
-	path = vendor/JOML
-	url = https://github.com/JOML-CI/JOML.git
-[submodule "vendor/PenguinEngine"]
-	path = vendor/PenguinEngine
+[submodule "vendor/robertefry/PenguinEngine"]
+	path = vendor/robertefry/PenguinEngine
 	url = https://github.com/robertefry/PenguinEngine.git
+[submodule "vendor/idsc-frazzoli/tensor"]
+	path = vendor/idsc-frazzoli/tensor
+	url = https://github.com/idsc-frazzoli/tensor.git
