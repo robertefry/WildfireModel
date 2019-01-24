@@ -1,17 +1,14 @@
 
 package robertefry.firespread.model.map;
 
-import java.util.HashMap;
-import java.util.Map;
 import robertefry.penguin.engine.target.Targetable;
 
-public class VariableMap< K, V > implements Targetable {
-
-	protected Map<K,V> map = new HashMap<>();
-
-	public V get( K key, long time ) {
-		// TODO VariableMap::get( K key, long time )
-		return map.get( key );
-	}
+public class VariableMap<T> implements Targetable {
+	
+	/*
+	 * TODO! VariableMap<T>
+	 * Take in file to parse from CSV to matrix of <T> 
+	 * As values can change in time, get must have this matrix as an argument
+	 */
 
 }
