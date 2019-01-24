@@ -3,13 +3,13 @@ package robertefry.firespread.model.grid;
 
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
-import robertefry.firespread.model.Sequence;
 import robertefry.firespread.model.map.TerrainMap;
 import robertefry.firespread.model.map.WindMap;
+import robertefry.firespread.model.type.Fire;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.Targetable;
 
-public class Grid implements Sequence<Grid>, Targetable {
+public class Grid implements Targetable {
 
 	private final BidiMap<GridRefrence,Cell> cells = new DualHashBidiMap<>();
 
@@ -23,30 +23,24 @@ public class Grid implements Sequence<Grid>, Targetable {
 			cells.put( position, cell );
 		}
 	}
-	
+
 	@Override
 	public void update( Engine engine ) {
-		Targetable.super.update( engine );
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void next() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Grid getNext() {
-		// TODO Auto-generated method stub
-		return null;
+		BidiMap<GridRefrence,Cell> nextcells = new DualHashBidiMap<>();
+		cells.forEach( ( refrence, cell ) -> {
+			Fire nextfire = cell.getNext();
+			Cell nextcell = new Cell( this, cell.getTerrainMap(), cell.getWindMap(), nextfire );
+			nextcells.put( refrence, nextcell );
+		} );
+		cells.clear();
+		cells.putAll( nextcells );
 	}
 
 	public final Cell getCell( GridRefrence position ) {
 		return cells.get( position );
 	}
-	
-	public final GridRefrence getPosition( Cell cell ) {
+
+	public final GridRefrence getGridRefrence( Cell cell ) {
 		return cells.getKey( cell );
 	}
 

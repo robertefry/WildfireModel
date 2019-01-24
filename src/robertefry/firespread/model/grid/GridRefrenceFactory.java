@@ -1,6 +1,7 @@
 
 package robertefry.firespread.model.grid;
 
+import org.apache.commons.csv.CSVRecord;
 import org.joml.Vector2i;
 
 /**
@@ -8,6 +9,10 @@ import org.joml.Vector2i;
  * @date 24 Jan 2019
  */
 public class GridRefrenceFactory {
+	
+	public static final GridRefrence fromCSVRecord( CSVRecord record ) {
+		return GridRefrenceFactory.fromString( record.get( "GridRefrence" ) );
+	}
 
 	public static final GridRefrence fromString( String string ) {
 		final String[] coords = string.split( ":" );

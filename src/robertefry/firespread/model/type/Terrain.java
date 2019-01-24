@@ -5,7 +5,6 @@ public class Terrain {
 
 	private final float height;
 	private final float volatility;
-	private float fireintensity = 0;
 
 	public Terrain( float height, float volatility ) {
 		this.height = height;
@@ -14,7 +13,7 @@ public class Terrain {
 	
 	@Override
 	public String toString() {
-		return String.format( "Terrain[height=%s,volatility=%s,fire_intensity=%s]", height, volatility, fireintensity );
+		return String.format( "Terrain[height=%s,volatility=%s]", height, volatility );
 	}
 	
 	public float getHeight() {
@@ -23,14 +22,6 @@ public class Terrain {
 
 	public final float getVolatility() {
 		return volatility;
-	}
-	
-	public float getFireIntensity() {
-		return fireintensity;
-	}
-	
-	public void setFireintensity( float fireintensity ) {
-		this.fireintensity = fireintensity;
 	}
 
 }
