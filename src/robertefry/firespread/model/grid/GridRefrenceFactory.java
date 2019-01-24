@@ -11,7 +11,7 @@ import org.joml.Vector2i;
 public class GridRefrenceFactory {
 	
 	public static final GridRefrence fromCSVRecord( CSVRecord record ) {
-		return GridRefrenceFactory.fromString( record.get( "GridRefrence" ) );
+		return GridRefrenceFactory.fromString( record.get( "grid_refrence" ) );
 	}
 
 	public static final GridRefrence fromString( String string ) {

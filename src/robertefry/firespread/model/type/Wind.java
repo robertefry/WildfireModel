@@ -1,33 +1,29 @@
 
 package robertefry.firespread.model.type;
 
+import java.util.Map;
+import java.util.TreeSet;
 import org.joml.Vector2f;
 
 public class Wind {
 
-	private Vector2f vector;
+	private Map<Integer,Vector2f> vectors;
 
-	public Wind( Vector2f vector ) {
-		this.vector = vector;
+	public Wind( Map<Integer,Vector2f> vectors ) {
+		this.vectors = vectors;
 	}
-	
-	public Wind( float magnitude, float direction ) {
-		final float x = (float) ( magnitude * Math.cos( direction ) );
-		final float y = (float) ( magnitude * Math.sin( direction ) );
-		vector = new Vector2f( x, y );
-	}
-	
+
 	@Override
 	public String toString() {
-		return String.format( "Wind[%s]", vector );
+		StringBuilder builder = new StringBuilder( "Wind[ " );
+		(new TreeSet<>( vectors.keySet() )).forEach( key -> {
+			builder.append( String.format( "(%s,%s) ", key, vectors.get( key ) ) );
+		} );
+		return builder.append( "]" ).toString();
 	}
-	
-	public Vector2f getVector() {
-		return vector;
-	}
-	
-	public void setVector( Vector2f vector ) {
-		this.vector = vector;
+
+	public Map<Integer,Vector2f> getVectors() {
+		return vectors;
 	}
 
 }

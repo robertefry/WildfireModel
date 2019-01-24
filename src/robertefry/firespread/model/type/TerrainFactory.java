@@ -8,10 +8,11 @@ import org.apache.commons.csv.CSVRecord;
  * @date 24 Jan 2019
  */
 public class TerrainFactory {
-	
+
 	public static Terrain fromCSVRecord( CSVRecord record ) {
-		// TODO Auto-generated method stub
-		return null;
+		float height = Float.parseFloat( record.get( "height" ) );
+		float volatility = Float.parseFloat( record.get( "volatility" ) );
+		return new Terrain( height, volatility );
 	}
 
 }

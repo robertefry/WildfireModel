@@ -16,8 +16,8 @@ public class WindMap implements TypeMap {
 	@Override
 	public void insert( CSVRecord record ) {
 		GridRefrence position = GridRefrenceFactory.fromCSVRecord( record );
-		Wind terrain = WindFactory.fromCSVRecord( record );
-		map.put( position, terrain );
+		Wind wind = WindFactory.fromCSVRecord( record );
+		map.put( position, wind );
 	}
 
 }
