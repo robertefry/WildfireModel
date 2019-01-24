@@ -4,7 +4,6 @@ package robertefry.firespread.model;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.joml.Vector2i;
-import robertefry.firespread.model.map.HeightMap;
 import robertefry.firespread.model.map.TerrainMap;
 import robertefry.firespread.model.map.WindMap;
 import robertefry.penguin.engine.Engine;
@@ -16,11 +15,11 @@ public class Grid implements Sequence<Grid>, Targetable {
 
 	public Grid(
 			int width, int height,
-			TerrainMap terrainmap, WindMap windmap, HeightMap heightmap
+			TerrainMap terrainmap, WindMap windmap
 	) {
 		for ( int x = 0; x < width; x++ ) for ( int y = 0; y < height; y++ ) {
 			Vector2i position = new Vector2i( x, y );
-			Cell cell = new Cell( this, terrainmap, windmap, heightmap );
+			Cell cell = new Cell( this, terrainmap, windmap );
 			cells.put( position, cell );
 		}
 	}

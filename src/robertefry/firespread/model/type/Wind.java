@@ -5,7 +5,7 @@ import org.joml.Vector2f;
 
 public class Wind {
 
-	public Vector2f vector;
+	private Vector2f vector;
 
 	public Wind( Vector2f vector ) {
 		this.vector = vector;
