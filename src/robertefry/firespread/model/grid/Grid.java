@@ -18,7 +18,7 @@ public class Grid implements Sequence<Grid>, Targetable {
 			TerrainMap terrainmap, WindMap windmap
 	) {
 		for ( int x = 0; x < width; x++ ) for ( int y = 0; y < height; y++ ) {
-			GridRefrence position = new GridRefrence( x, y );
+			GridRefrence position = GridRefrenceFactory.fromCoords( x, y );
 			Cell cell = new Cell( this, terrainmap, windmap );
 			cells.put( position, cell );
 		}
