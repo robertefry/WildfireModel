@@ -17,6 +17,11 @@ public class Wind {
 		vector = new Vector2f( x, y );
 	}
 	
+	@Override
+	public String toString() {
+		return String.format( "Wind[%s]", vector );
+	}
+	
 	public Vector2f getVector() {
 		return vector;
 	}

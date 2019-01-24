@@ -21,7 +21,7 @@ public class GridRefrence {
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return String.format( "GridRefrence[%s]", position );
 	}
 
 	@Override
