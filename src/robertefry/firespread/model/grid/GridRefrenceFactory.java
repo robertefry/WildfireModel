@@ -17,7 +17,7 @@ public class GridRefrenceFactory {
 	}
 	
 	public static final GridRefrence fromCoords( int x, int y ) {
-		return new GridRefrence( new Vector2i( x, y ) );
+		return new GridRefrence( x, y );
 	}
 	
 	public static final GridRefrence fromVector( Vector2i vec ) {

@@ -14,6 +14,10 @@ public class GridRefrence {
 	public GridRefrence( Vector2i position ) {
 		this.position = position;
 	}
+	
+	public GridRefrence( int x, int y ) {
+		this.position = new Vector2i( x, y );
+	}
 
 	public Vector2i getPosition() {
 		return position;
