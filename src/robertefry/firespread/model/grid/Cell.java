@@ -1,6 +1,7 @@
 
-package robertefry.firespread.model;
+package robertefry.firespread.model.grid;
 
+import robertefry.firespread.model.Sequence;
 import robertefry.firespread.model.map.TerrainMap;
 import robertefry.firespread.model.map.WindMap;
 import robertefry.penguin.engine.Engine;
