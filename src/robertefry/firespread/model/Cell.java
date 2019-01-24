@@ -9,7 +9,6 @@ import robertefry.penguin.engine.target.Targetable;
 public class Cell implements Sequence<Cell>, Targetable {
 
 	private final Grid grid;
-	
 	private final TerrainMap terrainmap;
 	private final WindMap windmap;
 

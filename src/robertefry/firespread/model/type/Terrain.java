@@ -3,8 +3,8 @@ package robertefry.firespread.model.type;
 
 public class Terrain {
 
-	private float height;
-	private float volatility;
+	private final float height;
+	private final float volatility;
 	private float fireintensity = 0;
 
 	public Terrain( float height, float volatility ) {
@@ -22,6 +22,10 @@ public class Terrain {
 	
 	public float getFireIntensity() {
 		return fireintensity;
+	}
+	
+	public void setFireintensity( float fireintensity ) {
+		this.fireintensity = fireintensity;
 	}
 
 }

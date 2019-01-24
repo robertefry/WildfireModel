@@ -10,9 +10,19 @@ public class Wind {
 	public Wind( Vector2f vector ) {
 		this.vector = vector;
 	}
-
+	
+	public Wind( float magnitude, float direction ) {
+		final float x = (float) ( magnitude * Math.cos( direction ) );
+		final float y = (float) ( magnitude * Math.sin( direction ) );
+		vector = new Vector2f( x, y );
+	}
+	
 	public Vector2f getVector() {
 		return vector;
+	}
+	
+	public void setVector( Vector2f vector ) {
+		this.vector = vector;
 	}
 
 }
