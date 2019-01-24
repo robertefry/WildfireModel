@@ -1,3 +1,2 @@
 # FireSpreadModel
-A Java program to model the spread of fire in an environment
-The model includes wind (variable in time), and ground height and conditions. 
+A Java program, using wind (variable in time) and terrain (height, volatility, e.t.c...), to model the spread of wildfires through an environment for calculating the best approach to combat wildfires in reality. 
