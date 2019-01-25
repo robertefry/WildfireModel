@@ -3,23 +3,23 @@ package robertefry.firespread.model;
 
 import robertefry.firespread.model.grid.Grid;
 import robertefry.firespread.model.map.TerrainMap;
-import robertefry.firespread.model.map.WindMap;
-import robertefry.penguin.engine.Engine;
+import robertefry.firespread.model.map.TypeMap;
+import robertefry.firespread.model.terrain.Terrain;
 
-public class Model extends Engine {
-
-	@SuppressWarnings( "unused" )
-	private final Grid grid;
-
-	public Model( int width, int height, String terrainMapSource, String windMapSource ) {
+/**
+ * @author Robert E Fry
+ * @date 25 Jan 2019
+ */
+public class Model {
+	
+	public static final String SOURCE_MAP_TERRAIN = "res/TerrainMap.csv";
+	
+	private final Grid grid = new Grid();
+	
+	public void makeGrid( String terrainDataSource ) {
 		
-		TerrainMap terrainmap = new TerrainMap();
-		terrainmap.populateFromCSV( terrainMapSource );
-		
-		WindMap windmap = new WindMap();
-		windmap.populateFromCSV( windMapSource );
-		
-		getTargetManager().add( grid = new Grid( width, height, terrainmap, windmap ) );
+		TypeMap<Terrain> terrainMap = TypeMap.populateFromCSVFile( new TerrainMap(), SOURCE_MAP_TERRAIN );
+		grid.make( terrainMap );
 		
 	}
 

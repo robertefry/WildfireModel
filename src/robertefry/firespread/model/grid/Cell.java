@@ -1,48 +1,27 @@
 
 package robertefry.firespread.model.grid;
 
-import robertefry.firespread.model.map.TerrainMap;
-import robertefry.firespread.model.map.WindMap;
-import robertefry.firespread.model.type.Fire;
-import robertefry.penguin.engine.Engine;
+import java.util.Set;
+import org.joml.Vector2i;
+import robertefry.firespread.model.terrain.Terrain;
 
+/**
+ * @author Robert E Fry
+ * @date 25 Jan 2019
+ */
 public class Cell {
-
-	private final Grid grid;
-	private final TerrainMap terrainmap;
-	private final WindMap windmap;
-	private final Fire fire;
-
-	public Cell( Grid grid, TerrainMap terrainmap, WindMap windmap ) {
-		this.grid = grid;
-		this.terrainmap = terrainmap;
-		this.windmap = windmap;
-		this.fire = new Fire( 0 );
+	
+	private final Vector2i point;
+	private final Terrain terrain;
+	
+	public Cell ( Vector2i point, Terrain terrain ) {
+		this.point = point;
+		this.terrain = terrain;
 	}
-
-	public Cell( Grid grid, TerrainMap terrainmap, WindMap windmap, Fire fire ) {
-		this.grid = grid;
-		this.terrainmap = terrainmap;
-		this.windmap = windmap;
-		this.fire = fire;
-	}
-
-	public Fire getNext( Engine.Clock clock ) {
-		Fire newfire = Fire.copy( fire );
-		newfire.update( clock, grid.getGridRefrence( this ), terrainmap, windmap );
-		return newfire;
-	}
-
-	public final Grid getGrid() {
-		return grid;
-	}
-
-	public final TerrainMap getTerrainMap() {
-		return terrainmap;
-	}
-
-	public final WindMap getWindMap() {
-		return windmap;
+	
+	public Cell getNext( Set<Cell> localRegion ) {
+		//TODO Cell::getNext( Set<Cell> )
+		return new Cell( point, terrain );
 	}
 
 }

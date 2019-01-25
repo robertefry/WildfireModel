@@ -11,10 +11,6 @@ import org.apache.commons.csv.CSVRecord;
  * @date 24 Jan 2019
  */
 public class IOCSV {
-	
-	public static final String IO_GRID_REFRENCE = "grid_refrence";
-	public static final String IO_TERRAIN_HEIGHT = "height";
-	public static final String IO_TERRAIN_VOLATILITY = "volatility";
 
 	public static Iterable<CSVRecord> read( String file ) {
 		Iterable<CSVRecord> records;
