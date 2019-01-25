@@ -28,7 +28,7 @@ public class Cell {
 	}
 
 	public Fire getNext( Engine.Clock clock ) {
-		Fire newfire = new Fire( fire );
+		Fire newfire = Fire.copy( fire );
 		newfire.update( clock, grid.getGridRefrence( this ), terrainmap, windmap );
 		return newfire;
 	}
