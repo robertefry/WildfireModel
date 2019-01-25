@@ -21,7 +21,7 @@ public class Cell {
 	
 	public Cell getNext( Set<Cell> localRegion ) {
 		//TODO Cell::getNext( Set<Cell> )
-		return new Cell( point, terrain );
+		return this;
 	}
 
 }
