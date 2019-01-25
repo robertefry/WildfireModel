@@ -1,9 +1,10 @@
 
 package robertefry.firespread.model.type;
 
-import robertefry.firespread.model.grid.GridRefrence;
+import java.awt.Point;
 import robertefry.firespread.model.map.TerrainMap;
 import robertefry.firespread.model.map.WindMap;
+import robertefry.penguin.engine.Engine;
 
 /**
  * @author Robert E Fry
@@ -21,8 +22,8 @@ public class Fire {
 		this.intensity = fire.intensity;
 	}
 	
-	public void update( GridRefrence refrence, TerrainMap terrainmap, WindMap windmap ) {
-		// TODO Fire::update(GridRefrence,TerrainMap,WindMap)
+	public void update( Engine.Clock clock, Point gridrefrence, TerrainMap terrainmap, WindMap windmap ) {
+		// TODO Placeholder 'Fire::update'
 	}
 
 	public float getIntensity() {

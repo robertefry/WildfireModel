@@ -1,23 +1,22 @@
 
 package robertefry.firespread.model.map;
 
+import java.awt.Point;
 import java.util.HashMap;
-import java.util.Map;
 import org.apache.commons.csv.CSVRecord;
-import robertefry.firespread.model.grid.GridRefrence;
-import robertefry.firespread.model.grid.GridRefrenceFactory;
-import robertefry.firespread.model.type.Terrain;
 import robertefry.firespread.model.type.TerrainFactory;
+import robertefry.firespread.util.PointFactory;
+import robertefry.firespread.model.type.Terrain;
 
-public class TerrainMap implements TypeMap {
-	
-	private final Map<GridRefrence,Terrain> map = new HashMap<>();
+public class TerrainMap extends HashMap<Point,Terrain> implements TypeMap<Terrain> {
+
+	private static final long serialVersionUID = 961409346387742053L;
 
 	@Override
-	public void insert( CSVRecord record ) {
-		GridRefrence position = GridRefrenceFactory.fromCSVRecord( record );
+	public void insertCSVRecord( CSVRecord record ) {
+		Point gridrefrence = PointFactory.fromCSVRecord( record );
 		Terrain terrain = TerrainFactory.fromCSVRecord( record );
-		map.put( position, terrain );
+		this.put( gridrefrence, terrain );
 	}
 
 }

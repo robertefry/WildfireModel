@@ -11,11 +11,6 @@ public class Terrain {
 		this.volatility = volatility;
 	}
 	
-	@Override
-	public String toString() {
-		return String.format( "Terrain[height=%s,volatility=%s]", height, volatility );
-	}
-	
 	public float getHeight() {
 		return height;
 	}

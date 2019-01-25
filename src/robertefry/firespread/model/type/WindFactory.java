@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.csv.CSVRecord;
 import org.joml.Vector2f;
-import robertefry.firespread.io.ParserVector2f;
+import robertefry.firespread.util.Vector2fFactory;
 
 /**
  * @author Robert E Fry
@@ -18,7 +18,7 @@ public class WindFactory {
 		for ( int time = 0, counted = 0; counted < record.size() - 1; time++ ) {
 			String name = "wind " + time;
 			if (record.isMapped( name )) {
-				Vector2f vector = ParserVector2f.fromString( record.get( name ) );
+				Vector2f vector = Vector2fFactory.fromString( record.get( name ) );
 				timemap.put( time, vector );
 				counted++;
 			} else {

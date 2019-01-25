@@ -1,7 +1,6 @@
 
 package robertefry.firespread.model;
 
-import robertefry.firespread.io.TypeMapReader;
 import robertefry.firespread.model.grid.Grid;
 import robertefry.firespread.model.map.TerrainMap;
 import robertefry.firespread.model.map.WindMap;
@@ -15,10 +14,10 @@ public class Model extends Engine {
 	public Model( int width, int height, String terrainMapSource, String windMapSource ) {
 		
 		TerrainMap terrainmap = new TerrainMap();
-		TypeMapReader.populateFromCSV( terrainmap, terrainMapSource );
+		terrainmap.populateFromCSV( terrainMapSource );
 		
 		WindMap windmap = new WindMap();
-		TypeMapReader.populateFromCSV( windmap, windMapSource );
+		windmap.populateFromCSV( windMapSource );
 		
 		getTargetManager().add( grid = new Grid( width, height, terrainmap, windmap ) );
 		

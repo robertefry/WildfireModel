@@ -10,9 +10,9 @@ import org.apache.commons.csv.CSVRecord;
  * @author Robert E Fry
  * @date 24 Jan 2019
  */
-public class ParserCSV {
+public class IOCSV {
 
-	public static Iterable<CSVRecord> parse( String file ) {
+	public static Iterable<CSVRecord> read( String file ) {
 		Iterable<CSVRecord> records;
 		try {
 			records = CSVFormat.DEFAULT.parse( new FileReader( file ) );

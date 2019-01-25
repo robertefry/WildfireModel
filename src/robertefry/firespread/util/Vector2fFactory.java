@@ -1,5 +1,5 @@
 
-package robertefry.firespread.io;
+package robertefry.firespread.util;
 
 import org.joml.Vector2f;
 
@@ -7,7 +7,7 @@ import org.joml.Vector2f;
  * @author Robert E Fry
  * @date 24 Jan 2019
  */
-public class ParserVector2f {
+public class Vector2fFactory {
 	
 	public static final Vector2f fromString( String string ) {
 		String[] values = string.split( ":" );

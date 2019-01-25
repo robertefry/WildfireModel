@@ -1,6 +1,7 @@
 
 package robertefry.firespread.model.grid;
 
+import java.awt.Point;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import robertefry.firespread.model.map.TerrainMap;
@@ -11,36 +12,36 @@ import robertefry.penguin.engine.target.Targetable;
 
 public class Grid implements Targetable {
 
-	private final BidiMap<GridRefrence,Cell> cells = new DualHashBidiMap<>();
+	private final BidiMap<Point,Cell> cells = new DualHashBidiMap<>();
 
 	public Grid(
 			int width, int height,
 			TerrainMap terrainmap, WindMap windmap
 	) {
 		for ( int x = 0; x < width; x++ ) for ( int y = 0; y < height; y++ ) {
-			GridRefrence position = GridRefrenceFactory.fromCoords( x, y );
+			Point gridrefrence = new Point( x, y );
 			Cell cell = new Cell( this, terrainmap, windmap );
-			cells.put( position, cell );
+			cells.put( gridrefrence, cell );
 		}
 	}
 
 	@Override
 	public void update( Engine engine ) {
-		BidiMap<GridRefrence,Cell> nextcells = new DualHashBidiMap<>();
-		cells.forEach( ( refrence, cell ) -> {
-			Fire nextfire = cell.getNext();
+		BidiMap<Point,Cell> nextcells = new DualHashBidiMap<>();
+		cells.forEach( ( gridrefrence, cell ) -> {
+			Fire nextfire = cell.getNext( engine.getClock() );
 			Cell nextcell = new Cell( this, cell.getTerrainMap(), cell.getWindMap(), nextfire );
-			nextcells.put( refrence, nextcell );
+			nextcells.put( gridrefrence, nextcell );
 		} );
 		cells.clear();
 		cells.putAll( nextcells );
 	}
 
-	public final Cell getCell( GridRefrence position ) {
-		return cells.get( position );
+	public final Cell getCell( Point gridrefrence ) {
+		return cells.get( gridrefrence );
 	}
 
-	public final GridRefrence getGridRefrence( Cell cell ) {
+	public final Point getGridRefrence( Cell cell ) {
 		return cells.getKey( cell );
 	}
 

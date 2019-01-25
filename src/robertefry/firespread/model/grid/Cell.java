@@ -1,12 +1,12 @@
 
 package robertefry.firespread.model.grid;
 
-import robertefry.firespread.model.Sequence;
 import robertefry.firespread.model.map.TerrainMap;
 import robertefry.firespread.model.map.WindMap;
 import robertefry.firespread.model.type.Fire;
+import robertefry.penguin.engine.Engine;
 
-public class Cell implements Sequence<Fire> {
+public class Cell {
 
 	private final Grid grid;
 	private final TerrainMap terrainmap;
@@ -27,15 +27,9 @@ public class Cell implements Sequence<Fire> {
 		this.fire = fire;
 	}
 
-	@Override
-	public void next() {
-		fire.update( grid.getGridRefrence( this ), terrainmap, windmap );
-	}
-
-	@Override
-	public Fire getNext() {
+	public Fire getNext( Engine.Clock clock ) {
 		Fire newfire = new Fire( fire );
-		newfire.update( grid.getGridRefrence( this ), terrainmap, windmap );
+		newfire.update( clock, grid.getGridRefrence( this ), terrainmap, windmap );
 		return newfire;
 	}
 
