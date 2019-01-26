@@ -28,9 +28,14 @@ public class Model implements Targetable {
 		Targetable.super.update( engine );
 		this.next();
 	}
-	
+
 	public void next() {
 		grid.next();
+	}
+
+	@Override
+	public String toString() {
+		return String.format( "Model[grid=%s]", grid );
 	}
 
 }

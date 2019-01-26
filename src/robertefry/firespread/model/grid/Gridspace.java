@@ -16,7 +16,7 @@ public class Gridspace implements Iterable<Vector2i> {
 		min = new Vector2i( 0, 0 );
 		max = new Vector2i( 0, 0 );
 	}
-	
+
 	public Gridspace( Vector2i min, Vector2i max ) {
 		this.min = min;
 		this.max = max;
@@ -26,7 +26,7 @@ public class Gridspace implements Iterable<Vector2i> {
 		min.min( point, min );
 		max.max( point, max );
 	}
-	
+
 	public Vector2i getMin() {
 		return min;
 	}
@@ -34,7 +34,7 @@ public class Gridspace implements Iterable<Vector2i> {
 	public Vector2i getMax() {
 		return max;
 	}
-	
+
 	public Gridspace getLocalRegion( Vector2i origin, int range ) {
 		Vector2i min, max;
 		origin.min( this.min, min = new Vector2i() );
@@ -46,9 +46,9 @@ public class Gridspace implements Iterable<Vector2i> {
 	public Iterator<Vector2i> iterator() {
 		return new Itr();
 	}
-	
+
 	private final class Itr implements Iterator<Vector2i> {
-		
+
 		private final Vector2i vec = new Vector2i( min );
 
 		@Override
@@ -59,13 +59,26 @@ public class Gridspace implements Iterable<Vector2i> {
 		@Override
 		public Vector2i next() {
 			vec.x++;
-			if ( vec.x > max.x ) {
+			if (vec.x > max.x) {
 				vec.x = min.x;
 				vec.y++;
 			}
 			return vec;
 		}
-		
+
+	}
+
+	@Override
+	public boolean equals( Object obj ) {
+		if (!(obj instanceof Gridspace)) return false;
+		if (!((Gridspace)obj).min.equals( min )) return false;
+		if (!((Gridspace)obj).max.equals( max )) return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return String.format( "Gridspace[min=%s,max=%s]", min, max );
 	}
 
 }

@@ -28,4 +28,17 @@ public class Terrain {
 		return fireIntensity;
 	}
 
+	@Override
+	public boolean equals( Object obj ) {
+		if (!(obj instanceof Terrain)) return false;
+		if (((Terrain)obj).height != height) return false;
+		if (((Terrain)obj).volatility != volatility) return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return String.format( "Terrain[height=%s,volatility=%s,fireintensity=%s]", height, volatility, fireIntensity );
+	}
+
 }

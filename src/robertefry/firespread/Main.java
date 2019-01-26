@@ -3,7 +3,7 @@ package robertefry.firespread;
 
 import robertefry.firespread.model.Model;
 import robertefry.penguin.engine.Engine;
-import robertefry.penguin.engine.element.FrameCounter;
+import robertefry.penguin.engine.targets.FrameCounter;
 
 /**
  * @author Robert E Fry
