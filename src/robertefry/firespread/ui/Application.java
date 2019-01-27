@@ -10,6 +10,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileSystemView;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -41,6 +42,7 @@ public class Application {
 	 * Create the application.
 	 */
 	public Application() {
+		LogFactory.getLog( getClass() ).info( "starting new application window" );
 		initialize();
 	}
 

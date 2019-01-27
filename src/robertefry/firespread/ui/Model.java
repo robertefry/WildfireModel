@@ -3,27 +3,25 @@ package robertefry.firespread.ui;
 
 import java.io.File;
 import javax.swing.JPanel;
-import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.model.grid.Grid;
-import robertefry.firespread.model.map.TerrainMap;
-import robertefry.firespread.model.map.TypeMap;
-import robertefry.firespread.model.type.Terrain;
+import java.awt.GridLayout;
 
 /**
  * @author Robert E Fry
  * @date 26 Jan 2019
  */
+@SuppressWarnings( "serial" )
 public class Model extends JPanel {
 	
-	private final Grid grid = new Grid();
+	private final GridUI gridUI;
 	
 	public Model() {
+		gridUI = new GridUI( new Grid() );
+		setLayout(new GridLayout(1, 0, 0, 0));
 	}
 	
 	public void build( File file ) {
-		TypeMap<Terrain> terrainmap = TypeMap.populateFromCSVFile( new TerrainMap(), file );
-		grid.build( terrainmap );
-		LogFactory.getLog( getClass() ).info( "grid build from " + file.getAbsolutePath() );
+		gridUI.build( file );
 	}
 
 }
