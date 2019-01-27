@@ -1,46 +1,78 @@
 
 package robertefry.firespread.ui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileSystemView;
 
 
 /**
  * @author Robert E Fry
  * @date 26 Jan 2019
  */
-@SuppressWarnings( "serial" )
-public class Application extends JFrame {
+public class Application {
 
-	private JPanel contentPane;
+	private final JFrame frame = new JFrame();
+	private final Model model = new Model();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main( String[] args ) {
-		EventQueue.invokeLater( () -> {
-			try {
-				Application frame = new Application();
-				frame.setVisible( true );
-			} catch ( Exception e ) {
-				e.printStackTrace();
+		EventQueue.invokeLater( new Runnable() {
+			public void run() {
+				try {
+					Application window = new Application();
+					window.frame.setVisible( true );
+				} catch ( Exception e ) {
+					e.printStackTrace();
+				}
 			}
-		});
+		} );
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the application.
 	 */
 	public Application() {
-		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		setBounds( 100, 100, 450, 300 );
-		contentPane = new JPanel();
-		contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-		contentPane.setLayout( new BorderLayout( 0, 0 ) );
-		setContentPane( contentPane );
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		
+		frame.setContentPane( model );
+		frame.setBounds( 100, 100, 800, 600 );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		JMenu mnNew = new JMenu("New");
+		mnFile.add(mnNew);
+		
+		JMenuItem mntmMap = new JMenuItem("Map");
+		mntmMap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					model.build( jfc.getSelectedFile() );
+				}
+			}
+		});
+		mnNew.add(mntmMap);
+		
 	}
 
 }

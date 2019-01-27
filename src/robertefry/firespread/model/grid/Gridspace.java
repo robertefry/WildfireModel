@@ -21,8 +21,13 @@ public class Gridspace implements Iterable<Vector2i> {
 		this.min = min;
 		this.max = max;
 	}
+	
+	public void clear() {
+		min.set( 0, 0 );
+		max.set( 0, 0 );
+	}
 
-	public void include( Vector2i point ) {
+	public void put( Vector2i point ) {
 		min.min( point, min );
 		max.max( point, max );
 	}

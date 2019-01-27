@@ -1,15 +1,15 @@
 
-package robertefry.firespread.model.terrain;
+package robertefry.firespread.model.type;
 
 /**
  * @author Robert E Fry
  * @date 25 Jan 2019
  */
-public class Terrain {
+public class Terrain implements Flamable {
 
 	private final float height;
 	private float volatility;
-	private float fireIntensity = 0;
+	private boolean burning = false;
 
 	public Terrain( float height, float volatility ) {
 		this.height = height;
@@ -20,12 +20,22 @@ public class Terrain {
 		return height;
 	}
 
-	public final float getVolatility() {
-		return volatility;
+	@Override
+	public boolean canBurn() {
+		return volatility > 0;
 	}
 
-	public final float getFireIntensity() {
-		return fireIntensity;
+	@Override
+	public boolean isBurning() {
+		return burning;
+	}
+
+	@Override
+	public void burn() {
+		// TODO Terrain burning calculation
+		// As the terrain burns, it's volatility goes down.
+		// Burnt terrain (volatility=0) will not burn again.
+		volatility--;
 	}
 
 	@Override
@@ -38,7 +48,7 @@ public class Terrain {
 
 	@Override
 	public String toString() {
-		return String.format( "Terrain[height=%s,volatility=%s,fireintensity=%s]", height, volatility, fireIntensity );
+		return String.format( "Terrain[height=%s,volatility=%s]", height, volatility );
 	}
 
 }

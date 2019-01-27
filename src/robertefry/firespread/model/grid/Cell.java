@@ -3,7 +3,7 @@ package robertefry.firespread.model.grid;
 
 import java.util.Set;
 import org.joml.Vector2i;
-import robertefry.firespread.model.terrain.Terrain;
+import robertefry.firespread.model.type.Terrain;
 
 /**
  * @author Robert E Fry

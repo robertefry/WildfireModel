@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import org.joml.Vector2i;
 import robertefry.firespread.model.map.TypeMap;
-import robertefry.firespread.model.terrain.Terrain;
+import robertefry.firespread.model.type.Terrain;
 
 /**
  * @author Robert E Fry
@@ -18,11 +18,13 @@ public class Grid {
 	private final Gridspace gridspace = new Gridspace();
 	private final Map<Vector2i,Cell> cells = new HashMap<>();
 
-	public void make( TypeMap<Terrain> terrainmap ) {
+	public void build( TypeMap<Terrain> terrainmap ) {
+		gridspace.clear();
+		cells.clear();
 		terrainmap.keySet().forEach( point -> {
 			Cell cell = new Cell( point, terrainmap.get( point ) );
 			cells.put( point, cell );
-			gridspace.include( point );
+			gridspace.put( point );
 		} );
 	}
 

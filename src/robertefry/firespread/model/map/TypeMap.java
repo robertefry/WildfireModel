@@ -1,6 +1,7 @@
 
 package robertefry.firespread.model.map;
 
+import java.io.File;
 import java.util.Map;
 import org.apache.commons.csv.CSVRecord;
 import org.joml.Vector2i;
@@ -12,11 +13,11 @@ import robertefry.firespread.io.IOCSV;
  */
 public interface TypeMap<T> extends Map<Vector2i,T> {
 	
-	public void insertCSVRecord( CSVRecord record );
+	public void insertFromCSVRecord( CSVRecord record );
 
-	public static <T> TypeMap<T> populateFromCSVFile( TypeMap<T> map, String source ) {
-		IOCSV.read( source ).forEach( record -> {
-			map.insertCSVRecord( record );
+	public static <T> TypeMap<T> populateFromCSVFile( TypeMap<T> map, File file ) {
+		IOCSV.read( file ).forEach( record -> {
+			map.insertFromCSVRecord( record );
 		} );
 		return map;
 	}

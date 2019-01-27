@@ -1,6 +1,7 @@
 
 For what differential height will fire spread?
-	Drop of a clif?
-	Climb up a clif?
+	Drop of a cliff?
+	Climb up a cliff?
 	Burn up a hillside?
 	e.t.c...
+	
