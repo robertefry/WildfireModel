@@ -1,11 +1,14 @@
 
 package robertefry.firespread.model.type;
 
+import robertefry.penguin.engine.Engine;
+import robertefry.penguin.engine.target.Targetable;
+
 /**
  * @author Robert E Fry
  * @date 25 Jan 2019
  */
-public class Terrain implements Flamable {
+public class Terrain implements Targetable, Flamable {
 
 	private final float height;
 	private float volatility;
@@ -16,8 +19,10 @@ public class Terrain implements Flamable {
 		this.volatility = volatility;
 	}
 
-	public final float getHeight() {
-		return height;
+	@Override
+	public void tick( Engine engine ) {
+		Targetable.super.tick( engine );
+		if (canBurn()) burn();
 	}
 
 	@Override
@@ -32,6 +37,7 @@ public class Terrain implements Flamable {
 
 	@Override
 	public void burn() {
+		burning = true;
 		// TODO Terrain burning calculation
 		// As the terrain burns, it's volatility goes down.
 		// Burnt terrain (volatility=0) will not burn again.

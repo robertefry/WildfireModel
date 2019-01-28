@@ -4,12 +4,14 @@ package robertefry.firespread.model.grid;
 import java.util.Set;
 import org.joml.Vector2i;
 import robertefry.firespread.model.type.Terrain;
+import robertefry.penguin.engine.Engine;
+import robertefry.penguin.engine.target.Targetable;
 
 /**
  * @author Robert E Fry
  * @date 25 Jan 2019
  */
-public class Cell {
+public class Cell implements Targetable {
 
 	private final Vector2i point;
 	private final Terrain terrain;
@@ -17,6 +19,12 @@ public class Cell {
 	public Cell( Vector2i point, Terrain terrain ) {
 		this.point = point;
 		this.terrain = terrain;
+	}
+
+	@Override
+	public void tick( Engine engine ) {
+		Targetable.super.tick( engine );
+		terrain.tick( engine );
 	}
 
 	public Cell getNext( Set<Cell> localRegion ) {
@@ -31,7 +39,7 @@ public class Cell {
 		if (!((Cell)obj).terrain.equals( terrain )) return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format( "Cell[\n\t├─point=%s\n\t├─terrain=%s\n]", point, terrain );
