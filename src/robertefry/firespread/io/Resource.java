@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
  * @date 28 Jan 2019
  */
 public class Resource {
-	
+
 	public static Image loadImage( String source ) {
 		Image image = null;
 		try {
@@ -25,7 +25,7 @@ public class Resource {
 		}
 		return image;
 	}
-	
+
 	public static Image loadImage( String source, int width, int height ) {
 		Image image = Resource.loadImage( source );
 		BufferedImage resized = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );

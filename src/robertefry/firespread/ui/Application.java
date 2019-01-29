@@ -3,13 +3,13 @@ package robertefry.firespread.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import robertefry.firespread.graphic.Renderer;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * @author Robert E Fry
@@ -65,11 +65,11 @@ public class Application {
 		menuBar.add( mnSimulation );
 
 		JMenuItem mntmOpenSimulationController = new JMenuItem( "Open Simulation Controller" );
-		mntmOpenSimulationController.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		mntmOpenSimulationController.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
 				frmSimulationController.setVisible( true );
 			}
-		});
+		} );
 		mnSimulation.add( mntmOpenSimulationController );
 
 	}

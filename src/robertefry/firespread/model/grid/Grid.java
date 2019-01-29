@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.joml.Vector2i;
-
 import robertefry.firespread.model.map.CellMap;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.Targetable;
@@ -20,14 +18,14 @@ public class Grid implements Targetable {
 
 	private Gridspace gridspace = new Gridspace();
 	private CellMap cells = new CellMap();
-	
+
 	// TODO build method from datamaps
 	public void build( CellMap cells ) {
 		this.cells = cells;
 		gridspace.clear();
-		cells.forEach( (position,cell) -> {
-			gridspace.put(position);
-		});
+		cells.forEach( ( position, cell ) -> {
+			gridspace.put( position );
+		} );
 	}
 
 	@Override

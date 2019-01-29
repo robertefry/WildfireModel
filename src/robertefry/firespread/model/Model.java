@@ -12,13 +12,13 @@ public class Model {
 
 	private static final Engine engine = new Engine();
 	private static final Grid grid = new Grid();
-	
+
 	static {
 		engine.getTargetManager().add( grid );
 		engine.suspend();
 		engine.start();
 	}
-	
+
 	public static Engine getEngine() {
 		return engine;
 	}
