@@ -19,19 +19,17 @@ public class Model {
 	
 	static {
 		engine.getTargetManager().add( grid );
-	}
-	
-	public static void suspend() {
 		engine.suspend();
-	}
-	
-	public static void resume() {
-		engine.resume();
+		engine.start();
 	}
 	
 	public static void build( String terrainDataSource ) {
 		TypeMap<Terrain> terrainMap = TypeMap.populateFromCSVFile( new TerrainMap(), new File( terrainDataSource ) );
 		grid.build( terrainMap );
+	}
+	
+	public static Engine getEngine() {
+		return engine;
 	}
 
 }

@@ -1,67 +1,71 @@
 
 package robertefry.firespread.ui;
 
-import java.awt.Dimension;
-import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import robertefry.firespread.io.Resource;
 import robertefry.firespread.ui.animate.RotatingIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * @author Robert E Fry
- * @date 28 Jan 2019
+ * @date 29 Jan 2019
  */
 @SuppressWarnings( "serial" )
 public class SimulationController extends JFrame {
 
 	private final JPanel contentPane = new JPanel();
-	private final RotatingIcon processingIcon;
 
 	/**
 	 * Create the frame.
-	 * 
-	 * @throws IOException
 	 */
 	public SimulationController() {
 
-		contentPane.setPreferredSize( new Dimension( 326, 128 ) );
 		contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
 		setContentPane( contentPane );
 		contentPane.setLayout( null );
 
-		JButton btnNewButton = new JButton( "Start" );
-		btnNewButton.addActionListener( new ActionListener() {
-			public void actionPerformed( ActionEvent e ) {
-				processingIcon.start();
-			}
-		} );
-		btnNewButton.setBounds( 128, 94, 89, 23 );
-		contentPane.add( btnNewButton );
+		JLabel lblNewLabel = new JLabel( "Refresh Rate : ", SwingConstants.RIGHT );
+		lblNewLabel.setBounds( 10, 10, 89, 23 );
+		contentPane.add( lblNewLabel );
+
+		JSpinner spinner = new JSpinner();
+		spinner.setBounds( 109, 11, 89, 21 );
+		contentPane.add( spinner );
+
+		JLabel label = new JLabel( "Iteration : ", SwingConstants.RIGHT );
+		label.setBounds( 10, 44, 89, 23 );
+		contentPane.add( label );
+
+		JTextField textField = new JTextField();
+		textField.setEditable( false );
+		textField.setBounds( 109, 45, 89, 21 );
+		contentPane.add( textField );
+		textField.setColumns( 10 );
+
+		JButton button = new JButton( ">>" );
+		button.setBounds( 208, 44, 89, 23 );
+		contentPane.add( button );
 
 		JButton btnStop = new JButton( "Stop" );
-		btnStop.addActionListener( new ActionListener() {
-			public void actionPerformed( ActionEvent e ) {
-				processingIcon.stop();
-			}
-		} );
-		btnStop.setBounds( 227, 94, 89, 23 );
+		btnStop.setBounds( 208, 78, 89, 23 );
 		contentPane.add( btnStop );
 
-		final ImageIcon rotatingImageIcon = new ImageIcon( Resource.loadImage( "res/icons/processing.png", 20, 20 ) );
-		processingIcon = new RotatingIcon( rotatingImageIcon, 0.5f );
-		processingIcon.setBounds( 9, 95, 25, 25 );
-		contentPane.add( processingIcon );
+		JButton btnStart = new JButton( "Start" );
+		btnStart.setBounds( 109, 78, 89, 23 );
+		contentPane.add( btnStart );
 
-		setTitle( "Simulation Control Panel" ); 
-		pack();
-		setResizable( false );
-		setVisible( false );
+		RotatingIcon rotatingIcon = new RotatingIcon(
+			new ImageIcon( Resource.loadImage( "res/icons/working.png", 20, 20 ) ), 0.5f
+		);
+		rotatingIcon.setBounds( 76, 78, 23, 23 );
+		contentPane.add( rotatingIcon );
 
 	}
 }
