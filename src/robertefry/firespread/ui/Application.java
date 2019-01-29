@@ -1,26 +1,27 @@
 
 package robertefry.firespread.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.filechooser.FileSystemView;
-import org.apache.commons.logging.LogFactory;
-
+import robertefry.firespread.graphic.Renderer;
 
 /**
  * @author Robert E Fry
- * @date 26 Jan 2019
+ * @date 28 Jan 2019
  */
 public class Application {
 
-	private final JFrame frame = new JFrame();
-	private final Model model = new Model();
+	private final JFrame frmWildfireModel = new JFrame();
+	private final Canvas canvas = Renderer.getCanvas();
+	
+	private final SimulationController simulationController = new SimulationController();
 
 	/**
 	 * Launch the application.
@@ -30,7 +31,7 @@ public class Application {
 			public void run() {
 				try {
 					Application window = new Application();
-					window.frame.setVisible( true );
+					window.frmWildfireModel.setVisible( true );
 				} catch ( Exception e ) {
 					e.printStackTrace();
 				}
@@ -42,7 +43,6 @@ public class Application {
 	 * Create the application.
 	 */
 	public Application() {
-		LogFactory.getLog( getClass() ).info( "starting new application window" );
 		initialize();
 	}
 
@@ -50,31 +50,30 @@ public class Application {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
-		frame.setContentPane( model );
-		frame.setBounds( 100, 100, 800, 600 );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frmWildfireModel.setTitle("Wildfire Model");
+		frmWildfireModel.setBounds( 100, 100, 800, 600 );
+		frmWildfireModel.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frmWildfireModel.getContentPane().add( canvas, BorderLayout.CENTER );
 		
 		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+		frmWildfireModel.setJMenuBar(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
-		JMenu mnNew = new JMenu("New");
-		mnFile.add(mnNew);
+		JMenuItem mntmNewTerrain = new JMenuItem("New Terrain");
+		mnFile.add(mntmNewTerrain);
 		
-		JMenuItem mntmMap = new JMenuItem("Map");
-		mntmMap.addActionListener(new ActionListener() {
+		JMenu mnSimulation = new JMenu("Simulation");
+		menuBar.add(mnSimulation);
+		
+		JMenuItem mntmOpenControlPanel = new JMenuItem("Open Simulation Control");
+		mntmOpenControlPanel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-				if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					model.build( jfc.getSelectedFile() );
-				}
+				simulationController.setVisible( true );
 			}
 		});
-		mnNew.add(mntmMap);
-		
+		mnSimulation.add(mntmOpenControlPanel);
 	}
 
 }
