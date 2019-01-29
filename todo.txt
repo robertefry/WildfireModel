@@ -3,16 +3,21 @@ GUI
 		Black screen
 	Each element has a GUI
 	
+	GUI to import a CellMap
+	
+	
 Firespread mechanics
 	Implement function for calculating probability the adjacent cell will be on fire based on:
 			height differential
 			wind speed & direction
 			volatility - how much burnable material is in the cell
+			
 
 Colormap conversion
 	Implement function for generating working maps from a color map
 			height map		topological
 			volatility map	google images (more green = more volatile)
+			
 
 Global wind speed & direction
 		dynamic or static?

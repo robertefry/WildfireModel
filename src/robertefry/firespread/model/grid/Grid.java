@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.joml.Vector2i;
 
-import robertefry.firespread.model.map.DataMap;
+import robertefry.firespread.model.map.CellMap;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.Targetable;
 
@@ -18,13 +18,16 @@ import robertefry.penguin.engine.target.Targetable;
  */
 public class Grid implements Targetable {
 
-	private final Gridspace gridspace = new Gridspace();
-	private final DataMap<Cell> cells = new DataMap<>();
+	private Gridspace gridspace = new Gridspace();
+	private CellMap cells = new CellMap();
 	
 	// TODO build method from datamaps
-	public void build( DataMap<Cell> cells ) {
-		this.cells.clear();
-		this.cells.putAll(cells);
+	public void build( CellMap cells ) {
+		this.cells = cells;
+		gridspace.clear();
+		cells.forEach( (position,cell) -> {
+			gridspace.put(position);
+		});
 	}
 
 	@Override
