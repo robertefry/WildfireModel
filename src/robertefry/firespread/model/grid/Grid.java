@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import org.joml.Vector2i;
-import robertefry.firespread.model.map.TypeMap;
-import robertefry.firespread.model.type.Terrain;
+
+import robertefry.firespread.model.map.DataMap;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.Targetable;
 
@@ -18,16 +19,12 @@ import robertefry.penguin.engine.target.Targetable;
 public class Grid implements Targetable {
 
 	private final Gridspace gridspace = new Gridspace();
-	private final Map<Vector2i,Cell> cells = new HashMap<>();
-
-	public void build( TypeMap<Terrain> terrainmap ) {
-		gridspace.clear();
-		cells.clear();
-		terrainmap.keySet().forEach( point -> {
-			Cell cell = new Cell( point, terrainmap.get( point ) );
-			cells.put( point, cell );
-			gridspace.put( point );
-		} );
+	private final DataMap<Cell> cells = new DataMap<>();
+	
+	// TODO build method from datamaps
+	public void build( DataMap<Cell> cells ) {
+		this.cells.clear();
+		this.cells.putAll(cells);
 	}
 
 	@Override
