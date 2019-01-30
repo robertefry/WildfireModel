@@ -4,7 +4,7 @@ package robertefry.firespread.ui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,7 +35,7 @@ public class SimulationController extends JFrame {
 	 * Create the frame.
 	 */
 	public SimulationController() {
-		setResizable(false);
+		setResizable( false );
 		setBounds( 100, 100, 450, 300 );
 		contentPane = new JPanel();
 		contentPane.setPreferredSize( new Dimension( 311, 112 ) );
@@ -60,7 +60,7 @@ public class SimulationController extends JFrame {
 			}
 		} );
 		spnRefreshRate.setValue( Model.getEngine().getRefreshRate() );
-		spnRefreshRate.setBounds( 109, 11, 89, 20 );
+		spnRefreshRate.setBounds( 109, 11, 89, 21 );
 		contentPane.add( spnRefreshRate );
 
 		JLabel lblIteration = new JLabel( "Iteration : ", SwingConstants.RIGHT );
@@ -70,17 +70,9 @@ public class SimulationController extends JFrame {
 		JTextField tfIteration = new JTextField( "0" );
 		tfIteration.setHorizontalAlignment( SwingConstants.RIGHT );
 		tfIteration.setEditable( false );
-		tfIteration.setBounds( 109, 42, 89, 20 );
+		tfIteration.setBounds( 109, 42, 89, 21 );
 		contentPane.add( tfIteration );
 		tfIteration.setColumns( 10 );
-
-		Model.getEngine().getTargetManager().add( new SimpleCounter() {
-			@Override
-			public void tick( Engine engine ) {
-				super.tick( engine );
-				tfIteration.setText( NumberFormat.getInstance().format( super.getCount() ) );
-			}
-		} );
 
 		JButton btnIterate = new JButton( ">>" );
 		btnIterate.addActionListener( new ActionListener() {
@@ -112,6 +104,15 @@ public class SimulationController extends JFrame {
 		contentPane.add( btnStart );
 
 		pack();
+
+		Model.getEngine().getTargetManager().add( new SimpleCounter() {
+			DecimalFormat format = new DecimalFormat( "#,###" );
+			@Override
+			public void tick( Engine engine ) {
+				super.tick( engine );
+				tfIteration.setText( format.format( super.getCount() ) );
+			}
+		} );
 
 	}
 }
