@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.UIManager;
 import robertefry.firespread.graphic.Renderer;
 
 /**
@@ -19,6 +20,7 @@ public class Application {
 
 	private JFrame frmWildfireModel = new JFrame( "Wildfire Model" );
 	private JFrame frmSimulationController = new SimulationController();
+	private JFrame frmCellMapLoader = new CellMapLoader();
 
 	/**
 	 * Launch the application.
@@ -29,6 +31,7 @@ public class Application {
 				try {
 					Application window = new Application();
 					window.frmWildfireModel.setVisible( true );
+					UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
 				} catch ( Exception e ) {
 					e.printStackTrace();
 				}
@@ -58,8 +61,13 @@ public class Application {
 		JMenu mnFile = new JMenu( "File" );
 		menuBar.add( mnFile );
 
-		JMenuItem mntmNewTerrainMap = new JMenuItem( "New Terrain Map" );
-		mnFile.add( mntmNewTerrainMap );
+		JMenuItem mntmNewMap = new JMenuItem( "New Map" );
+		mntmNewMap.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				frmCellMapLoader.setVisible( true );
+			}
+		} );
+		mnFile.add( mntmNewMap );
 
 		JMenu mnSimulation = new JMenu( "Simulation" );
 		menuBar.add( mnSimulation );

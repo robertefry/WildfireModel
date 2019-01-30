@@ -1,6 +1,10 @@
 
 package robertefry.firespread.ui;
 
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,8 +14,13 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import robertefry.firespread.io.Resource;
+import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.animate.RotatingIcon;
+import robertefry.penguin.engine.Engine;
+import robertefry.penguin.engine.targets.SimpleCounter;
 
 /**
  * @author Robert E Fry
@@ -20,52 +29,89 @@ import robertefry.firespread.ui.animate.RotatingIcon;
 @SuppressWarnings( "serial" )
 public class SimulationController extends JFrame {
 
-	private final JPanel contentPane = new JPanel();
+	private JPanel contentPane;
 
 	/**
 	 * Create the frame.
 	 */
 	public SimulationController() {
-
+		setResizable(false);
+		setBounds( 100, 100, 450, 300 );
+		contentPane = new JPanel();
+		contentPane.setPreferredSize( new Dimension( 311, 112 ) );
 		contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
 		setContentPane( contentPane );
 		contentPane.setLayout( null );
 
-		JLabel lblNewLabel = new JLabel( "Refresh Rate : ", SwingConstants.RIGHT );
-		lblNewLabel.setBounds( 10, 10, 89, 23 );
-		contentPane.add( lblNewLabel );
+		RotatingIcon icnWorking = new RotatingIcon(
+			new ImageIcon( Resource.loadImage( "res/icons/working.png", 25, 25 ) ), 0.5f
+		);
+		icnWorking.setBounds( 10, 68, 30, 30 );
+		contentPane.add( icnWorking );
 
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds( 109, 11, 89, 21 );
-		contentPane.add( spinner );
+		JLabel lblRefreshRate = new JLabel( "Refresh Rate : ", SwingConstants.RIGHT );
+		lblRefreshRate.setBounds( 10, 14, 89, 14 );
+		contentPane.add( lblRefreshRate );
 
-		JLabel label = new JLabel( "Iteration : ", SwingConstants.RIGHT );
-		label.setBounds( 10, 44, 89, 23 );
-		contentPane.add( label );
+		JSpinner spnRefreshRate = new JSpinner();
+		spnRefreshRate.addChangeListener( new ChangeListener() {
+			public void stateChanged( ChangeEvent e ) {
+				Model.getEngine().setRefreshRate( ((Number)spnRefreshRate.getValue()).floatValue() );
+			}
+		} );
+		spnRefreshRate.setValue( Model.getEngine().getRefreshRate() );
+		spnRefreshRate.setBounds( 109, 11, 89, 20 );
+		contentPane.add( spnRefreshRate );
 
-		JTextField textField = new JTextField();
-		textField.setEditable( false );
-		textField.setBounds( 109, 45, 89, 21 );
-		contentPane.add( textField );
-		textField.setColumns( 10 );
+		JLabel lblIteration = new JLabel( "Iteration : ", SwingConstants.RIGHT );
+		lblIteration.setBounds( 10, 45, 89, 14 );
+		contentPane.add( lblIteration );
 
-		JButton button = new JButton( ">>" );
-		button.setBounds( 208, 44, 89, 23 );
-		contentPane.add( button );
+		JTextField tfIteration = new JTextField( "0" );
+		tfIteration.setHorizontalAlignment( SwingConstants.RIGHT );
+		tfIteration.setEditable( false );
+		tfIteration.setBounds( 109, 42, 89, 20 );
+		contentPane.add( tfIteration );
+		tfIteration.setColumns( 10 );
+
+		Model.getEngine().getTargetManager().add( new SimpleCounter() {
+			@Override
+			public void tick( Engine engine ) {
+				super.tick( engine );
+				tfIteration.setText( NumberFormat.getInstance().format( super.getCount() ) );
+			}
+		} );
+
+		JButton btnIterate = new JButton( ">>" );
+		btnIterate.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				Model.getEngine().forceTick();
+			}
+		} );
+		btnIterate.setBounds( 208, 41, 89, 23 );
+		contentPane.add( btnIterate );
 
 		JButton btnStop = new JButton( "Stop" );
-		btnStop.setBounds( 208, 78, 89, 23 );
+		btnStop.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				icnWorking.stop();
+				Model.getEngine().suspend();
+			}
+		} );
+		btnStop.setBounds( 208, 75, 89, 23 );
 		contentPane.add( btnStop );
 
 		JButton btnStart = new JButton( "Start" );
-		btnStart.setBounds( 109, 78, 89, 23 );
+		btnStart.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				icnWorking.start();
+				Model.getEngine().resume();
+			}
+		} );
+		btnStart.setBounds( 109, 75, 89, 23 );
 		contentPane.add( btnStart );
 
-		RotatingIcon rotatingIcon = new RotatingIcon(
-			new ImageIcon( Resource.loadImage( "res/icons/working.png", 20, 20 ) ), 0.5f
-		);
-		rotatingIcon.setBounds( 76, 78, 23, 23 );
-		contentPane.add( rotatingIcon );
+		pack();
 
 	}
 }
