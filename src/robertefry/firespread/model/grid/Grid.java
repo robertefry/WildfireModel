@@ -22,7 +22,7 @@ public class Grid implements Targetable {
 	// TODO build method from datamaps
 	public void build( CellMap cells ) {
 		this.cells = cells;
-		gridspace.clear();
+		gridspace.scale( 0, 0, 0, 0 );
 		cells.forEach( ( position, cell ) -> {
 			gridspace.put( position );
 		} );

@@ -28,6 +28,8 @@ import robertefry.penguin.engine.targets.SimpleCounter;
  */
 @SuppressWarnings( "serial" )
 public class SimulationController extends JFrame {
+	
+	// TODO reset model
 
 	private JPanel contentPane;
 

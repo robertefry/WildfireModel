@@ -1,7 +1,6 @@
 
 package robertefry.firespread.model.map;
 
-import java.awt.image.BufferedImage;
 import java.util.function.Function;
 import org.joml.Vector2i;
 import robertefry.firespread.model.grid.Cell;
@@ -12,15 +11,17 @@ public class CellMap extends TypeMap<Cell> {
 
 	public CellMap() {
 	}
-
+	
 	public CellMap(
-		int pxwidth, int pxheight,
-		BufferedImage heightmap, int hx, int hy, Function<Integer,Float> heightConversion,
-		BufferedImage volatilitymap, int vx, int vy, Function<Integer,Float> volatilityConversion
+		int rows, int cols,
+		ImageMap heightmap, Function<Integer,Float> heightconversion,
+		ImageMap volatilitymap, Function<Integer,Float> volatilityConversion
 	) {
-		for ( int x = 0; x < pxwidth; x++ ) for ( int y = 0; y < pxheight; y++ ) {
-			float height = heightConversion.apply( heightmap.getRGB( x + hx, y + hy ) );
-			float volatility = volatilityConversion.apply( volatilitymap.getRGB( x + vx, y + vy ) );
+		heightmap.scale( cols, rows );
+		volatilitymap.scale( cols, rows );
+		for ( int x = 0; x < cols; x++ ) for ( int y = 0; y < rows; y++ ) {
+			float height = heightconversion.apply( heightmap.getImage().getRGB( x, y ) );
+			float volatility = volatilityConversion.apply( volatilitymap.getImage().getRGB( x, y ) );
 			Vector2i position = new Vector2i( x, y );
 			Cell cell = new Cell( position, new Terrain( height, volatility ) );
 			this.put( position, cell );
