@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.animate;
+package robertefry.firespread.ui.element.animate;
 
 import java.awt.BorderLayout;
 import javax.swing.Icon;
@@ -13,12 +13,12 @@ import tips4java.RotatedIcon;
  * @date 28 Jan 2019
  */
 @SuppressWarnings( "serial" )
-public class RotatingIcon extends JComponent {
+public class ICRotatingIcon extends JComponent {
 
 	private final JLabel label = new JLabel();
 	private final AnimatedIcon animation;
 
-	public RotatingIcon( Icon icon, float speed ) {
+	public ICRotatingIcon( Icon icon, float speed ) {
 		setLayout( new BorderLayout() );
 		animation = new AnimatedIcon( label, (int)(1 / speed) );
 		for ( int angle = 0; angle < 360; angle++ ) {

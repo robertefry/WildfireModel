@@ -9,18 +9,23 @@ import robertefry.penguin.engine.Engine;
  * @date 25 Jan 2019
  */
 public class Model {
-
+	
 	private static final Engine engine = new Engine();
 	private static final Grid grid = new Grid();
 
 	static {
 		engine.getTargetManager().add( grid );
+		engine.setRefreshRate( 1 );
 		engine.suspend();
 		engine.start();
 	}
-
+	
 	public static Engine getEngine() {
 		return engine;
+	}
+	
+	public static Grid getGrid() {
+		return grid;
 	}
 
 }

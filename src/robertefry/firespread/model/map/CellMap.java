@@ -8,7 +8,7 @@ import robertefry.firespread.model.type.Terrain;
 
 @SuppressWarnings( "serial" )
 public class CellMap extends TypeMap<Cell> {
-
+	
 	public CellMap() {
 	}
 	

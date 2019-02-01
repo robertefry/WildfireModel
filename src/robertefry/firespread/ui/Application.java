@@ -2,15 +2,15 @@
 package robertefry.firespread.ui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.UIManager;
 import robertefry.firespread.graphic.Renderer;
+import robertefry.firespread.ui.frame.UICellMapLoader;
+import robertefry.firespread.ui.frame.UISimulationController;
 
 /**
  * @author Robert E Fry
@@ -18,45 +18,26 @@ import robertefry.firespread.graphic.Renderer;
  */
 public class Application {
 
-	private JFrame frmWildfireModel = new JFrame( "Wildfire Model" );
-	private JFrame frmSimulationController = new SimulationController();
-	private JFrame frmCellMapLoader = new CellMapLoader();
+	private JFrame frmMainModel = new JFrame( "Wildfire Model" );
+	private JFrame frmSimulationController = new UISimulationController();
+	private JFrame frmCellMapLoader = new UICellMapLoader();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main( String[] args ) {
-		EventQueue.invokeLater( new Runnable() {
-			public void run() {
-				try {
-					Application window = new Application();
-					window.frmWildfireModel.setVisible( true );
-					UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-				} catch ( Exception e ) {
-					e.printStackTrace();
-				}
-			}
-		} );
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public Application() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	public void show() {
+		frmMainModel.setVisible( true );
+	}
+
 	private void initialize() {
 
-		frmWildfireModel.setBounds( 100, 100, 800, 600 );
-		frmWildfireModel.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frmWildfireModel.getContentPane().add( Renderer.getCanvas(), BorderLayout.CENTER );
+		frmMainModel.setBounds( 100, 100, 800, 600 );
+		frmMainModel.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frmMainModel.getContentPane().add( Renderer.getCanvas(), BorderLayout.CENTER );
 
 		JMenuBar menuBar = new JMenuBar();
-		frmWildfireModel.setJMenuBar( menuBar );
+		frmMainModel.setJMenuBar( menuBar );
 
 		JMenu mnFile = new JMenu( "File" );
 		menuBar.add( mnFile );
@@ -64,6 +45,7 @@ public class Application {
 		JMenuItem mntmNewMap = new JMenuItem( "New Map" );
 		mntmNewMap.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
+				frmCellMapLoader.setLocationRelativeTo( frmMainModel );
 				frmCellMapLoader.setVisible( true );
 			}
 		} );
@@ -75,6 +57,7 @@ public class Application {
 		JMenuItem mntmOpenSimulationController = new JMenuItem( "Open Simulation Controller" );
 		mntmOpenSimulationController.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
+				frmSimulationController.setLocationRelativeTo( frmMainModel );
 				frmSimulationController.setVisible( true );
 			}
 		} );

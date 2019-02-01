@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui;
+package robertefry.firespread.ui.frame;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -18,7 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import robertefry.firespread.io.Resource;
 import robertefry.firespread.model.Model;
-import robertefry.firespread.ui.animate.RotatingIcon;
+import robertefry.firespread.ui.element.animate.ICRotatingIcon;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.targets.SimpleCounter;
 
@@ -27,16 +27,13 @@ import robertefry.penguin.engine.targets.SimpleCounter;
  * @date 29 Jan 2019
  */
 @SuppressWarnings( "serial" )
-public class SimulationController extends JFrame {
-	
+public class UISimulationController extends JFrame {
+
 	// TODO reset model
 
 	private JPanel contentPane;
 
-	/**
-	 * Create the frame.
-	 */
-	public SimulationController() {
+	public UISimulationController() {
 		setResizable( false );
 		setBounds( 100, 100, 450, 300 );
 		contentPane = new JPanel();
@@ -45,7 +42,7 @@ public class SimulationController extends JFrame {
 		setContentPane( contentPane );
 		contentPane.setLayout( null );
 
-		RotatingIcon icnWorking = new RotatingIcon(
+		ICRotatingIcon icnWorking = new ICRotatingIcon(
 			new ImageIcon( Resource.loadImage( "res/icons/working.png", 25, 25 ) ), 0.5f
 		);
 		icnWorking.setBounds( 10, 68, 30, 30 );
@@ -58,7 +55,7 @@ public class SimulationController extends JFrame {
 		JSpinner spnRefreshRate = new JSpinner();
 		spnRefreshRate.addChangeListener( new ChangeListener() {
 			public void stateChanged( ChangeEvent e ) {
-				Model.getEngine().setRefreshRate( ((Number)spnRefreshRate.getValue()).floatValue() );
+				Model.getEngine().setRefreshRate( ( (Number)spnRefreshRate.getValue() ).floatValue() );
 			}
 		} );
 		spnRefreshRate.setValue( Model.getEngine().getRefreshRate() );
@@ -107,12 +104,11 @@ public class SimulationController extends JFrame {
 
 		pack();
 
+		DecimalFormat tfIterationFormat = new DecimalFormat( "#,###" );
 		Model.getEngine().getTargetManager().add( new SimpleCounter() {
-			DecimalFormat format = new DecimalFormat( "#,###" );
-			@Override
 			public void tick( Engine engine ) {
 				super.tick( engine );
-				tfIteration.setText( format.format( super.getCount() ) );
+				tfIteration.setText( tfIterationFormat.format( super.getCount() ) );
 			}
 		} );
 
