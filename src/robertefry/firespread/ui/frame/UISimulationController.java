@@ -18,7 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import robertefry.firespread.io.Resource;
 import robertefry.firespread.model.Model;
-import robertefry.firespread.ui.element.animate.ICRotatingIcon;
+import robertefry.firespread.ui.element.animate.RotatingIcon;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.targets.SimpleCounter;
 
@@ -42,7 +42,7 @@ public class UISimulationController extends JFrame {
 		setContentPane( contentPane );
 		contentPane.setLayout( null );
 
-		ICRotatingIcon icnWorking = new ICRotatingIcon(
+		RotatingIcon icnWorking = new RotatingIcon(
 			new ImageIcon( Resource.loadImage( "res/icons/working.png", 25, 25 ) ), 0.5f
 		);
 		icnWorking.setBounds( 10, 68, 30, 30 );

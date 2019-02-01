@@ -20,7 +20,6 @@ public class Application {
 
 	private JFrame frmMainModel = new JFrame( "Wildfire Model" );
 	private JFrame frmSimulationController = new UISimulationController();
-	private JFrame frmCellMapLoader = new UICellMapLoader();
 
 	public Application() {
 		initialize();
@@ -45,8 +44,10 @@ public class Application {
 		JMenuItem mntmNewMap = new JMenuItem( "New Map" );
 		mntmNewMap.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
+				final JFrame frmCellMapLoader = new UICellMapLoader();
 				frmCellMapLoader.setLocationRelativeTo( frmMainModel );
 				frmCellMapLoader.setVisible( true );
+				// TODO get cell map return
 			}
 		} );
 		mnFile.add( mntmNewMap );

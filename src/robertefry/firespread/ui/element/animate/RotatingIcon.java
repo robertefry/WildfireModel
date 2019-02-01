@@ -13,12 +13,12 @@ import tips4java.RotatedIcon;
  * @date 28 Jan 2019
  */
 @SuppressWarnings( "serial" )
-public class ICRotatingIcon extends JComponent {
+public class RotatingIcon extends JComponent {
 
 	private final JLabel label = new JLabel();
 	private final AnimatedIcon animation;
 
-	public ICRotatingIcon( Icon icon, float speed ) {
+	public RotatingIcon( Icon icon, float speed ) {
 		setLayout( new BorderLayout() );
 		animation = new AnimatedIcon( label, (int)(1 / speed) );
 		for ( int angle = 0; angle < 360; angle++ ) {

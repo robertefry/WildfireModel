@@ -4,11 +4,16 @@ package robertefry.firespread.ui.element;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutionException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import org.apache.commons.logging.LogFactory;
+import robertefry.firespread.model.math.Space;
+import robertefry.firespread.ui.element.atomic.LabeledComponent;
+import robertefry.firespread.ui.element.atomic.ToolTipTextField;
+import robertefry.firespread.ui.frame.UIImageMapSettings;
 
 /**
  * @author Robert E Fry
@@ -17,13 +22,15 @@ import javax.swing.SpringLayout;
 @SuppressWarnings( "serial" )
 public class ICImageMapLoading extends JPanel {
 
-	private final ICInfoTextField textField;
+	private final LabeledComponent<
+		ToolTipTextField> textComponent = new LabeledComponent<>( "", new ToolTipTextField() );
+	private final Space selection = new Space( 0, 0, 0, 0 );
 
 	private void open() {
 		JFileChooser fileChooser = new JFileChooser();
 		int opened = fileChooser.showOpenDialog( this );
 		if (opened == JFileChooser.APPROVE_OPTION) {
-			textField.setText( fileChooser.getSelectedFile().getAbsolutePath() );
+			textComponent.getComponent().setText( fileChooser.getSelectedFile().getAbsolutePath() );
 		}
 	}
 
@@ -32,36 +39,44 @@ public class ICImageMapLoading extends JPanel {
 	 */
 	public ICImageMapLoading( String description, boolean required ) {
 
-		setPreferredSize( new Dimension(416, 25) );
+		setPreferredSize( new Dimension( 416, 25 ) );
 		SpringLayout springLayout = new SpringLayout();
+		springLayout.putConstraint( SpringLayout.NORTH, textComponent, 1, SpringLayout.NORTH, this );
+		springLayout.putConstraint( SpringLayout.WEST, textComponent, 1, SpringLayout.WEST, this );
+		springLayout.putConstraint( SpringLayout.SOUTH, textComponent, -1, SpringLayout.SOUTH, this );
 		setLayout( springLayout );
 
-		JLabel label = new JLabel();
-		springLayout.putConstraint(SpringLayout.NORTH, label, 1, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, label, 1, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, label, -1, SpringLayout.SOUTH, this);
-		label.setPreferredSize( new Dimension( 89, 14 ) );
-		label.setText( String.format( "<html>%s%s</html>", description, required ? "<font color=red>*</font>" : "" ) );
-		add( label );
-
-		textField = new ICInfoTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textField, 1, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, textField, 1, SpringLayout.EAST, label);
-		springLayout.putConstraint(SpringLayout.SOUTH, textField, -1, SpringLayout.SOUTH, this);
-		textField.setColumns( 10 );
-		add( textField );
+		textComponent.getLabel()
+			.setText( String.format( "<html>%s%s</html>", description, required ? "<font color=red>*</font>" : "" ) );
+		textComponent.getComponent().setColumns( 10 );
+		textComponent.getLabel().setPreferredSize( new Dimension( 89, 14 ) );
+		add( textComponent );
 
 		JButton btnProperties = new JButton( "?" );
-		springLayout.putConstraint(SpringLayout.EAST, textField, -1, SpringLayout.WEST, btnProperties);
-		springLayout.putConstraint(SpringLayout.NORTH, btnProperties, 1, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnProperties, -1, SpringLayout.SOUTH, this);
+		btnProperties.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new Thread( () -> {
+					try {
+						UIImageMapSettings settings = new UIImageMapSettings( selection );
+						settings.setLocationRelativeTo( textComponent );
+						settings.setVisible( true );
+						selection.setBounds( settings.get() );
+					} catch ( InterruptedException | ExecutionException e1 ) {
+						LogFactory.getLog( getClass() ).error( "failed to set selection space", e1 );
+					}
+				} ).start();
+			}
+		} );
+		springLayout.putConstraint( SpringLayout.EAST, textComponent, -1, SpringLayout.WEST, btnProperties );
+		springLayout.putConstraint( SpringLayout.NORTH, btnProperties, 1, SpringLayout.NORTH, this );
+		springLayout.putConstraint( SpringLayout.SOUTH, btnProperties, -1, SpringLayout.SOUTH, this );
 		add( btnProperties );
 
 		JButton btnOpen = new JButton( "Open" );
-		springLayout.putConstraint(SpringLayout.EAST, btnProperties, -1, SpringLayout.WEST, btnOpen);
-		springLayout.putConstraint(SpringLayout.NORTH, btnOpen, 1, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnOpen, -1, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, btnOpen, -1, SpringLayout.EAST, this);
+		springLayout.putConstraint( SpringLayout.EAST, btnProperties, -1, SpringLayout.WEST, btnOpen );
+		springLayout.putConstraint( SpringLayout.NORTH, btnOpen, 1, SpringLayout.NORTH, this );
+		springLayout.putConstraint( SpringLayout.SOUTH, btnOpen, -1, SpringLayout.SOUTH, this );
+		springLayout.putConstraint( SpringLayout.EAST, btnOpen, -1, SpringLayout.EAST, this );
 		btnOpen.setPreferredSize( new Dimension( 89, 23 ) );
 		btnOpen.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
@@ -73,14 +88,19 @@ public class ICImageMapLoading extends JPanel {
 	}
 
 	public void setBlankText() {
-		textField.setText( "" );
+		textComponent.getComponent().setText( "" );
 	}
 
 	public boolean hasText() {
-		return !textField.getText().isEmpty();
+		return !textComponent.getComponent().getText().isEmpty();
 	}
 
 	public String getText() {
-		return textField.getText();
+		return textComponent.getComponent().getText();
 	}
+
+	public Space getSelection() {
+		return selection;
+	}
+
 }

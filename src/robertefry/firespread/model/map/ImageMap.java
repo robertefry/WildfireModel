@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import org.joml.Vector2i;
-import robertefry.firespread.model.grid.Gridspace;
+import robertefry.firespread.model.math.Space;
 
 /**
  * @author Robert E Fry
@@ -15,9 +15,9 @@ import robertefry.firespread.model.grid.Gridspace;
 public class ImageMap implements Iterable<Color> {
 
 	private BufferedImage image;
-	private Gridspace space;
+	private Space space;
 
-	public ImageMap( BufferedImage image, Gridspace space ) {
+	public ImageMap( BufferedImage image, Space space ) {
 		this.image = image;
 		this.space = space;
 	}
@@ -25,12 +25,10 @@ public class ImageMap implements Iterable<Color> {
 	public ImageMap scale( int width, int height ) {
 		BufferedImage scaled = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
 		Graphics g = scaled.getGraphics();
-		g.drawImage(
-			image, 0, 0, width, height, space.getP1().x, space.getP1().y, space.getP2().x, space.getP2().y, null
-		);
+		g.drawImage( image, 0, 0, width, height, space.p1.x, space.p1.y, space.p2.x, space.p2.y, null );
 		g.dispose();
 		this.image = scaled;
-		this.space.scale( 0, 0, width, height );
+		this.space.setBounds( 0, 0, width, height );
 		return this;
 	}
 
@@ -38,7 +36,7 @@ public class ImageMap implements Iterable<Color> {
 		return image;
 	}
 
-	public final Gridspace getGridSpace() {
+	public final Space getSpace() {
 		return space;
 	}
 

@@ -84,7 +84,7 @@ public abstract class UIDialog< T > extends JFrame {
 		btnCancel.setPreferredSize( new Dimension( 89, 23 ) );
 		sl_buttonPane.putConstraint( SpringLayout.EAST, btnCancel, -6, SpringLayout.WEST, btnOK );
 		buttonPane.add( btnCancel );
-		
+
 		pack();
 
 	}

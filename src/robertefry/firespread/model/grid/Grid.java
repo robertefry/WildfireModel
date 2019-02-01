@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import org.joml.Vector2i;
 import robertefry.firespread.model.map.CellMap;
+import robertefry.firespread.model.math.Space;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.Targetable;
 
@@ -16,15 +17,15 @@ import robertefry.penguin.engine.target.Targetable;
  */
 public class Grid implements Targetable {
 
-	private Gridspace gridspace = new Gridspace();
+	private Space space = new Space();
 	private CellMap cells = new CellMap();
 
 	// TODO build method from datamaps
 	public void build( CellMap cells ) {
 		this.cells = cells;
-		gridspace.scale( 0, 0, 0, 0 );
-		cells.forEach( ( position, cell ) -> {
-			gridspace.put( position );
+		space.setBounds( 0, 0, 0, 0 );
+		cells.forEach( ( point, cell ) -> {
+			space.put( point );
 		} );
 	}
 
@@ -39,7 +40,7 @@ public class Grid implements Targetable {
 		Set<Cell> localcells = new HashSet<>();
 		cells.forEach( ( point, cell ) -> {
 			localcells.clear();
-			gridspace.getLocalRegion( point, 1 ).forEach( localpoint -> {
+			space.getLocalRegion( point, 1 ).forEach( localpoint -> {
 				localcells.add( cells.get( localpoint ) );
 			} );
 			Cell nextcell = cell.getNext( localcells );
@@ -58,7 +59,7 @@ public class Grid implements Targetable {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder( "Grid[" );
-		builder.append( "\n\t" + gridspace.toString() );
+		builder.append( "\n\t" + space.toString() );
 		cells.forEach( ( point, cell ) -> {
 			builder.append( "\n\t├─" + cell.toString() );
 		} );

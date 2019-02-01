@@ -2,10 +2,19 @@
 package robertefry.firespread.ui.frame;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
+import robertefry.firespread.io.Resource;
 import robertefry.firespread.model.map.CellMap;
+import robertefry.firespread.model.map.Conversions;
+import robertefry.firespread.model.map.ImageMap;
 import robertefry.firespread.ui.dialog.UIDialog;
 import robertefry.firespread.ui.element.ICImageMapLoading;
+import robertefry.firespread.ui.element.atomic.LabeledComponent;
 
 /**
  * @author Robert E Fry
@@ -18,11 +27,17 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 	private final ICImageMapLoading srcTerrainMap = new ICImageMapLoading( "Terrain map", true );
 	private final ICImageMapLoading srcMapTexture = new ICImageMapLoading( "Map Texture", false );
 
+	LabeledComponent<JSpinner> spnRows = new LabeledComponent<>(
+		"rows", new JSpinner( new SpinnerNumberModel( 0, 0, Integer.MAX_VALUE, 1 ) )
+	);
+	LabeledComponent<JSpinner> spnCols = new LabeledComponent<>(
+		"columns", new JSpinner( new SpinnerNumberModel( 0, 0, Integer.MAX_VALUE, 1 ) )
+	);
+
 	public UICellMapLoader() {
 
 		setTitle( "New map" );
-		contentPane.setLayout( new SpringLayout() );
-		contentPane.setPreferredSize( new Dimension( 446, 116 ) );
+		contentPane.setPreferredSize( new Dimension( 446, 147 ) );
 
 		SpringLayout layout = new SpringLayout();
 		contentPane.setLayout( layout );
@@ -41,7 +56,25 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 		layout.putConstraint( SpringLayout.WEST, srcMapTexture, 10, SpringLayout.WEST, contentPane );
 		layout.putConstraint( SpringLayout.EAST, srcMapTexture, -10, SpringLayout.EAST, contentPane );
 		contentPane.add( srcMapTexture );
-		
+
+		JPanel panel = new JPanel();
+		panel.setPreferredSize( new Dimension( 10, 22 ) );
+		layout.putConstraint( SpringLayout.NORTH, panel, 10, SpringLayout.SOUTH, srcMapTexture );
+		layout.putConstraint( SpringLayout.WEST, panel, 10, SpringLayout.WEST, contentPane );
+		layout.putConstraint( SpringLayout.EAST, panel, -10, SpringLayout.EAST, contentPane );
+		contentPane.add( panel );
+		panel.setLayout( new GridLayout( 0, 3, 0, 0 ) );
+
+		spnRows.getLabel().setText( "Rows " );
+		spnRows.getLabel().setHorizontalAlignment( SwingConstants.RIGHT );
+		spnRows.getLabel().setPreferredSize( new Dimension( 50, 14 ) );
+		panel.add( spnRows );
+
+		spnCols.getLabel().setText( "Columns " );
+		spnCols.getLabel().setHorizontalAlignment( SwingConstants.RIGHT );
+		spnCols.getLabel().setPreferredSize( new Dimension( 50, 14 ) );
+		panel.add( spnCols );
+
 		pack();
 
 	}
@@ -49,7 +82,18 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 	@Override
 	protected CellMap getReturn() {
 		// TODO UICellMapLoader getReturn()
-		return null;
+		// rows, cols
+		ImageMap elevationmap = new ImageMap(
+			Resource.loadImage( srcElevationMap.getText() ), srcElevationMap.getSelection()
+		);
+		ImageMap terrainmap = new ImageMap(
+			Resource.loadImage( srcTerrainMap.getText() ), srcTerrainMap.getSelection()
+		);
+		return new CellMap(
+			( (Number)spnRows.getComponent().getValue() ).intValue(),
+			( (Number)spnCols.getComponent().getValue() ).intValue(),
+			elevationmap, Conversions.getElevationMapConversion(),
+			terrainmap, Conversions.getTerrainMapConversion()
+		);
 	}
-
 }

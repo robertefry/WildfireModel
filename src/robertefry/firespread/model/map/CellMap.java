@@ -14,17 +14,17 @@ public class CellMap extends TypeMap<Cell> {
 	
 	public CellMap(
 		int rows, int cols,
-		ImageMap heightmap, Function<Integer,Float> heightconversion,
-		ImageMap volatilitymap, Function<Integer,Float> volatilityConversion
+		ImageMap elevationmap, Function<Integer,Float> heightconversion,
+		ImageMap terrainmap, Function<Integer,Float> volatilityConversion
 	) {
-		heightmap.scale( cols, rows );
-		volatilitymap.scale( cols, rows );
+		elevationmap.scale( cols, rows );
+		terrainmap.scale( cols, rows );
 		for ( int x = 0; x < cols; x++ ) for ( int y = 0; y < rows; y++ ) {
-			float height = heightconversion.apply( heightmap.getImage().getRGB( x, y ) );
-			float volatility = volatilityConversion.apply( volatilitymap.getImage().getRGB( x, y ) );
-			Vector2i position = new Vector2i( x, y );
-			Cell cell = new Cell( position, new Terrain( height, volatility ) );
-			this.put( position, cell );
+			float height = heightconversion.apply( elevationmap.getImage().getRGB( x, y ) );
+			float volatility = volatilityConversion.apply( terrainmap.getImage().getRGB( x, y ) );
+			Vector2i point = new Vector2i( x, y );
+			Cell cell = new Cell( point, new Terrain( height, volatility ) );
+			this.put( point, cell );
 		}
 	}
 
