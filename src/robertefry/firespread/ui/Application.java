@@ -4,11 +4,14 @@ package robertefry.firespread.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutionException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.graphic.Renderer;
+import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.frame.UICellMapLoader;
 import robertefry.firespread.ui.frame.UISimulationController;
 
@@ -32,6 +35,7 @@ public class Application {
 	private void initialize() {
 
 		frmMainModel.setBounds( 100, 100, 800, 600 );
+		frmMainModel.setLocationRelativeTo( null );
 		frmMainModel.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frmMainModel.getContentPane().add( Renderer.getCanvas(), BorderLayout.CENTER );
 
@@ -44,10 +48,17 @@ public class Application {
 		JMenuItem mntmNewMap = new JMenuItem( "New Map" );
 		mntmNewMap.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				final JFrame frmCellMapLoader = new UICellMapLoader();
-				frmCellMapLoader.setLocationRelativeTo( frmMainModel );
-				frmCellMapLoader.setVisible( true );
-				// TODO get cell map return
+				new Thread( () -> {
+					UICellMapLoader frmCellMapLoader = new UICellMapLoader();
+					frmCellMapLoader.setLocationRelativeTo( frmMainModel );
+					frmCellMapLoader.setVisible( true );
+					Model.getEngine().suspend();
+					try {
+						Model.getGrid().build( frmCellMapLoader.fetch() );
+					} catch ( InterruptedException | ExecutionException e1 ) {
+						LogFactory.getLog( getClass() ).error( "cellmap fetch failed", e1 );
+					}
+				} ).start();
 			}
 		} );
 		mnFile.add( mntmNewMap );

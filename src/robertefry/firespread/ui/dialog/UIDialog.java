@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Robert E Fry
@@ -32,8 +34,13 @@ public abstract class UIDialog< T > extends JFrame {
 
 	protected abstract T getReturn();
 
-	public T get() throws InterruptedException, ExecutionException {
-		return future.get();
+	public T fetch() throws InterruptedException, ExecutionException {
+		try {
+			return future.get();
+		} catch ( CancellationException e ) {
+			LogFactory.getLog( getClass() ).warn( "return fetch task cancelled", e );
+		}
+		return null;
 	}
 
 	public T get( long timeout, TimeUnit unit ) throws InterruptedException, ExecutionException, TimeoutException {

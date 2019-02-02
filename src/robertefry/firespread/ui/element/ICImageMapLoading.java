@@ -60,7 +60,7 @@ public class ICImageMapLoading extends JPanel {
 						UIImageMapSettings settings = new UIImageMapSettings( selection );
 						settings.setLocationRelativeTo( textComponent );
 						settings.setVisible( true );
-						selection.setBounds( settings.get() );
+						selection.setBounds( settings.fetch() );
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "failed to set selection space", e1 );
 					}

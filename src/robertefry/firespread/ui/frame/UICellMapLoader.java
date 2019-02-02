@@ -81,8 +81,6 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 
 	@Override
 	protected CellMap getReturn() {
-		// TODO UICellMapLoader getReturn()
-		// rows, cols
 		ImageMap elevationmap = new ImageMap(
 			Resource.loadImage( srcElevationMap.getText() ), srcElevationMap.getSelection()
 		);

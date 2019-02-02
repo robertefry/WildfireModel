@@ -32,7 +32,7 @@ public class TestUIDialog extends UIDialog<String> {
 		} );
 		
 		try {
-			System.out.println( frame.get() );
+			System.out.println( frame.fetch() );
 		} catch ( InterruptedException | ExecutionException e ) {
 			LogFactory.getLog( TestUIDialog.class ).fatal( "failed to get UIDialog return", e );
 		}
