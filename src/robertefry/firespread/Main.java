@@ -13,17 +13,19 @@ import robertefry.firespread.ui.Application;
 public class Main {
 
 	public static void main( String[] args ) {
+
 		EventQueue.invokeLater( new Runnable() {
 			public void run() {
 				try {
 					UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-				} catch ( Exception e) {
+				} catch ( Exception e ) {
 					LogFactory.getLog( getClass() ).warn( "failed to set default system UI look and feel", e );
 				}
 				Application application = new Application();
 				application.show();
 			}
 		} );
+
 	}
 
 }

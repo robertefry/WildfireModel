@@ -61,7 +61,7 @@ public class Grid implements Targetable {
 		final StringBuilder builder = new StringBuilder( "Grid[" );
 		builder.append( "\n\t" + space.toString() );
 		cells.forEach( ( point, cell ) -> {
-			builder.append( "\n\t├─" + cell.toString() );
+			builder.append( "\n\t" + cell.toString() );
 		} );
 		return builder.append( "\n]" ).toString();
 	}

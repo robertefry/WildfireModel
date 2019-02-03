@@ -28,10 +28,10 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 	private final ICImageMapLoading srcMapTexture = new ICImageMapLoading( "Map Texture", false );
 
 	LabeledComponent<JSpinner> spnRows = new LabeledComponent<>(
-		"rows", new JSpinner( new SpinnerNumberModel( 0, 0, Integer.MAX_VALUE, 1 ) )
+		"rows", new JSpinner( new SpinnerNumberModel( 1, 1, Integer.MAX_VALUE, 1 ) )
 	);
 	LabeledComponent<JSpinner> spnCols = new LabeledComponent<>(
-		"columns", new JSpinner( new SpinnerNumberModel( 0, 0, Integer.MAX_VALUE, 1 ) )
+		"columns", new JSpinner( new SpinnerNumberModel( 1, 1, Integer.MAX_VALUE, 1 ) )
 	);
 
 	public UICellMapLoader() {
@@ -77,6 +77,11 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 
 		pack();
 
+	}
+
+	@Override
+	protected boolean canReturn() {
+		return !srcElevationMap.getText().isEmpty() && !srcTerrainMap.getText().isEmpty();
 	}
 
 	@Override

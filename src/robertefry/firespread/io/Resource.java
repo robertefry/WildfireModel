@@ -16,6 +16,10 @@ import org.apache.commons.logging.LogFactory;
 public class Resource {
 
 	public static BufferedImage loadImage( String source ) {
+		if (source.isEmpty()) {
+			LogFactory.getLog( Resource.class ).warn( "null image from empty source string" );
+			return null;
+		}
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read( new File( source ) );

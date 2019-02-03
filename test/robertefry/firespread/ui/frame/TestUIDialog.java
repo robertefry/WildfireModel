@@ -2,6 +2,7 @@
 package robertefry.firespread.ui.frame;
 
 import java.awt.EventQueue;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,10 +32,18 @@ public class TestUIDialog extends UIDialog<String> {
 			}
 		} );
 		
+		String fetch = null;
 		try {
-			System.out.println( frame.fetch() );
+			fetch = frame.fetch();
+		} catch ( CancellationException e ) {
+			LogFactory.getLog( TestUIDialog.class ).info( "dialog canceled" );
 		} catch ( InterruptedException | ExecutionException e ) {
 			LogFactory.getLog( TestUIDialog.class ).fatal( "failed to get UIDialog return", e );
+		}
+		if ( frame.hasFetched() ) {
+			System.out.println( fetch );
+		} else {
+			System.out.println( "no fetch" );
 		}
 		
 	}
@@ -65,6 +74,11 @@ public class TestUIDialog extends UIDialog<String> {
 		textField.setColumns( 10 );
 		contentPane.add( textField );
 
+	}
+	
+	@Override
+	protected boolean canReturn() {
+		return true;
 	}
 
 	@Override

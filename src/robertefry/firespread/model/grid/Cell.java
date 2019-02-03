@@ -42,7 +42,7 @@ public class Cell implements Targetable {
 
 	@Override
 	public String toString() {
-		return String.format( "Cell[\n\t├─point=%s\n\t├─terrain=%s\n]", point, terrain );
+		return String.format( "Cell[point=%s,terrain=%s]", point, terrain );
 	}
 
 }

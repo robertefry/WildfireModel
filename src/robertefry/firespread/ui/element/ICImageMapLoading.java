@@ -4,6 +4,7 @@ package robertefry.firespread.ui.element;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -56,14 +57,18 @@ public class ICImageMapLoading extends JPanel {
 		btnProperties.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new Thread( () -> {
+					UIImageMapSettings settings = new UIImageMapSettings( selection );
+					settings.setLocationRelativeTo( textComponent );
+					settings.setVisible( true );
+					Space space = null;
 					try {
-						UIImageMapSettings settings = new UIImageMapSettings( selection );
-						settings.setLocationRelativeTo( textComponent );
-						settings.setVisible( true );
-						selection.setBounds( settings.fetch() );
+						space = settings.fetch();
+					} catch ( CancellationException e1 ) {
+						LogFactory.getLog( getClass() ).info( "dialog canceled" );
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "failed to set selection space", e1 );
 					}
+					if ( settings.hasFetched() ) selection.setBounds( space );
 				} ).start();
 			}
 		} );

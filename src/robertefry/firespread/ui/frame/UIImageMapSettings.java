@@ -40,13 +40,13 @@ public class UIImageMapSettings extends UIDialog<Space> {
 			"Selection Height", new JSpinner( new SpinnerNumberModel( space.getHeight(), 0, Integer.MAX_VALUE, 1 ) )
 		);
 
-		setTitle( "Image Selection Settings" );
+		setTitle( "Selection" );
 		contentPane.setPreferredSize( new Dimension( 250, 138 ) );
 
 		SpringLayout springLayout = new SpringLayout();
 		contentPane.setLayout( springLayout );
 
-		JLabel lblMapSettings = new JLabel( "Map Settings :" );
+		JLabel lblMapSettings = new JLabel( "Select region to use." );
 		springLayout.putConstraint( SpringLayout.NORTH, lblMapSettings, 10, SpringLayout.NORTH, contentPane );
 		springLayout.putConstraint( SpringLayout.WEST, lblMapSettings, 10, SpringLayout.WEST, contentPane );
 		springLayout.putConstraint( SpringLayout.EAST, lblMapSettings, -10, SpringLayout.EAST, contentPane );
@@ -78,6 +78,11 @@ public class UIImageMapSettings extends UIDialog<Space> {
 
 		pack();
 
+	}
+
+	@Override
+	protected boolean canReturn() {
+		return true;
 	}
 
 	@Override

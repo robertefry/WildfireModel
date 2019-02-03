@@ -5,18 +5,18 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Robert E Fry
@@ -26,32 +26,38 @@ public abstract class UIDialog< T > extends JFrame {
 	private static final long serialVersionUID = -3013368826748650387L;
 
 	protected final JPanel contentPane = new JPanel();
-	private final JPanel buttonPane = new JPanel();
 
+	private volatile boolean hasfetched = false;
 	private final FutureTask<T> future = new FutureTask<>( () -> {
 		return getReturn();
 	} );
 
+	protected abstract boolean canReturn();
+
 	protected abstract T getReturn();
 
-	public T fetch() throws InterruptedException, ExecutionException {
-		try {
-			return future.get();
-		} catch ( CancellationException e ) {
-			LogFactory.getLog( getClass() ).warn( "return fetch task cancelled", e );
-		}
-		return null;
+	public T fetch() throws CancellationException, InterruptedException, ExecutionException {
+		T fetch = future.get();
+		hasfetched = true;
+		return fetch;
 	}
 
-	public T get( long timeout, TimeUnit unit ) throws InterruptedException, ExecutionException, TimeoutException {
-		return future.get( timeout, unit );
+	public boolean hasFetched() {
+		return hasfetched;
 	}
 
 	public UIDialog() {
 
+		addWindowListener( new WindowAdapter() {
+			public void windowClosing( WindowEvent e ) {
+				cancel();
+			}
+		} );
+
 		getContentPane().setLayout( new BorderLayout() );
 		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 
+		JPanel buttonPane = new JPanel();
 		getContentPane().add( contentPane, BorderLayout.CENTER );
 		getContentPane().add( buttonPane, BorderLayout.SOUTH );
 		buttonPane.setPreferredSize( new Dimension( 196, 35 ) );
@@ -69,8 +75,7 @@ public abstract class UIDialog< T > extends JFrame {
 		JButton btnOK = new JButton( "OK" );
 		btnOK.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				future.run();
-				dispose();
+				confirm();
 			}
 		} );
 		sl_buttonPane.putConstraint( SpringLayout.NORTH, btnOK, 6, SpringLayout.NORTH, buttonPane );
@@ -82,8 +87,7 @@ public abstract class UIDialog< T > extends JFrame {
 		JButton btnCancel = new JButton( "Cancel" );
 		btnCancel.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				future.cancel( false );
-				dispose();
+				cancel();
 			}
 		} );
 		sl_buttonPane.putConstraint( SpringLayout.NORTH, btnCancel, 6, SpringLayout.NORTH, buttonPane );
@@ -94,6 +98,23 @@ public abstract class UIDialog< T > extends JFrame {
 
 		pack();
 
+	}
+
+	private final void confirm() {
+		if (canReturn()) {
+			future.run();
+			dispose();
+		} else {
+			JOptionPane.showMessageDialog(
+				contentPane, "Inoperable inputs.\nPlease make sure all inputs are correct.", "Warning",
+				JOptionPane.ERROR_MESSAGE
+			);
+		}
+	}
+
+	private final void cancel() {
+		future.cancel( false );
+		dispose();
 	}
 
 }

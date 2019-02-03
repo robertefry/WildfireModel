@@ -4,6 +4,7 @@ package robertefry.firespread.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -12,6 +13,7 @@ import javax.swing.JMenuItem;
 import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
+import robertefry.firespread.model.map.CellMap;
 import robertefry.firespread.ui.frame.UICellMapLoader;
 import robertefry.firespread.ui.frame.UISimulationController;
 
@@ -53,11 +55,15 @@ public class Application {
 					frmCellMapLoader.setLocationRelativeTo( frmMainModel );
 					frmCellMapLoader.setVisible( true );
 					Model.getEngine().suspend();
+					CellMap cellmap = null;
 					try {
-						Model.getGrid().build( frmCellMapLoader.fetch() );
+						cellmap = frmCellMapLoader.fetch();
+					} catch ( CancellationException e1 ) {
+						LogFactory.getLog( getClass() ).info( "dialog canceled" );
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "cellmap fetch failed", e1 );
 					}
+					if ( frmCellMapLoader.hasFetched() ) Model.getGrid().build( cellmap );
 				} ).start();
 			}
 		} );
