@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.element.animate;
+package robertefry.firespread.ui.animate;
 
 import java.awt.BorderLayout;
 import javax.swing.Icon;

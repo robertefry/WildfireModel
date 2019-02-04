@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.frame;
+package robertefry.firespread.ui.maploader;
 
 import java.awt.Dimension;
 import javax.swing.JLabel;
@@ -7,8 +7,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
 import robertefry.firespread.model.math.Space;
+import robertefry.firespread.ui.atomic.LabeledComponent;
 import robertefry.firespread.ui.dialog.UIDialog;
-import robertefry.firespread.ui.element.atomic.LabeledComponent;
 
 /**
  * @author Robert E Fry

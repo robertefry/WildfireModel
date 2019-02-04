@@ -14,8 +14,8 @@ import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.map.CellMap;
-import robertefry.firespread.ui.frame.UICellMapLoader;
-import robertefry.firespread.ui.frame.UISimulationController;
+import robertefry.firespread.ui.controller.UIController;
+import robertefry.firespread.ui.maploader.UICellMapLoader;
 
 /**
  * @author Robert E Fry
@@ -24,7 +24,7 @@ import robertefry.firespread.ui.frame.UISimulationController;
 public class Application {
 
 	private JFrame frmMainModel = new JFrame( "Wildfire Model" );
-	private JFrame frmSimulationController = new UISimulationController();
+	private JFrame frmSimulationController = new UIController();
 
 	public Application() {
 		initialize();

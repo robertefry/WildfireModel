@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.element.atomic;
+package robertefry.firespread.ui.atomic;
 
 import javax.swing.JTextField;
 

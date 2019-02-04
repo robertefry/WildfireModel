@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.frame;
+package robertefry.firespread.ui.maploader;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -12,9 +12,8 @@ import robertefry.firespread.io.Resource;
 import robertefry.firespread.model.map.CellMap;
 import robertefry.firespread.model.map.Conversions;
 import robertefry.firespread.model.map.ImageMap;
+import robertefry.firespread.ui.atomic.LabeledComponent;
 import robertefry.firespread.ui.dialog.UIDialog;
-import robertefry.firespread.ui.element.ICImageMapLoading;
-import robertefry.firespread.ui.element.atomic.LabeledComponent;
 
 /**
  * @author Robert E Fry

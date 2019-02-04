@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.element;
+package robertefry.firespread.ui.maploader;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -12,9 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.model.math.Space;
-import robertefry.firespread.ui.element.atomic.LabeledComponent;
-import robertefry.firespread.ui.element.atomic.ToolTipTextField;
-import robertefry.firespread.ui.frame.UIImageMapSettings;
+import robertefry.firespread.ui.atomic.LabeledComponent;
+import robertefry.firespread.ui.atomic.ToolTipTextField;
 
 /**
  * @author Robert E Fry

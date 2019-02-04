@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.element.atomic;
+package robertefry.firespread.ui.atomic;
 
 import java.awt.BorderLayout;
 import javax.swing.JComponent;
@@ -19,7 +19,7 @@ public class LabeledComponent< T extends JComponent > extends JPanel {
 	public LabeledComponent( String text, T component ) {
 		
 		this.component = component;
-		setLayout( new BorderLayout() );
+		setLayout( new BorderLayout( 2, 2 ) );
 
 		label.setText( text );
 		add( label, BorderLayout.WEST );

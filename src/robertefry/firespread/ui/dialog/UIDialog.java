@@ -106,7 +106,7 @@ public abstract class UIDialog< T > extends JFrame {
 			dispose();
 		} else {
 			JOptionPane.showMessageDialog(
-				contentPane, "Inoperable inputs.\nPlease make sure all inputs are correct.", "Warning",
+				contentPane, "Inoperable inputs.\nPlease make sure all required fields are filled and correct.", "Warning",
 				JOptionPane.ERROR_MESSAGE
 			);
 		}
