@@ -11,14 +11,14 @@ public class Conversions {
 	
 	public static Function<Integer,Float> getElevationMapConversion() {
 		return ( color ) -> {
-			// TODO HeightMapConversion
+			// TODO ElevationMapConversion
 			return 0.0f;
 		};
 	}
 	
-	public static Function<Integer,Float> getTerrainMapConversion() {
+	public static Function<Integer,Float> getFlamabilityMapConversion() {
 		return ( color ) -> {
-			// TODO VolatilityMapConversion
+			// TODO FlamabilityMapConversion
 			return 0.0f;
 		};
 	}

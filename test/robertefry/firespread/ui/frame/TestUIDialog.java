@@ -36,7 +36,6 @@ public class TestUIDialog extends UIDialog<String> {
 		try {
 			fetch = frame.fetch();
 		} catch ( CancellationException e ) {
-			LogFactory.getLog( TestUIDialog.class ).info( "dialog canceled" );
 		} catch ( InterruptedException | ExecutionException e ) {
 			LogFactory.getLog( TestUIDialog.class ).fatal( "failed to get UIDialog return", e );
 		}

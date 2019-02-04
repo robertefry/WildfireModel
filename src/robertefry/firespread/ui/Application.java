@@ -59,7 +59,6 @@ public class Application {
 					try {
 						cellmap = frmCellMapLoader.fetch();
 					} catch ( CancellationException e1 ) {
-						LogFactory.getLog( getClass() ).info( "dialog canceled" );
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "cellmap fetch failed", e1 );
 					}

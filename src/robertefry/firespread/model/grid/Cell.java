@@ -3,7 +3,6 @@ package robertefry.firespread.model.grid;
 
 import java.util.Set;
 import org.joml.Vector2i;
-import robertefry.firespread.model.type.Terrain;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.Targetable;
 

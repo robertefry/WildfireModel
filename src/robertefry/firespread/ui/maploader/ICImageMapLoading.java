@@ -63,7 +63,6 @@ public class ICImageMapLoading extends JPanel {
 					try {
 						space = settings.fetch();
 					} catch ( CancellationException e1 ) {
-						LogFactory.getLog( getClass() ).info( "dialog canceled" );
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "failed to set selection space", e1 );
 					}

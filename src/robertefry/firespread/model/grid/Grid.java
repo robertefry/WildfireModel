@@ -20,7 +20,6 @@ public class Grid implements Targetable {
 	private Space space = new Space();
 	private CellMap cells = new CellMap();
 
-	// TODO build method from datamaps
 	public void build( CellMap cells ) {
 		this.cells = cells;
 		space.setBounds( 0, 0, 0, 0 );
@@ -32,10 +31,6 @@ public class Grid implements Targetable {
 	@Override
 	public void tick( Engine engine ) {
 		Targetable.super.tick( engine );
-		next();
-	}
-
-	public void next() {
 		Map<Vector2i,Cell> nextcells = new HashMap<>();
 		Set<Cell> localcells = new HashSet<>();
 		cells.forEach( ( point, cell ) -> {
