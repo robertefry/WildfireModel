@@ -10,6 +10,8 @@ import robertefry.penguin.engine.Engine;
  */
 public class Model {
 	
+	// TODO clear the screen before every render
+
 	private static final Engine engine = new Engine();
 	private static final Grid grid = new Grid();
 
@@ -19,11 +21,11 @@ public class Model {
 		engine.suspend();
 		engine.start();
 	}
-	
+
 	public static Engine getEngine() {
 		return engine;
 	}
-	
+
 	public static Grid getGrid() {
 		return grid;
 	}

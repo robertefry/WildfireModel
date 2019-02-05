@@ -9,32 +9,32 @@ import java.util.Set;
 import robertefry.firespread.model.map.CellMap;
 import robertefry.firespread.model.math.Space;
 import robertefry.penguin.engine.Engine;
-import robertefry.penguin.engine.target.Targetable;
+import robertefry.penguin.engine.target.Target;
 
 /**
  * @author Robert E Fry
  * @date 25 Jan 2019
  */
-public class Grid implements Targetable {
+public class Grid extends Target {
 
 	private Space space = new Space();
 	private CellMap cells = new CellMap();
 
 	public void build( CellMap cells ) {
-		cells.forEach( ( point, cell ) -> {
-			System.out.println( "cell @ " + point );
+		this.cells.forEach( ( point, cell ) -> {
+			removeSubTarget( cell );
 		} );
-		// TODO remove
 		this.cells = cells;
 		space.setBounds( 0, 0, 0, 0 );
 		cells.forEach( ( point, cell ) -> {
 			space.include( point );
+			addSubTarget( cell );
 		} );
 	}
 
 	@Override
 	public void tick( Engine engine ) {
-		Targetable.super.tick( engine );
+		super.tick( engine );
 		Map<Point,Cell> nextcells = new HashMap<>();
 		Set<Cell> localcells = new HashSet<>();
 		cells.forEach( ( point, cell ) -> {

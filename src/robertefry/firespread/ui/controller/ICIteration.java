@@ -69,27 +69,31 @@ public class ICIteration extends JPanel {
 		textField.setColumns( 10 );
 
 		Model.getEngine().addStateListener( new EngineStateListener() {
-			public void engineSuspending() {
-				EngineStateListener.super.engineSuspending();
-				working.stop();
-			}
 
-			@Override
-			public void engineResuming() {
-				EngineStateListener.super.engineResuming();
+			public void onEngineSuspend() {
+				EngineStateListener.super.onEngineSuspend();
+				working.stop();
+			};
+
+			public void onEngineResume() {
+				EngineStateListener.super.onEngineResume();
 				working.start();
 			}
+
 		} );
 
 		Model.getEngine().getTargetManager().add( new SimpleCounter() {
+
 			public void tick( Engine engine ) {
 				super.tick( engine );
 				textField.setText( String.valueOf( getCount() ) );
 			}
+
 			public void reset() {
 				super.reset();
 				textField.setText( String.valueOf( 0 ) );
 			}
+
 		} );
 
 	}

@@ -1,8 +1,11 @@
 
 package robertefry.firespread.model.grid;
 
-import java.awt.Point;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Set;
+import robertefry.firespread.graphic.Renderer;
+import robertefry.firespread.util.Colors;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.Targetable;
 
@@ -12,11 +15,11 @@ import robertefry.penguin.engine.target.Targetable;
  */
 public class Cell implements Targetable {
 
-	private final Point point;
+	private final Rectangle rect;
 	private final Terrain terrain;
 
-	public Cell( Point point, Terrain terrain ) {
-		this.point = point;
+	public Cell( Rectangle rect, Terrain terrain ) {
+		this.rect = rect;
 		this.terrain = terrain;
 	}
 
@@ -24,6 +27,14 @@ public class Cell implements Targetable {
 	public void tick( Engine engine ) {
 		Targetable.super.tick( engine );
 		terrain.tick( engine );
+	}
+
+	@Override
+	public void render( Engine engine ) {
+		Targetable.super.render( engine );
+		Graphics g = Renderer.getGraphics();
+		g.setColor( Colors.newRandomColor() );
+		g.fillRect( rect.x, rect.y, rect.width, rect.height );
 	}
 
 	public Cell getNext( Set<Cell> localRegion ) {
@@ -34,14 +45,14 @@ public class Cell implements Targetable {
 	@Override
 	public boolean equals( Object obj ) {
 		if ( !( obj instanceof Cell ) ) return false;
-		if ( !( (Cell)obj ).point.equals( point ) ) return false;
+		if ( !( (Cell)obj ).rect.equals( rect ) ) return false;
 		if ( !( (Cell)obj ).terrain.equals( terrain ) ) return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return String.format( "Cell[point=%s,terrain=%s]", point, terrain );
+		return String.format( "Cell[rect=%s,terrain=%s]", rect, terrain );
 	}
 
 }

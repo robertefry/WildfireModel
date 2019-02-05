@@ -3,6 +3,8 @@ package robertefry.firespread.ui.maploader;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -31,7 +33,7 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 	LabeledComponent<JSpinner> spnCols = new LabeledComponent<>(
 		"columns", new JSpinner( new SpinnerNumberModel( 1, 1, Integer.MAX_VALUE, 1 ) )
 	);
-	
+
 	// TODO UICellMapLoader rows & cols
 	// changing rows and cols also changes selection width & height
 
@@ -64,11 +66,25 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 		spnRows.getLabel().setText( "Rows " );
 		spnRows.getLabel().setHorizontalAlignment( SwingConstants.RIGHT );
 		spnRows.getLabel().setPreferredSize( new Dimension( 50, 14 ) );
+		spnRows.getComponent().addPropertyChangeListener( new PropertyChangeListener() {
+			public void propertyChange( PropertyChangeEvent evt ) {
+				int rows = ( (Number)spnRows.getComponent().getValue() ).intValue();
+				srcElevationMap.getSelection().height = Math.max( srcElevationMap.getSelection().height, rows );
+				srcFlamabilityMap.getSelection().height = Math.max( srcFlamabilityMap.getSelection().height, rows );
+			}
+		} );
 		panel.add( spnRows );
 
 		spnCols.getLabel().setText( "Columns " );
 		spnCols.getLabel().setHorizontalAlignment( SwingConstants.RIGHT );
 		spnCols.getLabel().setPreferredSize( new Dimension( 50, 14 ) );
+		spnCols.getComponent().addPropertyChangeListener( new PropertyChangeListener() {
+			public void propertyChange( PropertyChangeEvent evt ) {
+				int cols = ( (Number)spnCols.getComponent().getValue() ).intValue();
+				srcElevationMap.getSelection().width = Math.max( srcElevationMap.getSelection().width, cols );
+				srcFlamabilityMap.getSelection().width = Math.max( srcFlamabilityMap.getSelection().width, cols );
+			}
+		} );
 		panel.add( spnCols );
 
 		pack();
