@@ -1,8 +1,8 @@
 
 package robertefry.firespread.model.grid;
 
+import java.awt.Point;
 import java.util.Set;
-import org.joml.Vector2i;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.Targetable;
 
@@ -12,10 +12,10 @@ import robertefry.penguin.engine.target.Targetable;
  */
 public class Cell implements Targetable {
 
-	private final Vector2i point;
+	private final Point point;
 	private final Terrain terrain;
 
-	public Cell( Vector2i point, Terrain terrain ) {
+	public Cell( Point point, Terrain terrain ) {
 		this.point = point;
 		this.terrain = terrain;
 	}
@@ -33,9 +33,9 @@ public class Cell implements Targetable {
 
 	@Override
 	public boolean equals( Object obj ) {
-		if (!(obj instanceof Cell)) return false;
-		if (!((Cell)obj).point.equals( point )) return false;
-		if (!((Cell)obj).terrain.equals( terrain )) return false;
+		if ( !( obj instanceof Cell ) ) return false;
+		if ( !( (Cell)obj ).point.equals( point ) ) return false;
+		if ( !( (Cell)obj ).terrain.equals( terrain ) ) return false;
 		return true;
 	}
 

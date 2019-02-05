@@ -24,7 +24,6 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 
 	private final ICImageMapLoading srcElevationMap = new ICImageMapLoading( "Elevation map", true );
 	private final ICImageMapLoading srcFlamabilityMap = new ICImageMapLoading( "Flamability map", true );
-	private final ICImageMapLoading srcMapTexture = new ICImageMapLoading( "Map Texture", false );
 
 	LabeledComponent<JSpinner> spnRows = new LabeledComponent<>(
 		"rows", new JSpinner( new SpinnerNumberModel( 1, 1, Integer.MAX_VALUE, 1 ) )
@@ -32,11 +31,14 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 	LabeledComponent<JSpinner> spnCols = new LabeledComponent<>(
 		"columns", new JSpinner( new SpinnerNumberModel( 1, 1, Integer.MAX_VALUE, 1 ) )
 	);
+	
+	// TODO UICellMapLoader rows & cols
+	// changing rows and cols also changes selection width & height
 
 	public UICellMapLoader() {
 
 		setTitle( "New map" );
-		contentPane.setPreferredSize( new Dimension( 446, 147 ) );
+		contentPane.setPreferredSize( new Dimension( 446, 112 ) );
 
 		SpringLayout layout = new SpringLayout();
 		contentPane.setLayout( layout );
@@ -51,14 +53,9 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 		layout.putConstraint( SpringLayout.EAST, srcFlamabilityMap, -10, SpringLayout.EAST, contentPane );
 		contentPane.add( srcFlamabilityMap );
 
-		layout.putConstraint( SpringLayout.NORTH, srcMapTexture, 10, SpringLayout.SOUTH, srcFlamabilityMap );
-		layout.putConstraint( SpringLayout.WEST, srcMapTexture, 10, SpringLayout.WEST, contentPane );
-		layout.putConstraint( SpringLayout.EAST, srcMapTexture, -10, SpringLayout.EAST, contentPane );
-		contentPane.add( srcMapTexture );
-
 		JPanel panel = new JPanel();
 		panel.setPreferredSize( new Dimension( 10, 22 ) );
-		layout.putConstraint( SpringLayout.NORTH, panel, 10, SpringLayout.SOUTH, srcMapTexture );
+		layout.putConstraint( SpringLayout.NORTH, panel, 10, SpringLayout.SOUTH, srcFlamabilityMap );
 		layout.putConstraint( SpringLayout.WEST, panel, 10, SpringLayout.WEST, contentPane );
 		layout.putConstraint( SpringLayout.EAST, panel, -10, SpringLayout.EAST, contentPane );
 		contentPane.add( panel );

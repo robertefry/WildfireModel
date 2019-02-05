@@ -1,11 +1,11 @@
 
 package robertefry.firespread.model.grid;
 
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import org.joml.Vector2i;
 import robertefry.firespread.model.map.CellMap;
 import robertefry.firespread.model.math.Space;
 import robertefry.penguin.engine.Engine;
@@ -21,17 +21,21 @@ public class Grid implements Targetable {
 	private CellMap cells = new CellMap();
 
 	public void build( CellMap cells ) {
+		cells.forEach( ( point, cell ) -> {
+			System.out.println( "cell @ " + point );
+		} );
+		// TODO remove
 		this.cells = cells;
 		space.setBounds( 0, 0, 0, 0 );
 		cells.forEach( ( point, cell ) -> {
-			space.put( point );
+			space.include( point );
 		} );
 	}
 
 	@Override
 	public void tick( Engine engine ) {
 		Targetable.super.tick( engine );
-		Map<Vector2i,Cell> nextcells = new HashMap<>();
+		Map<Point,Cell> nextcells = new HashMap<>();
 		Set<Cell> localcells = new HashSet<>();
 		cells.forEach( ( point, cell ) -> {
 			localcells.clear();

@@ -62,7 +62,7 @@ public class Application {
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "cellmap fetch failed", e1 );
 					}
-					if (frmCellMapLoader.hasFetched()) Model.getGrid().build( cellmap );
+					if ( frmCellMapLoader.hasFetched() ) Model.getGrid().build( cellmap );
 				} ).start();
 			}
 		} );

@@ -91,6 +91,6 @@ public class UIImageMapSettings extends UIDialog<Space> {
 		final int y = ( (Number)litfSelectionY.getComponent().getValue() ).intValue();
 		final int w = ( (Number)litfSelectionWid.getComponent().getValue() ).intValue();
 		final int h = ( (Number)litfSelectionHei.getComponent().getValue() ).intValue();
-		return new Space( x, y, x + w, y + h );
+		return new Space( x, y, w, h );
 	}
 }

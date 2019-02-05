@@ -3,9 +3,9 @@ package robertefry.firespread.model.map;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
-import org.joml.Vector2i;
 import robertefry.firespread.model.math.Space;
 
 /**
@@ -25,7 +25,7 @@ public class ImageMap implements Iterable<Color> {
 	public ImageMap scale( int width, int height ) {
 		BufferedImage scaled = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
 		Graphics g = scaled.getGraphics();
-		g.drawImage( image, 0, 0, width, height, space.p1.x, space.p1.y, space.p2.x, space.p2.y, null );
+		g.drawImage( image, 0, 0, width, height, space.getP1().x, space.getP1().y, space.getP4().x, space.getP4().y, null );
 		g.dispose();
 		this.image = scaled;
 		this.space.setBounds( 0, 0, width, height );
@@ -47,7 +47,7 @@ public class ImageMap implements Iterable<Color> {
 
 	private final class Itr implements Iterator<Color> {
 
-		private final Iterator<Vector2i> itrspace = space.iterator();
+		private final Iterator<Point> itrspace = space.iterator();
 
 		@Override
 		public boolean hasNext() {
@@ -56,7 +56,7 @@ public class ImageMap implements Iterable<Color> {
 
 		@Override
 		public Color next() {
-			Vector2i next = itrspace.next();
+			Point next = itrspace.next();
 			return new Color( image.getRGB( next.x, next.y ) );
 		}
 

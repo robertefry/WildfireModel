@@ -1,122 +1,108 @@
 
 package robertefry.firespread.model.math;
 
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.Iterator;
-import org.joml.Vector2i;
 
 /**
  * @author Robert E Fry
  * @date 1 Feb 2019
  */
-public class Space implements Iterable<Vector2i> {
-
-	public final Vector2i p1, p2;
+public class Space extends Rectangle implements Iterable<Point> {
+	private static final long serialVersionUID = 4663815306240176855L;
 
 	public Space() {
-		this.p1 = new Vector2i( 0, 0 );
-		this.p2 = new Vector2i( 0, 0 );
+		super( 0, 0, 0, 0 );
 	}
 
-	public Space( int p1x, int p1y, int p2x, int p2y ) {
-		this.p1 = new Vector2i( p1x, p1y );
-		this.p2 = new Vector2i( p2x, p2y );
+	public Space( Rectangle r ) {
+		super( r.x, r.y, r.width, r.height );
 	}
 
-	public Space( Vector2i p1, Vector2i p2 ) {
-		this.p1 = new Vector2i( p1 );
-		this.p2 = new Vector2i( p2 );
+	public Space( int x, int y, int width, int height ) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 
-	public Space( Space space ) {
-		this.p1 = new Vector2i( space.p1 );
-		this.p2 = new Vector2i( space.p2 );
+	public Space( int width, int height ) {
+		super( 0, 0, width, height );
 	}
 
-	public void put( Vector2i point ) {
-		this.p1.min( point );
-		this.p1.max( point );
-		this.p2.min( point );
-		this.p2.max( point );
+	public Space( Point p, Dimension d ) {
+		super( p.x, p.y, d.width, d.height );
 	}
 
-	public Space getLocalRegion( Vector2i origin, int radius ) {
-		final int x1 = Math.max( p1.x, origin.x - radius );
-		final int y1 = Math.max( p1.y, origin.y - radius );
-		final int x2 = Math.min( p2.x, origin.x + radius );
-		final int y2 = Math.min( p2.y, origin.y + radius );
-		return new Space( x1, y1, x2, y2 );
+	public Space( Point p ) {
+		super( p.x, p.y, 0, 0 );
+	}
+
+	public Space( Dimension d ) {
+		super( 0, 0, d.width, d.height );
+	}
+
+	public Space getLocalRegion( Point point, int radius ) {
+		return getLocalRegion( point, radius, radius );
+	}
+
+	public Space getLocalRegion( Point point, int xDist, int yDist ) {
+		return new Space( point.x - xDist, point.y - yDist, 2 * xDist, 2 * yDist );
+	}
+
+	public void include( Point point ) {
+		include( point.x, point.y );
+	}
+
+	public void include( int x, int y ) {
+		this.x = Math.min( x, this.x );
+		this.y = Math.min( y, this.y );
+		this.width = Math.max( x, this.x + this.width ) - x;
+		this.height = Math.max( y, this.y + this.height ) - y;
+	}
+
+	public Point getP1() {
+		return new Point( x, y );
+	}
+
+	public Point getP2() {
+		return new Point( x + width, y );
+	}
+
+	public Point getP3() {
+		return new Point( x, y + height );
+	}
+
+	public Point getP4() {
+		return new Point( x + width, y + height );
 	}
 
 	@Override
-	public Iterator<Vector2i> iterator() {
+	public Iterator<Point> iterator() {
 		return new Itr();
 	}
 
-	private final class Itr implements Iterator<Vector2i> {
+	private final class Itr implements Iterator<Point> {
 
-		private final Vector2i point = new Vector2i( p1 );
+		private final Point point = new Point( x, y );
 
 		@Override
 		public boolean hasNext() {
-			return point.distance( 0, 0 ) < p1.distance( 0, 0 );
+			return point.x <= x + width && point.y <= y + height;
 		}
 
 		@Override
-		public Vector2i next() {
+		public Point next() {
 			point.x++;
-			if (point.x > p2.x) {
-				point.x = p1.x;
+			if ( point.x > x + width ) {
+				point.x = x;
 				point.y++;
 			}
 			return point;
 		}
 
-	}
-
-	public void setBounds( Space space ) {
-		this.p1.set( space.p1 );
-		this.p2.set( space.p2 );
-	}
-
-	public void setBounds( Vector2i p1, Vector2i p2 ) {
-		this.p1.set( p1 );
-		this.p2.set( p2 );
-	}
-
-	public void setBounds( int p1x, int p1y, int p2x, int p2y ) {
-		this.p1.set( p1x, p1y );
-		this.p2.set( p2x, p2y );
-	}
-
-	public int getX() {
-		return p1.x;
-	}
-
-	public int getY() {
-		return p1.y;
-	}
-
-	public int getWidth() {
-		return p2.x - p1.x;
-	}
-
-	public int getHeight() {
-		return p2.y - p1.y;
-	}
-
-	@Override
-	public boolean equals( Object obj ) {
-		if (!( obj instanceof Space )) {
-			return false;
-		} else {
-			Space space = (Space)obj;
-			return space.p1.equals( this.p1 ) && space.p2.equals( this.p2 );
-		}
-	}
-
-	@Override
-	public String toString() {
-		return String.format( "space[x=%s,y=%s,width=%s,height=%s]", getX(), getY(), getWidth(), getHeight() );
 	}
 
 }
