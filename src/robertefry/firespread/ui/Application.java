@@ -13,9 +13,9 @@ import javax.swing.JMenuItem;
 import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
-import robertefry.firespread.model.map.CellMap;
+import robertefry.firespread.model.map.CellSet;
 import robertefry.firespread.ui.controller.UIController;
-import robertefry.firespread.ui.maploader.UICellMapLoader;
+import robertefry.firespread.ui.maploader.UICellSetLoader;
 
 /**
  * @author Robert E Fry
@@ -51,18 +51,18 @@ public class Application {
 		mntmNewMap.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new Thread( () -> {
-					UICellMapLoader frmCellMapLoader = new UICellMapLoader();
-					frmCellMapLoader.setLocationRelativeTo( frmMainModel );
-					frmCellMapLoader.setVisible( true );
+					UICellSetLoader frmCellSetLoader = new UICellSetLoader();
+					frmCellSetLoader.setLocationRelativeTo( frmMainModel );
+					frmCellSetLoader.setVisible( true );
 					Model.getEngine().suspend();
-					CellMap cellmap = null;
+					CellSet cellset = null;
 					try {
-						cellmap = frmCellMapLoader.fetch();
+						cellset = frmCellSetLoader.fetch();
 					} catch ( CancellationException e1 ) {
 					} catch ( InterruptedException | ExecutionException e1 ) {
-						LogFactory.getLog( getClass() ).error( "cellmap fetch failed", e1 );
+						LogFactory.getLog( getClass() ).error( "cellset fetch failed", e1 );
 					}
-					if ( frmCellMapLoader.hasFetched() ) Model.getGrid().build( cellmap );
+					if (frmCellSetLoader.hasFetched()) Model.getGrid().build( cellset );
 				} ).start();
 			}
 		} );

@@ -3,19 +3,18 @@ package robertefry.firespread.model.map;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.function.Function;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.grid.Cell;
 
-public class CellMap extends HashMap<Point,Cell> {
+public class CellSet extends HashSet<Cell> {
 	private static final long serialVersionUID = 679788250901661598L;
 
-	public CellMap() {
+	public CellSet() {
 	}
 
-	public CellMap(
+	public CellSet(
 		int rows, int cols,
 		ImageMap elevationmap, Function<Integer,Float> elevationconversion,
 		ImageMap flamabilitymap, Function<Integer,Float> flamabilityConversion
@@ -27,16 +26,13 @@ public class CellMap extends HashMap<Point,Cell> {
 		for ( int x = 0; x < cols; x++ ) for ( int y = 0; y < rows; y++ ) {
 			float elevation = elevationconversion.apply( elevationmap.getImage().getRGB( x, y ) );
 			float flamability = flamabilityConversion.apply( flamabilitymap.getImage().getRGB( x, y ) );
-			Cell cell = new Cell( new Rectangle( x * size, y * size, size, size ), elevation, flamability );
-			this.put( new Point( x * size, y * size ), cell );
+			this.add( new Cell( new Rectangle( x * size, y * size, size, size ), elevation, flamability ) );
 		}
 	}
 
 	public Cell getCell( Point point ) {
-		for ( Cell cell : values() ) {
-			if ( cell.getBounds().contains( point ) ) {
-				return cell;
-			}
+		for ( Cell cell : this ) {
+			if (cell.getBounds().contains( point )) { return cell; }
 		}
 		return null;
 	}

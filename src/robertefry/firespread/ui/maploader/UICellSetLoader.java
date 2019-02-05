@@ -11,7 +11,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import robertefry.firespread.io.Resource;
-import robertefry.firespread.model.map.CellMap;
+import robertefry.firespread.model.map.CellSet;
 import robertefry.firespread.model.map.Conversions;
 import robertefry.firespread.model.map.ImageMap;
 import robertefry.firespread.ui.atomic.LabeledComponent;
@@ -21,7 +21,7 @@ import robertefry.firespread.ui.dialog.UIDialog;
  * @author Robert E Fry
  * @date 1 Feb 2019
  */
-public class UICellMapLoader extends UIDialog<CellMap> {
+public class UICellSetLoader extends UIDialog<CellSet> {
 	private static final long serialVersionUID = 1557112471549371181L;
 
 	private final ICImageMapLoading srcElevationMap = new ICImageMapLoading( "Elevation map", true );
@@ -34,7 +34,7 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 		"columns", new JSpinner( new SpinnerNumberModel( 1, 1, Integer.MAX_VALUE, 1 ) )
 	);
 
-	public UICellMapLoader() {
+	public UICellSetLoader() {
 
 		setTitle( "New map" );
 		contentPane.setPreferredSize( new Dimension( 446, 112 ) );
@@ -65,7 +65,7 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 		spnRows.getLabel().setPreferredSize( new Dimension( 50, 14 ) );
 		spnRows.getComponent().addPropertyChangeListener( new PropertyChangeListener() {
 			public void propertyChange( PropertyChangeEvent evt ) {
-				int rows = ( (Number)spnRows.getComponent().getValue() ).intValue();
+				int rows = ((Number)spnRows.getComponent().getValue()).intValue();
 				srcElevationMap.getSelection().height = Math.max( srcElevationMap.getSelection().height, rows );
 				srcFlamabilityMap.getSelection().height = Math.max( srcFlamabilityMap.getSelection().height, rows );
 			}
@@ -77,7 +77,7 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 		spnCols.getLabel().setPreferredSize( new Dimension( 50, 14 ) );
 		spnCols.getComponent().addPropertyChangeListener( new PropertyChangeListener() {
 			public void propertyChange( PropertyChangeEvent evt ) {
-				int cols = ( (Number)spnCols.getComponent().getValue() ).intValue();
+				int cols = ((Number)spnCols.getComponent().getValue()).intValue();
 				srcElevationMap.getSelection().width = Math.max( srcElevationMap.getSelection().width, cols );
 				srcFlamabilityMap.getSelection().width = Math.max( srcFlamabilityMap.getSelection().width, cols );
 			}
@@ -94,16 +94,16 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 	}
 
 	@Override
-	protected CellMap getReturn() {
+	protected CellSet getReturn() {
 		ImageMap elevationmap = new ImageMap(
 			Resource.loadImage( srcElevationMap.getText() ), srcElevationMap.getSelection()
 		);
 		ImageMap flamabilitymap = new ImageMap(
 			Resource.loadImage( srcFlamabilityMap.getText() ), srcFlamabilityMap.getSelection()
 		);
-		return new CellMap(
-			( (Number)spnRows.getComponent().getValue() ).intValue(),
-			( (Number)spnCols.getComponent().getValue() ).intValue(),
+		return new CellSet(
+			((Number)spnRows.getComponent().getValue()).intValue(),
+			((Number)spnCols.getComponent().getValue()).intValue(),
 			elevationmap, Conversions.getElevationMapConversion(),
 			flamabilitymap, Conversions.getFlamabilityMapConversion()
 		);
