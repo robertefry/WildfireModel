@@ -12,9 +12,9 @@ import tips4java.RotatedIcon;
  * @author Robert E Fry
  * @date 28 Jan 2019
  */
-@SuppressWarnings( "serial" )
 public class RotatingIcon extends JComponent {
-
+	private static final long serialVersionUID = -9107221555323021103L;
+	
 	private final JLabel label = new JLabel();
 	private final AnimatedIcon animation;
 

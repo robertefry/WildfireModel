@@ -19,9 +19,9 @@ import robertefry.firespread.ui.atomic.ToolTipTextField;
  * @author Robert E Fry
  * @date 29 Jan 2019
  */
-@SuppressWarnings( "serial" )
 public class ICImageMapLoading extends JPanel {
-
+	private static final long serialVersionUID = 739973722131778461L;
+	
 	private final LabeledComponent<
 		ToolTipTextField> textComponent = new LabeledComponent<>( "", new ToolTipTextField() );
 	private final Space selection = new Space( 0, 0, 0, 0 );

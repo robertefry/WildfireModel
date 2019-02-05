@@ -21,8 +21,8 @@ import robertefry.penguin.engine.targets.SimpleCounter;
  * @author Robert E Fry
  * @date 4 Feb 2019
  */
-@SuppressWarnings( "serial" )
 public class ICIteration extends JPanel {
+	private static final long serialVersionUID = 1126678209073859219L;
 
 	/**
 	 * Create the panel.

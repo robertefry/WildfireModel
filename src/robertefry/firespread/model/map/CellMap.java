@@ -6,9 +6,9 @@ import java.util.function.Function;
 import robertefry.firespread.model.grid.Cell;
 import robertefry.firespread.model.grid.Terrain;
 
-@SuppressWarnings( "serial" )
 public class CellMap extends TypeMap<Cell> {
-	
+	private static final long serialVersionUID = 679788250901661598L;
+
 	public CellMap() {
 	}
 	

@@ -19,8 +19,8 @@ import robertefry.penguin.engine.targets.SimpleTimer;
  * @author Robert E Fry
  * @date 4 Feb 2019
  */
-@SuppressWarnings( "serial" )
 public class ICRefreshRate extends JPanel {
+	private static final long serialVersionUID = -2128361965375480595L;
 
 	/**
 	 * Create the panel.

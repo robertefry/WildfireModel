@@ -14,9 +14,9 @@ import robertefry.firespread.ui.dialog.UIDialog;
  * @author Robert E Fry
  * @date 1 Feb 2019
  */
-@SuppressWarnings( "serial" )
 public class UIImageMapSettings extends UIDialog<Space> {
-
+	private static final long serialVersionUID = 3254004359139003291L;
+	
 	private final LabeledComponent<JSpinner> litfSelectionX;
 	private final LabeledComponent<JSpinner> litfSelectionY;
 	private final LabeledComponent<JSpinner> litfSelectionWid;

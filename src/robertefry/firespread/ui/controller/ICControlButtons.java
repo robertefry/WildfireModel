@@ -12,8 +12,8 @@ import robertefry.firespread.model.Model;
  * @author Robert E Fry
  * @date 4 Feb 2019
  */
-@SuppressWarnings( "serial" )
 public class ICControlButtons extends JPanel {
+	private static final long serialVersionUID = 3938882238925642865L;
 
 	/**
 	 * Create the panel.

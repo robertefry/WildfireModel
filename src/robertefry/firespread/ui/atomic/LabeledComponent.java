@@ -10,9 +10,9 @@ import javax.swing.JPanel;
  * @author Robert E Fry
  * @date 1 Feb 2019
  */
-@SuppressWarnings( "serial" )
 public class LabeledComponent< T extends JComponent > extends JPanel {
-
+	private static final long serialVersionUID = -7138900481562102293L;
+	
 	private final JLabel label = new JLabel();
 	private final T component;
 
