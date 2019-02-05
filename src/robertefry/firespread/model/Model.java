@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.grid.Grid;
 import robertefry.penguin.engine.Engine;
+import robertefry.penguin.engine.listener.EngineLogicListener;
 
 /**
  * @author Robert E Fry
