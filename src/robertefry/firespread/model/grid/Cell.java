@@ -55,10 +55,19 @@ public class Cell implements Targetable {
 		Targetable.super.render( engine );
 		state.drawCall.accept( Renderer.getGraphics(), rect );
 	}
+	
+	public Rectangle getLocalRegion() {
+		int x = rect.x - rect.width;
+		int y = rect.y - rect.height;
+		int w = rect.width * 3;
+		int h = rect.height * 3;
+		return new Rectangle( x, y, w, h );
+	}
 
+	// TODO change to EnumCellState not Cell
+	// change grid next() method to update existing cells, not replace
 	public Cell getNext( Set<Cell> localRegion ) {
 		// TODO review Cell::getNext( Set<Cell> )
-		// TODO fix local region
 		localRegion.forEach( cell -> {
 			if (cell.isBurning()) {
 				if (canBurn()) state = EnumCellState.BURNING;

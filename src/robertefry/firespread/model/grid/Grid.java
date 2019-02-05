@@ -1,11 +1,10 @@
 
 package robertefry.firespread.model.grid;
 
-import java.awt.Dimension;
 import java.awt.Point;
-import java.util.HashMap;
-import java.util.Map;
-import robertefry.firespread.graphic.Renderer;
+import java.awt.Rectangle;
+import java.util.HashSet;
+import java.util.Set;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.map.CellSet;
 import robertefry.penguin.engine.Engine;
@@ -17,19 +16,16 @@ import robertefry.penguin.engine.target.Target;
  */
 public class Grid extends Target {
 
-	private CellSet cells = new CellSet();
+	private final CellSet cells = new CellSet();
 
-	public void build( CellSet cells ) {
+	public void build( Set<Cell> cells ) {
 		this.cells.forEach( cell -> {
 			removeSubTarget( cell );
 		} );
-		this.cells = cells;
+		this.cells.clear();
+		this.cells.addAll( cells );
 		cells.forEach( cell -> {
 			addSubTarget( cell );
-		} );
-		Model.getEngine().addPreCycleTask( () -> {
-			Dimension size = Renderer.getCanvas().getSize();
-			Renderer.getGraphics().clearRect( 0, 0, size.width, size.height );
 		} );
 		Model.getEngine().forceRender();
 	}
@@ -42,8 +38,18 @@ public class Grid extends Target {
 	@Override
 	public void tick( Engine engine ) {
 		super.tick( engine );
-		Map<Point,Cell> nextcells = new HashMap<>();
-		// TODO get next cells
+		Set<Cell> nextCells = new HashSet<>();
+		cells.forEach( cell -> {
+			Rectangle localRegion = cell.getLocalRegion();
+			Set<Cell> localCells = new HashSet<>( 9 );
+			cells.forEach( localCell -> {
+				if (localRegion.contains( localCell.getBounds().getLocation() )) {
+					localCells.add( localCell );
+				}
+			} );
+			nextCells.add( cell.getNext( localCells ) );
+		} );
+		build( nextCells );
 	}
 
 }
