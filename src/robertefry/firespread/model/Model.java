@@ -9,7 +9,7 @@ import robertefry.penguin.engine.Engine;
  * @date 25 Jan 2019
  */
 public class Model {
-	
+
 	// TODO clear the screen before every render
 
 	private static final Engine engine = new Engine();

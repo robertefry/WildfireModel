@@ -34,9 +34,6 @@ public class UICellMapLoader extends UIDialog<CellMap> {
 		"columns", new JSpinner( new SpinnerNumberModel( 1, 1, Integer.MAX_VALUE, 1 ) )
 	);
 
-	// TODO UICellMapLoader rows & cols
-	// changing rows and cols also changes selection width & height
-
 	public UICellMapLoader() {
 
 		setTitle( "New map" );

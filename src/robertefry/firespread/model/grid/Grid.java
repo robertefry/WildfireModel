@@ -1,11 +1,14 @@
 
 package robertefry.firespread.model.grid;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import robertefry.firespread.graphic.Renderer;
+import robertefry.firespread.model.Model;
 import robertefry.firespread.model.map.CellMap;
 import robertefry.firespread.model.math.Space;
 import robertefry.penguin.engine.Engine;
@@ -30,6 +33,11 @@ public class Grid extends Target {
 			space.include( point );
 			addSubTarget( cell );
 		} );
+		Model.getEngine().addPreCycleTask( () -> {
+			Dimension size = Renderer.getCanvas().getSize();
+			Renderer.getGraphics().clearRect( 0, 0, size.width, size.height );
+		} );
+		Model.getEngine().forceRender();
 	}
 
 	@Override
