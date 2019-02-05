@@ -40,6 +40,11 @@ public class Grid extends Target {
 		Model.getEngine().forceRender();
 	}
 
+	public void interceptClick( Point point ) {
+		Cell cell = cells.getCell( point );
+		cell.iterateState();
+	}
+
 	@Override
 	public void tick( Engine engine ) {
 		super.tick( engine );

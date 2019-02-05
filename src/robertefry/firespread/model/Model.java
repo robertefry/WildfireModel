@@ -1,6 +1,9 @@
 
 package robertefry.firespread.model;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.grid.Grid;
 import robertefry.penguin.engine.Engine;
 
@@ -16,10 +19,19 @@ public class Model {
 	private static final Grid grid = new Grid();
 
 	static {
+
+		// TODO intercept mouse clicks for editing
+		Renderer.getCanvas().addMouseListener( new MouseAdapter() {
+			public void mouseClicked( MouseEvent e ) {
+				grid.interceptClick( e.getPoint() );
+			}
+		} );
+
 		engine.getTargetManager().add( grid );
 		engine.setRefreshRate( 1 );
 		engine.suspend();
 		engine.start();
+
 	}
 
 	public static Engine getEngine() {

@@ -8,7 +8,7 @@ import java.util.Random;
  * @author Robert E Fry
  * @date 4 Feb 2019
  */
-public class Colors {
+public class ColorUtil {
 
 	public static Color newRandomColor() {
 		Random rand = new Random( System.nanoTime() );
