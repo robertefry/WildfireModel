@@ -11,10 +11,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import org.apache.commons.logging.LogFactory;
-import robertefry.firespread.math.GridSpace;
+import robertefry.firespread.model.math.Space;
 import robertefry.firespread.ui.atomic.LabeledComponent;
 import robertefry.firespread.ui.atomic.ToolTipTextField;
-import robertefry.firespread.ui.dialog.UIDialog;
 
 /**
  * @author Robert E Fry
@@ -22,15 +21,15 @@ import robertefry.firespread.ui.dialog.UIDialog;
  */
 public class ICImageMapLoading extends JPanel {
 	private static final long serialVersionUID = 739973722131778461L;
-
+	
 	private final LabeledComponent<
-		ToolTipTextField > textComponent = new LabeledComponent<>( "", new ToolTipTextField() );
-	private final GridSpace selection = new GridSpace( 0, 0, 0, 0 );
+		ToolTipTextField> textComponent = new LabeledComponent<>( "", new ToolTipTextField() );
+	private final Space selection = new Space( 0, 0, 0, 0 );
 
 	private void open() {
 		JFileChooser fileChooser = new JFileChooser();
 		int opened = fileChooser.showOpenDialog( this );
-		if ( opened == JFileChooser.APPROVE_OPTION ) {
+		if (opened == JFileChooser.APPROVE_OPTION) {
 			textComponent.getComponent().setText( fileChooser.getSelectedFile().getAbsolutePath() );
 		}
 	}
@@ -57,10 +56,10 @@ public class ICImageMapLoading extends JPanel {
 		btnProperties.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new Thread( () -> {
-					UIDialog< GridSpace > settings = new UIImageMapSettings( selection );
+					UIImageMapSettings settings = new UIImageMapSettings( selection );
 					settings.setLocationRelativeTo( textComponent );
 					settings.setVisible( true );
-					GridSpace space = null;
+					Space space = null;
 					try {
 						space = settings.fetch();
 					} catch ( CancellationException e1 ) {
@@ -103,7 +102,7 @@ public class ICImageMapLoading extends JPanel {
 		return textComponent.getComponent().getText();
 	}
 
-	public GridSpace getSelection() {
+	public Space getSelection() {
 		return selection;
 	}
 

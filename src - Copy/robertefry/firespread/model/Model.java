@@ -20,8 +20,7 @@ public class Model {
 
 		Renderer.getCanvas().addMouseListener( new MouseAdapter() {
 			public void mouseClicked( MouseEvent e ) {
-				// TODO click intercepts
-				// grid.interceptClick( e.getPoint() );
+				grid.interceptClick( e.getPoint() );
 			}
 		} );
 

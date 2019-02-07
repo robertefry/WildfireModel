@@ -2,54 +2,64 @@
 package robertefry.firespread.model.grid;
 
 import java.awt.Point;
-import java.awt.Rectangle;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-import robertefry.firespread.model.Model;
-import robertefry.firespread.model.map.CellSet;
+import robertefry.firespread.math.GridSpace;
+import robertefry.firespread.model.cell.Cell;
 import robertefry.penguin.engine.Engine;
-import robertefry.penguin.engine.target.Target;
+import robertefry.penguin.engine.target.TargetAdapter;
 
 /**
  * @author Robert E Fry
- * @date 25 Jan 2019
+ * @date 7 Feb 2019
  */
-public class Grid extends Target {
+public class Grid implements TargetAdapter {
 
-	private final CellSet cells = new CellSet();
+	public static final int LOCAL_RADIUS = 1;
 
-	public void build( Set<Cell> cells ) {
-		this.cells.forEach( cell -> {
-			removeSubTarget( cell );
-		} );
+	private final GridSpace space = new GridSpace();
+	private final Map< Point, Cell > cells = new HashMap<>();
+
+	public void rebuild( Set< Cell > cells ) {
+		this.space.clear();
 		this.cells.clear();
-		this.cells.addAll( cells );
 		cells.forEach( cell -> {
-			addSubTarget( cell );
+			Point location = cell.getLocation();
+			this.space.add( location );
+			this.cells.put( location, cell );
 		} );
-		Model.getEngine().forceRender();
 	}
 
-	public void interceptClick( Point point ) {
-		Cell cell = cells.getCell( point );
-		cell.iterateState();
+	public Set< Cell > getLocalRegion( Point origin ) {
+		Set< Cell > localcells = new HashSet<>();
+		GridSpace localspace = new GridSpace(
+			origin.x - LOCAL_RADIUS, origin.y - LOCAL_RADIUS, 2 * LOCAL_RADIUS, 2 * LOCAL_RADIUS
+		);
+		space.intersection( localspace ).forEach( point -> {
+			localcells.add( cells.get( point ) );
+		} );
+		return localcells;
+	}
+
+	@Override
+	public void render( Engine engine ) {
+		TargetAdapter.super.render( engine );
+		cells.values().forEach( cell -> {
+			cell.render( engine );
+		} );
 	}
 
 	@Override
 	public void tick( Engine engine ) {
-		super.tick( engine );
-		Set<Cell> nextCells = new HashSet<>();
-		cells.forEach( cell -> {
-			Rectangle localRegion = cell.getLocalRegion();
-			Set<Cell> localCells = new HashSet<>( 9 );
-			cells.forEach( localCell -> {
-				if (localRegion.contains( localCell.getBounds().getLocation() )) {
-					localCells.add( localCell );
-				}
-			} );
-			nextCells.add( cell.getNext( localCells ) );
+		TargetAdapter.super.tick( engine );
+		cells.values().forEach( cell -> {
+			cell.prepNext( getLocalRegion( cell.getLocation() ) );
 		} );
-		build( nextCells );
+		cells.values().forEach( cell -> {
+			cell.next();
+		} );
 	}
 
 }

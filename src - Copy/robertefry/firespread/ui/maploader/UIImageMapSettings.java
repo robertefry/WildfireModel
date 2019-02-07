@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
-import robertefry.firespread.math.GridSpace;
+import robertefry.firespread.model.math.Space;
 import robertefry.firespread.ui.atomic.LabeledComponent;
 import robertefry.firespread.ui.dialog.UIDialog;
 
@@ -14,18 +14,18 @@ import robertefry.firespread.ui.dialog.UIDialog;
  * @author Robert E Fry
  * @date 1 Feb 2019
  */
-public class UIImageMapSettings extends UIDialog< GridSpace > {
+public class UIImageMapSettings extends UIDialog<Space> {
 	private static final long serialVersionUID = 3254004359139003291L;
-
-	private final LabeledComponent< JSpinner > litfSelectionX;
-	private final LabeledComponent< JSpinner > litfSelectionY;
-	private final LabeledComponent< JSpinner > litfSelectionWid;
-	private final LabeledComponent< JSpinner > litfSelectionHei;
+	
+	private final LabeledComponent<JSpinner> litfSelectionX;
+	private final LabeledComponent<JSpinner> litfSelectionY;
+	private final LabeledComponent<JSpinner> litfSelectionWid;
+	private final LabeledComponent<JSpinner> litfSelectionHei;
 
 	/**
 	 * Create the frame.
 	 */
-	public UIImageMapSettings( GridSpace space ) {
+	public UIImageMapSettings( Space space ) {
 
 		litfSelectionX = new LabeledComponent<>(
 			"Selection X", new JSpinner( new SpinnerNumberModel( space.getX(), 0, Integer.MAX_VALUE, 1 ) )
@@ -86,11 +86,11 @@ public class UIImageMapSettings extends UIDialog< GridSpace > {
 	}
 
 	@Override
-	protected GridSpace getReturn() {
+	protected Space getReturn() {
 		final int x = ( (Number)litfSelectionX.getComponent().getValue() ).intValue();
 		final int y = ( (Number)litfSelectionY.getComponent().getValue() ).intValue();
 		final int w = ( (Number)litfSelectionWid.getComponent().getValue() ).intValue();
 		final int h = ( (Number)litfSelectionHei.getComponent().getValue() ).intValue();
-		return new GridSpace( x, y, w, h );
+		return new Space( x, y, w, h );
 	}
 }

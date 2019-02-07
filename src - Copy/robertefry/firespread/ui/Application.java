@@ -4,7 +4,6 @@ package robertefry.firespread.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JFrame;
@@ -14,9 +13,8 @@ import javax.swing.JMenuItem;
 import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
-import robertefry.firespread.model.cell.Cell;
+import robertefry.firespread.model.map.CellSet;
 import robertefry.firespread.ui.controller.UIController;
-import robertefry.firespread.ui.dialog.UIDialog;
 import robertefry.firespread.ui.maploader.UICellSetLoader;
 
 /**
@@ -53,22 +51,18 @@ public class Application {
 		mntmNewMap.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new Thread( () -> {
-					UIDialog< Set< Cell > > frmCellSetLoader = new UICellSetLoader();
+					UICellSetLoader frmCellSetLoader = new UICellSetLoader();
 					frmCellSetLoader.setLocationRelativeTo( frmMainModel );
 					frmCellSetLoader.setVisible( true );
 					Model.getEngine().suspend();
-					Set< Cell > cellset = null;
+					CellSet cellset = null;
 					try {
 						cellset = frmCellSetLoader.fetch();
 					} catch ( CancellationException e1 ) {
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "cellset fetch failed", e1 );
 					}
-					if ( frmCellSetLoader.hasFetched() ) {
-						Model.getEngine().suspend();
-						Model.getGrid().rebuild( cellset );
-						Model.getEngine().forceRender();
-					}
+					if (frmCellSetLoader.hasFetched()) Model.getGrid().build( cellset );
 				} ).start();
 			}
 		} );
