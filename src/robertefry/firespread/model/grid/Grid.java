@@ -1,11 +1,11 @@
 
 package robertefry.firespread.model.grid;
 
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import robertefry.firespread.math.GridSpace;
 import robertefry.firespread.model.cell.Cell;
 import robertefry.penguin.engine.Engine;
@@ -21,26 +21,40 @@ public class Grid implements TargetAdapter {
 
 	private final GridSpace space = new GridSpace();
 	private final Map< Point, Cell > cells = new HashMap<>();
+	private Rectangle drawSpace = new Rectangle( 0, 0, 0, 0 );
 
-	public void rebuild( Set< Cell > cells ) {
-		this.space.clear();
+	public void rebuild( Map< Point, Cell > cells ) {
+		this.space.setBounds( 0, 0, 0, 0 );
 		this.cells.clear();
-		cells.forEach( cell -> {
-			Point location = cell.getLocation();
-			this.space.add( location );
-			this.cells.put( location, cell );
+		cells.forEach( ( point, cell ) -> {
+			this.space.put( point );
+			this.cells.put( point, cell );
 		} );
+		setCellDrawspace();
+		System.out.println( space.getWidth() + " " + space.getHeight() );
 	}
 
-	public Set< Cell > getLocalRegion( Point origin ) {
-		Set< Cell > localcells = new HashSet<>();
-		GridSpace localspace = new GridSpace(
-			origin.x - LOCAL_RADIUS, origin.y - LOCAL_RADIUS, 2 * LOCAL_RADIUS, 2 * LOCAL_RADIUS
-		);
-		space.intersection( localspace ).forEach( point -> {
-			localcells.add( cells.get( point ) );
+	public void setDrawSpace( Rectangle drawSpace ) {
+		this.drawSpace = drawSpace;
+		setCellDrawspace();
+	}
+
+	public void setDrawSpace( Dimension dimension ) {
+		int size = Math.min( dimension.width, dimension.height );
+		int x = (int)( ( dimension.width - size ) / 2 );
+		int y = (int)( ( dimension.height - size ) / 2 );
+		setDrawSpace( new Rectangle( x, y, size, size ) );
+	}
+
+	public void setCellDrawspace() {
+		if ( space.getWidth() * space.getHeight() == 0 ) return;
+		int width = drawSpace.width / space.getWidth();
+		int height = drawSpace.height / space.getHeight();
+		cells.values().forEach( cell -> {
+			int x = width * cell.getLocation().x;
+			int y = height * cell.getLocation().y;
+			cell.setDrawspace( new Rectangle( drawSpace.x + x, drawSpace.y + y, width, height ) );
 		} );
-		return localcells;
 	}
 
 	@Override
@@ -54,11 +68,11 @@ public class Grid implements TargetAdapter {
 	@Override
 	public void tick( Engine engine ) {
 		TargetAdapter.super.tick( engine );
-		cells.values().forEach( cell -> {
-			cell.prepNext( getLocalRegion( cell.getLocation() ) );
+		cells.forEach( ( point, cell ) -> {
+			cell.prepNext( cells );
 		} );
 		cells.values().forEach( cell -> {
-			cell.next();
+			cell.makeNext();
 		} );
 	}
 

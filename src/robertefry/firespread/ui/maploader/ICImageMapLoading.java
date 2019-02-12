@@ -2,6 +2,7 @@
 package robertefry.firespread.ui.maploader;
 
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.CancellationException;
@@ -11,7 +12,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import org.apache.commons.logging.LogFactory;
-import robertefry.firespread.math.GridSpace;
 import robertefry.firespread.ui.atomic.LabeledComponent;
 import robertefry.firespread.ui.atomic.ToolTipTextField;
 import robertefry.firespread.ui.dialog.UIDialog;
@@ -25,7 +25,7 @@ public class ICImageMapLoading extends JPanel {
 
 	private final LabeledComponent<
 		ToolTipTextField > textComponent = new LabeledComponent<>( "", new ToolTipTextField() );
-	private final GridSpace selection = new GridSpace( 0, 0, 0, 0 );
+	private final Rectangle selection = new Rectangle( 0, 0, 0, 0 );
 
 	private void open() {
 		JFileChooser fileChooser = new JFileChooser();
@@ -57,10 +57,10 @@ public class ICImageMapLoading extends JPanel {
 		btnProperties.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new Thread( () -> {
-					UIDialog< GridSpace > settings = new UIImageMapSettings( selection );
+					UIDialog< Rectangle > settings = new UIImageMapSettings( selection );
 					settings.setLocationRelativeTo( textComponent );
 					settings.setVisible( true );
-					GridSpace space = null;
+					Rectangle space = null;
 					try {
 						space = settings.fetch();
 					} catch ( CancellationException e1 ) {
@@ -103,7 +103,7 @@ public class ICImageMapLoading extends JPanel {
 		return textComponent.getComponent().getText();
 	}
 
-	public GridSpace getSelection() {
+	public Rectangle getSelection() {
 		return selection;
 	}
 

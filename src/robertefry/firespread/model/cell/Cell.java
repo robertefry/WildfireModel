@@ -1,10 +1,14 @@
 
 package robertefry.firespread.model.cell;
 
+import java.awt.Graphics;
 import java.awt.Point;
-import java.util.Set;
+import java.awt.Rectangle;
+import java.util.Map;
+import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.type.Elevation;
 import robertefry.firespread.model.type.Terrain;
+import robertefry.firespread.util.ColorUtil;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.TargetAdapter;
 
@@ -14,7 +18,8 @@ import robertefry.penguin.engine.target.TargetAdapter;
  */
 public class Cell implements TargetAdapter {
 
-	private final Point location;
+	private Point location;
+	private Rectangle drawspace = new Rectangle( 0, 0, 0, 0 );
 	private Elevation elevation;
 	private Terrain terrain, next;
 
@@ -24,17 +29,23 @@ public class Cell implements TargetAdapter {
 		this.terrain = terrain;
 	}
 
+	public void setDrawspace( Rectangle drawspace ) {
+		this.drawspace = drawspace;
+	}
+
 	@Override
 	public void render( Engine engine ) {
 		TargetAdapter.super.render( engine );
-		// TODO Cell::render
+		Graphics g = Renderer.getGraphics();
+		g.setColor( ColorUtil.randomColor() );
+		g.fillRect( drawspace.x, drawspace.y, drawspace.width, drawspace.height );
 	}
 
-	public void prepNext( Set< Cell > cells ) {
+	public void prepNext( Map< Point, Cell > cells ) {
 		// TODO Cell::prepNext
 	}
 
-	public void next() {
+	public void makeNext() {
 		terrain = next;
 	}
 

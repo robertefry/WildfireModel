@@ -1,6 +1,8 @@
 
 package robertefry.firespread.model;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import robertefry.firespread.graphic.Renderer;
@@ -25,10 +27,17 @@ public class Model {
 			}
 		} );
 
-		engine.getTargetManager().add( grid );
-		engine.setRefreshRate( 1 );
-		engine.suspend();
-		engine.start();
+		Renderer.getCanvas().addComponentListener( new ComponentAdapter() {
+			public void componentResized( ComponentEvent e ) {
+				Model.grid.setDrawSpace( Renderer.getCanvas().getSize() );
+				Model.getEngine().forceRender();
+			};
+		} );
+
+		Model.engine.getTargetManager().add( grid );
+		Model.engine.setRefreshRate( 1 );
+		Model.engine.suspend();
+		Model.engine.start();
 
 	}
 

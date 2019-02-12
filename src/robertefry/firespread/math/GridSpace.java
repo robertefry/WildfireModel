@@ -4,234 +4,178 @@ package robertefry.firespread.math;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
-/**
- * @author Robert E Fry
- * @date 7 Feb 2019
- */
-public class GridSpace implements Collection< Point > {
+public class GridSpace implements Iterable< Point > {
 
-	private final Rectangle bounds;
+	private int x, y, width, height;
 
 	public GridSpace() {
-		bounds = new Rectangle( 0, 0, 0, 0 );
 	}
 
-	public GridSpace( GridSpace gs ) {
-		bounds = new Rectangle( gs.bounds.x, gs.bounds.y, gs.bounds.width, gs.bounds.height );
+	public GridSpace( GridSpace g ) {
+		this( g.x, g.y, g.width, g.height );
 	}
 
 	public GridSpace( int x, int y, int width, int height ) {
-		bounds = new Rectangle( x, y, width, height );
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 
-	public GridSpace( Point point, Dimension size ) {
-		bounds = new Rectangle( point.x, point.y, size.width, size.height );
+	public GridSpace( Point p, Dimension d ) {
+		this( p.x, p.y, d.width, d.height );
 	}
 
-	public GridSpace( Point p1, Point p4 ) {
-		bounds = new Rectangle( p1.x, p1.y, p1.x + p4.x, p1.y + p4.y );
-	}
-
-	public GridSpace( Rectangle rect ) {
-		bounds = new Rectangle( rect.x, rect.y, rect.width, rect.height );
+	public GridSpace( Rectangle r ) {
+		this( r.x, r.y, r.width, r.height );
 	}
 
 	public GridSpace( int width, int height ) {
-		bounds = new Rectangle( 0, 0, width, height );
+		this( 0, 0, width, height );
 	}
 
-	public GridSpace( Point point ) {
-		bounds = new Rectangle( point.x, point.y, 0, 0 );
+	public GridSpace( Point p ) {
+		this( p.x, p.y, 0, 0 );
 	}
 
-	public GridSpace( Dimension size ) {
-		bounds = new Rectangle( 0, 0, size.width, size.height );
+	public GridSpace( Dimension d ) {
+		this( 0, 0, d.width, d.height );
+	}
+
+	public void put( int x, int y ) {
+		// TODO
+	}
+
+	public void put( Point p ) {
+		put( p.x, p.y );
+	}
+
+	public GridSpace intersection( GridSpace g ) {
+		return new GridSpace( getBounds().intersection( g.getBounds() ) );
+	}
+
+	public GridSpace intersection( Rectangle r ) {
+		return new GridSpace( getBounds().intersection( r ) );
+	}
+
+	public GridSpace union( GridSpace g ) {
+		return new GridSpace( getBounds().union( g.getBounds() ) );
+	}
+
+	public GridSpace union( Rectangle r ) {
+		return new GridSpace( getBounds().union( r ) );
 	}
 
 	public int getX() {
-		return bounds.x;
+		return x;
 	}
 
 	public int getY() {
-		return bounds.y;
+		return y;
 	}
 
 	public int getWidth() {
-		return bounds.width;
+		return width;
 	}
 
 	public int getHeight() {
-		return bounds.height;
+		return height;
 	}
 
 	public void setX( int x ) {
-		bounds.x = x;
+		this.x = x;
 	}
 
 	public void setY( int y ) {
-		bounds.y = y;
+		this.y = y;
 	}
 
 	public void setWidth( int width ) {
-		bounds.width = width;
+		this.width = width;
 	}
 
 	public void setHeight( int height ) {
-		bounds.height = height;
+		this.height = height;
 	}
 
 	public Point getP1() {
-		return new Point( bounds.x, bounds.y );
+		return new Point( x, y );
 	}
 
 	public Point getP2() {
-		return new Point( bounds.x + bounds.width, bounds.y );
+		return new Point( x + width, y );
 	}
 
 	public Point getP3() {
-		return new Point( bounds.x, bounds.y + bounds.height );
+		return new Point( x, y + height );
 	}
 
 	public Point getP4() {
-		return new Point( bounds.x + bounds.width, bounds.y + bounds.height );
+		return new Point( x + width, y + height );
+	}
+
+	public void setP1( Point p ) {
+		// TODO
+	}
+
+	public void setP2( Point p ) {
+		// TODO
+	}
+
+	public void setP3( Point p ) {
+		// TODO
+	}
+
+	public void setP4( Point p ) {
+		// TODO
 	}
 
 	public Point getLocation() {
-		return bounds.getLocation();
+		return new Point( x, y );
 	}
 
 	public Dimension getSize() {
-		return bounds.getSize();
+		return new Dimension( width, height );
 	}
 
 	public Rectangle getBounds() {
-		return bounds;
+		return new Rectangle( x, y, width, height );
 	}
 
-	public void setBounds( GridSpace gs ) {
-		setBounds( gs.bounds.x, gs.bounds.y, gs.bounds.width, gs.bounds.height );
+	public void setLocation( Point p ) {
+		setLocation( p.x, p.y );
+	}
+
+	public void setSize( Dimension d ) {
+		setSize( d.width, d.height );
+	}
+
+	public void setBounds( Rectangle r ) {
+		setBounds( r.x, r.y, r.width, r.height );
+	}
+
+	public void setLocation( int x, int y ) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public void setSize( int width, int height ) {
+		this.width = width;
+		this.height = height;
 	}
 
 	public void setBounds( int x, int y, int width, int height ) {
-		bounds.setBounds( x, y, width, height );
-	}
-
-	public void setBounds( Point point, Dimension size ) {
-		bounds.setBounds( point.x, point.y, size.width, size.height );
-	}
-
-	public void setBounds( Point p1, Point p4 ) {
-		bounds.setBounds( p1.x, p1.y, p1.x + p4.x, p1.y + p4.y );
-	}
-
-	public void setBounds( Rectangle rect ) {
-		bounds.setBounds( rect.x, rect.y, rect.width, rect.height );
-	}
-
-	public GridSpace union( GridSpace space ) {
-		GridSpace union = new GridSpace();
-		forEach( point -> union.add( point ) );
-		space.forEach( point -> union.add( point ) );
-		return union;
-	}
-
-	public GridSpace intersection( GridSpace space ) {
-		GridSpace intersection = new GridSpace();
-		forEach( point -> {
-			if ( space.contains( point ) ) intersection.add( point );
-		} );
-		return intersection;
-	}
-
-	@Override
-	public int size() {
-		return bounds.width * bounds.height;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return size() == 0;
-	}
-
-	@Override
-	public boolean contains( Object o ) {
-		if ( !( o instanceof Point ) ) return false;
-		Point p = (Point)o;
-		return p.x >= bounds.x && p.x <= bounds.x + bounds.width && p.y >= bounds.y && p.y <= bounds.y + bounds.height;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override
 	public Iterator< Point > iterator() {
 		return new Itr();
-	}
-
-	@Override
-	public Object[] toArray() {
-		return toArray( new Point[size()] );
-	}
-
-	@Override
-	public < T > T[] toArray( T[] a ) {
-		Set< Point > points = new HashSet<>();
-		iterator().forEachRemaining( points::add );
-		return points.toArray( a );
-	}
-
-	public boolean add( int x, int y ) {
-		bounds.x = Math.min( bounds.x, x );
-		bounds.y = Math.min( bounds.y, y );
-		bounds.width = Math.max( bounds.x + bounds.width, x ) - bounds.x;
-		bounds.height = Math.max( bounds.y + bounds.height, y ) - bounds.y;
-		return true;
-	}
-
-	@Override
-	public boolean add( Point p ) {
-		return add( p.x, p.y );
-	}
-
-	@Override
-	public boolean remove( Object o ) {
-		// TODO GridSpace::remove
-		return false;
-	}
-
-	@Override
-	public boolean containsAll( Collection< ? > c ) {
-		for ( Object p : c ) {
-			if ( !contains( p ) ) return false;
-		}
-		return true;
-	}
-
-	@Override
-	public boolean addAll( Collection< ? extends Point > c ) {
-		for ( Point p : c ) {
-			if ( !add( p ) ) return false;
-		}
-		return true;
-	}
-
-	@Override
-	public boolean removeAll( Collection< ? > c ) {
-		// TODO GridSpace::removeAll
-		return false;
-	}
-
-	@Override
-	public boolean retainAll( Collection< ? > c ) {
-		// TODO GridSpace::retainAll
-		return false;
-	}
-
-	@Override
-	public void clear() {
-		bounds.setBounds( 0, 0, 0, 0 );
 	}
 
 	private final class Itr implements Iterator< Point > {
@@ -240,16 +184,15 @@ public class GridSpace implements Collection< Point > {
 
 		@Override
 		public boolean hasNext() {
-			return local < size();
+			return local < width * height;
 		}
 
 		@Override
 		public Point next() {
-			Point point = new Point(
-				(int)( local % bounds.width ) + bounds.x, (int)( local / bounds.width ) + bounds.y
-			);
+			int px = (int)( local % width );
+			int py = (int)( local / width );
 			local++;
-			return point;
+			return new Point( x + px, y + py );
 		}
 
 	}

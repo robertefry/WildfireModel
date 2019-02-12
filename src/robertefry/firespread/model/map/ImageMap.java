@@ -1,8 +1,9 @@
 
-package robertefry.firespread.map;
+package robertefry.firespread.model.map;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import robertefry.firespread.math.GridSpace;
@@ -14,11 +15,11 @@ import robertefry.firespread.math.GridSpace;
 public class ImageMap implements Iterable< Color > {
 
 	private BufferedImage image;
-	private GridSpace gridspace;
+	private Rectangle bounds;
 
-	public ImageMap( BufferedImage image, GridSpace gridspace ) {
+	public ImageMap( BufferedImage image, Rectangle bounds ) {
 		this.image = image;
-		this.gridspace = gridspace;
+		this.bounds = bounds;
 	}
 
 	@Override
@@ -30,13 +31,13 @@ public class ImageMap implements Iterable< Color > {
 		return image;
 	}
 
-	public GridSpace getGridSpace() {
-		return gridspace;
+	public Rectangle getBounds() {
+		return bounds;
 	}
 
 	private final class Itr implements Iterator< Color > {
 
-		private final Iterator< Point > itr = gridspace.iterator();
+		private final Iterator< Point > itr = ( new GridSpace( bounds ) ).iterator();
 
 		@Override
 		public boolean hasNext() {

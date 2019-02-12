@@ -2,11 +2,11 @@
 package robertefry.firespread.ui.maploader;
 
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
-import robertefry.firespread.math.GridSpace;
 import robertefry.firespread.ui.atomic.LabeledComponent;
 import robertefry.firespread.ui.dialog.UIDialog;
 
@@ -14,7 +14,7 @@ import robertefry.firespread.ui.dialog.UIDialog;
  * @author Robert E Fry
  * @date 1 Feb 2019
  */
-public class UIImageMapSettings extends UIDialog< GridSpace > {
+public class UIImageMapSettings extends UIDialog< Rectangle > {
 	private static final long serialVersionUID = 3254004359139003291L;
 
 	private final LabeledComponent< JSpinner > litfSelectionX;
@@ -25,19 +25,23 @@ public class UIImageMapSettings extends UIDialog< GridSpace > {
 	/**
 	 * Create the frame.
 	 */
-	public UIImageMapSettings( GridSpace space ) {
+	public UIImageMapSettings( Rectangle bounds ) {
 
 		litfSelectionX = new LabeledComponent<>(
-			"Selection X", new JSpinner( new SpinnerNumberModel( space.getX(), 0, Integer.MAX_VALUE, 1 ) )
+			"Selection X",
+			new JSpinner( new SpinnerNumberModel( bounds.x, 0, Integer.MAX_VALUE, 1 ) )
 		);
 		litfSelectionY = new LabeledComponent<>(
-			"Selection Y", new JSpinner( new SpinnerNumberModel( space.getY(), 0, Integer.MAX_VALUE, 1 ) )
+			"Selection Y",
+			new JSpinner( new SpinnerNumberModel( bounds.y, 0, Integer.MAX_VALUE, 1 ) )
 		);
 		litfSelectionWid = new LabeledComponent<>(
-			"Selection Width", new JSpinner( new SpinnerNumberModel( space.getWidth(), 0, Integer.MAX_VALUE, 1 ) )
+			"Selection Width",
+			new JSpinner( new SpinnerNumberModel( bounds.width, 0, Integer.MAX_VALUE, 1 ) )
 		);
 		litfSelectionHei = new LabeledComponent<>(
-			"Selection Height", new JSpinner( new SpinnerNumberModel( space.getHeight(), 0, Integer.MAX_VALUE, 1 ) )
+			"Selection Height",
+			new JSpinner( new SpinnerNumberModel( bounds.height, 0, Integer.MAX_VALUE, 1 ) )
 		);
 
 		setTitle( "Selection" );
@@ -86,11 +90,11 @@ public class UIImageMapSettings extends UIDialog< GridSpace > {
 	}
 
 	@Override
-	protected GridSpace getReturn() {
+	protected Rectangle getReturn() {
 		final int x = ( (Number)litfSelectionX.getComponent().getValue() ).intValue();
 		final int y = ( (Number)litfSelectionY.getComponent().getValue() ).intValue();
 		final int w = ( (Number)litfSelectionWid.getComponent().getValue() ).intValue();
 		final int h = ( (Number)litfSelectionHei.getComponent().getValue() ).intValue();
-		return new GridSpace( x, y, w, h );
+		return new Rectangle( x, y, w, h );
 	}
 }

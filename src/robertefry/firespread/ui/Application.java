@@ -2,9 +2,10 @@
 package robertefry.firespread.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
+import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JFrame;
@@ -53,11 +54,11 @@ public class Application {
 		mntmNewMap.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new Thread( () -> {
-					UIDialog< Set< Cell > > frmCellSetLoader = new UICellSetLoader();
+					UIDialog< Map< Point, Cell > > frmCellSetLoader = new UICellSetLoader();
 					frmCellSetLoader.setLocationRelativeTo( frmMainModel );
 					frmCellSetLoader.setVisible( true );
 					Model.getEngine().suspend();
-					Set< Cell > cellset = null;
+					Map< Point, Cell > cellset = null;
 					try {
 						cellset = frmCellSetLoader.fetch();
 					} catch ( CancellationException e1 ) {

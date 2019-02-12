@@ -9,7 +9,7 @@ import robertefry.firespread.model.type.Terrain;
  * @author Robert E Fry
  * @date 1 Feb 2019
  */
-public class Conversions {
+public class Conversion {
 
 	public static Function< Integer, Elevation > getElevationConversion() {
 		return ( color ) -> {
