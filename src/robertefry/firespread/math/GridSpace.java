@@ -32,10 +32,6 @@ public class GridSpace implements Iterable< Point > {
 		this( r.x, r.y, r.width, r.height );
 	}
 
-	public GridSpace( int width, int height ) {
-		this( 0, 0, width, height );
-	}
-
 	public GridSpace( Point p ) {
 		this( p.x, p.y, 0, 0 );
 	}
@@ -45,7 +41,12 @@ public class GridSpace implements Iterable< Point > {
 	}
 
 	public void put( int x, int y ) {
-		// TODO
+		Rectangle bounds = new Rectangle();
+		bounds.x = Math.min( x, this.x );
+		bounds.y = Math.min( y, this.y );
+		bounds.width = Math.max( x + 1, this.x + this.width ) - this.x;
+		bounds.height = Math.max( y + 1, this.y + this.height ) - this.y;
+		setBounds( bounds );
 	}
 
 	public void put( Point p ) {
@@ -117,19 +118,31 @@ public class GridSpace implements Iterable< Point > {
 	}
 
 	public void setP1( Point p ) {
-		// TODO
+		Rectangle bounds = new Rectangle( p.x, p.y, 0, 0 );
+		bounds.width = ( this.width + this.x ) - p.x;
+		bounds.height = ( this.height + this.y ) - p.y;
+		setBounds( bounds );
 	}
 
 	public void setP2( Point p ) {
-		// TODO
+		Rectangle bounds = new Rectangle( this.x, p.y, 0, 0 );
+		bounds.width = p.x - this.x;
+		bounds.height = p.y - ( this.height + this.y );
+		setBounds( bounds );
 	}
 
 	public void setP3( Point p ) {
-		// TODO
+		Rectangle bounds = new Rectangle( p.x, this.y, 0, 0 );
+		bounds.width = ( this.width + this.x ) - p.x;
+		bounds.height = p.y - this.y;
+		setBounds( bounds );
 	}
 
 	public void setP4( Point p ) {
-		// TODO
+		Rectangle bounds = new Rectangle( this.x, this.y, 0, 0 );
+		bounds.width = p.x - this.x;
+		bounds.height = p.y - this.y;
+		setBounds( bounds );
 	}
 
 	public Point getLocation() {
