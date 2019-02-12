@@ -31,7 +31,6 @@ public class Grid implements TargetAdapter {
 			this.cells.put( point, cell );
 		} );
 		setCellDrawspace();
-		System.out.println( space.getWidth() + " " + space.getHeight() );
 	}
 
 	public void setDrawSpace( Rectangle drawSpace ) {

@@ -1,6 +1,7 @@
 
 package robertefry.firespread.model.cell;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -8,7 +9,7 @@ import java.util.Map;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.type.Elevation;
 import robertefry.firespread.model.type.Terrain;
-import robertefry.firespread.util.ColorUtil;
+import robertefry.firespread.util.GraphicUtil;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.TargetAdapter;
 
@@ -17,6 +18,8 @@ import robertefry.penguin.engine.target.TargetAdapter;
  * @date 7 Feb 2019
  */
 public class Cell implements TargetAdapter {
+
+	public static final int LOCAL_RADIUS = 1;
 
 	private Point location;
 	private Rectangle drawspace = new Rectangle( 0, 0, 0, 0 );
@@ -37,8 +40,9 @@ public class Cell implements TargetAdapter {
 	public void render( Engine engine ) {
 		TargetAdapter.super.render( engine );
 		Graphics g = Renderer.getGraphics();
-		g.setColor( ColorUtil.randomColor() );
-		g.fillRect( drawspace.x, drawspace.y, drawspace.width, drawspace.height );
+		Color crossColor = terrain.isBurning() ? Color.RED : terrain.canBurn() ? Color.GREEN : Color.GRAY;
+		GraphicUtil.drawCross( g, drawspace, crossColor );
+		GraphicUtil.drawRect( g, drawspace, Color.GRAY );
 	}
 
 	public void prepNext( Map< Point, Cell > cells ) {
@@ -46,7 +50,7 @@ public class Cell implements TargetAdapter {
 	}
 
 	public void makeNext() {
-		terrain = next;
+		// TODO Cell::makeNext
 	}
 
 	public Point getLocation() {

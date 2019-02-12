@@ -7,16 +7,10 @@ package robertefry.firespread.model.type;
  */
 public interface Flamable {
 
-	/**
-	 * Try to burn the instance
-	 * @return true if burning
-	 */
+	public boolean canBurn();
+
 	public boolean tryBurn();
 
-	/**
-	 * Test if the instance is burning
-	 * @return true if the instance is burning
-	 */
 	public boolean isBurning();
 
 }

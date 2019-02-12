@@ -3,6 +3,7 @@ package robertefry.firespread.graphic;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 /**
@@ -23,6 +24,12 @@ public class Renderer {
 
 	public static Graphics getGraphics() {
 		return canvas.getGraphics();
+	}
+
+	public static void clear() {
+		Dimension size = canvas.getSize();
+		getGraphics().setColor( canvas.getBackground() );
+		getGraphics().fillRect( 0, 0, size.width, size.height );
 	}
 
 }

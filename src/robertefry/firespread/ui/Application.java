@@ -68,6 +68,7 @@ public class Application {
 					if ( frmCellSetLoader.hasFetched() ) {
 						Model.getEngine().suspend();
 						Model.getGrid().rebuild( cellset );
+						Renderer.clear();
 						Model.getEngine().forceRender();
 					}
 				} ).start();
