@@ -22,6 +22,24 @@ public class Cell implements TargetAdapter {
 	public Cell( float elevation, Terrain terrain ) {
 		this.elevation = elevation;
 		this.terrain = terrain;
+		this.next = new Terrain( terrain );
+	}
+
+	public Cell( Cell cell ) {
+		this.elevation = cell.elevation;
+		this.terrain = new Terrain( cell.terrain );
+		this.next = new Terrain( cell.next );
+	}
+
+	public void cycleState() {
+		terrain.cycleState();
+		next.cycleState();
+	}
+
+	@Override
+	public void tick( Engine engine ) {
+		TargetAdapter.super.tick( engine );
+		next.tick( engine );
 	}
 
 	@Override
@@ -34,18 +52,17 @@ public class Cell implements TargetAdapter {
 
 	public void prepNext( Map< Point, Cell > cells ) {
 		// TODO Cell::prepNext
+		int localburning = 0;
+		for ( Cell cell : cells.values() ) {
+			if ( cell.terrain.isBurning() ) localburning++;
+		}
+		if ( localburning >= 2 ) {
+			next.tryBurn();
+		}
 	}
 
 	public void makeNext() {
-		// TODO Cell::makeNext
-	}
-
-	public float getElevation() {
-		return elevation;
-	}
-
-	public Terrain getTerrain() {
-		return terrain;
+		terrain.copyfrom( next );
 	}
 
 	public void setDrawspace( Rectangle drawspace ) {

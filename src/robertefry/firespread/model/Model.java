@@ -21,10 +21,12 @@ public class Model {
 
 	static {
 
-		keyboard.register( Renderer.getCanvas() );
+		// TODO save grid states for later loading
+
+		keyboard.register( Renderer.getComponent() );
 		Model.engine.syncInputReciever( keyboard );
 
-		mouse.register( Renderer.getCanvas() );
+		mouse.register( Renderer.getComponent() );
 		Model.engine.syncInputReciever( mouse );
 
 		Model.engine.getTargetManager().add( grid );

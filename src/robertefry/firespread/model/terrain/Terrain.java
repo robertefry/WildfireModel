@@ -22,6 +22,16 @@ public class Terrain implements TargetAdapter, Flamable {
 		this.state = burning ? EnumTerrain.BURNING : material > 0 ? EnumTerrain.WILD : EnumTerrain.CLEARED;
 	}
 
+	public Terrain( Terrain terrain ) {
+		this.material = terrain.material;
+		this.state = terrain.state;
+	}
+
+	public void copyfrom( Terrain terrain ) {
+		this.material = terrain.material;
+		this.state = terrain.state;
+	}
+
 	public void cycleState() {
 		int index = ( state.ordinal() + 1 ) % EnumTerrain.values().length;
 		state = EnumTerrain.values()[index];

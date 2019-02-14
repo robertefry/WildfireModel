@@ -14,6 +14,8 @@ import robertefry.penguin.engine.target.TargetAdapter;
 
 public class Grid implements TargetAdapter {
 
+	public static final int AFFECT_RADIUS = 1;
+
 	private final GridSpace space = new GridSpace();
 	private final Map< Point, Cell > cells = new HashMap<>();
 
@@ -45,12 +47,28 @@ public class Grid implements TargetAdapter {
 	@Override
 	public void tick( Engine engine ) {
 		TargetAdapter.super.tick( engine );
+		Map< Point, Cell > localcells = new HashMap<>();
 		cells.forEach( ( point, cell ) -> {
-			cell.prepNext( cells );
+			localcells.clear();
+			// TODO make localspace circular
+			GridSpace localspace = new GridSpace(
+				point.x - AFFECT_RADIUS, point.y - AFFECT_RADIUS, 2 * AFFECT_RADIUS + 1, 2 * AFFECT_RADIUS + 1
+			);
+			space.intersection( localspace ).forEach( localpoint -> {
+				Cell localcell = cells.get( localpoint );
+				if ( localcell != null ) localcells.put( localpoint, localcell );
+			} );
+			cell.prepNext( localcells );
 		} );
 		cells.values().forEach( cell -> {
 			cell.makeNext();
 		} );
+	}
+
+	@Override
+	public void reset() {
+		TargetAdapter.super.reset();
+		// TODO reset
 	}
 
 	public void updateCellBounds() {
@@ -84,7 +102,7 @@ public class Grid implements TargetAdapter {
 			int y = (int)( ( e.getY() - drawspace.y ) / (float)cellsize.height );
 			Cell cell = cells.get( new Point( x, y ) );
 			if ( cell != null ) {
-				cell.getTerrain().cycleState();
+				cell.cycleState();
 				Model.getEngine().forceRender();
 			}
 		}

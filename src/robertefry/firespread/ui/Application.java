@@ -42,7 +42,7 @@ public class Application {
 		frmMainModel.setBounds( 100, 100, 800, 600 );
 		frmMainModel.setLocationRelativeTo( null );
 		frmMainModel.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frmMainModel.getContentPane().add( Renderer.getCanvas(), BorderLayout.CENTER );
+		frmMainModel.getContentPane().add( Renderer.getComponent(), BorderLayout.CENTER );
 
 		JMenuBar menuBar = new JMenuBar();
 		frmMainModel.setJMenuBar( menuBar );
@@ -68,7 +68,7 @@ public class Application {
 					if ( frmCellSetLoader.hasFetched() ) {
 						Model.getEngine().suspend();
 						Model.getGrid().rebuildFromCellMap( cellset );
-						Model.getGrid().setBounds( Renderer.getCanvas().getSize() );
+						Model.getGrid().setBounds( Renderer.getComponent().getSize() );
 						Model.getEngine().forceRender();
 					}
 				} ).start();
