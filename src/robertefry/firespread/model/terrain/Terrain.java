@@ -40,7 +40,7 @@ public class Terrain implements TargetAdapter, Flamable {
 	@Override
 	public void tick( Engine engine ) {
 		TargetAdapter.super.tick( engine );
-		if ( isBurning() ) material = Math.max( 0, material-- );
+		if ( isBurning() ) material = Math.max( 0, material - 1 );
 		if ( !canBurn() ) state = EnumTerrain.CLEARED;
 	}
 

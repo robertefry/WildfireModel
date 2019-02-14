@@ -52,13 +52,9 @@ public class Cell implements TargetAdapter {
 
 	public void prepNext( Map< Point, Cell > cells ) {
 		// TODO Cell::prepNext
-		int localburning = 0;
-		for ( Cell cell : cells.values() ) {
-			if ( cell.terrain.isBurning() ) localburning++;
-		}
-		if ( localburning >= 2 ) {
-			next.tryBurn();
-		}
+		cells.values().forEach( cell -> {
+			if ( cell.terrain.isBurning() ) next.tryBurn();
+		});
 	}
 
 	public void makeNext() {

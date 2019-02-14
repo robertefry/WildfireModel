@@ -10,9 +10,9 @@ import java.util.Map;
 import javax.swing.event.MouseInputAdapter;
 import robertefry.firespread.model.Model;
 import robertefry.penguin.engine.Engine;
-import robertefry.penguin.engine.target.TargetAdapter;
+import robertefry.penguin.engine.target.Target;
 
-public class Grid implements TargetAdapter {
+public class Grid extends Target {
 
 	public static final int AFFECT_RADIUS = 1;
 
@@ -27,26 +27,20 @@ public class Grid implements TargetAdapter {
 	}
 
 	public void rebuildFromCellMap( Map< Point, Cell > cellset ) {
+		removeSubTargets( cells.values() );
 		this.space.setBounds( 0, 0, 0, 0 );
 		this.cells.clear();
 		cellset.forEach( ( point, cell ) -> {
 			this.space.put( point );
 			this.cells.put( point, cell );
 		} );
+		addSubTargets( cells.values() );
 		updateCellBounds();
 	}
 
 	@Override
-	public void render( Engine engine ) {
-		TargetAdapter.super.render( engine );
-		cells.values().forEach( cell -> {
-			cell.render( engine );
-		} );
-	}
-
-	@Override
 	public void tick( Engine engine ) {
-		TargetAdapter.super.tick( engine );
+		super.tick( engine );
 		Map< Point, Cell > localcells = new HashMap<>();
 		cells.forEach( ( point, cell ) -> {
 			localcells.clear();
@@ -67,7 +61,7 @@ public class Grid implements TargetAdapter {
 
 	@Override
 	public void reset() {
-		TargetAdapter.super.reset();
+		super.reset();
 		// TODO reset
 	}
 
