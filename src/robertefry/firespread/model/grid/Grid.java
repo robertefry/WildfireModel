@@ -4,36 +4,31 @@ package robertefry.firespread.model.grid;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 import robertefry.firespread.math.GridSpace;
 import robertefry.firespread.model.Model;
-import robertefry.firespread.model.cell.Cell;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.TargetAdapter;
+import robertefry.penguin.input.mouse.listener.MouseButtonAdapter;
 
-/**
- * @author Robert E Fry
- * @date 7 Feb 2019
- */
 public class Grid implements TargetAdapter {
-
-	public static final int LOCAL_RADIUS = 1;
 
 	private final GridSpace space = new GridSpace();
 	private final Map< Point, Cell > cells = new HashMap<>();
 
-	private final MouseListener mouseListener = new GridMouseListener();
 	private Rectangle drawspace = new Rectangle( 0, 0, 0, 0 );
 	private Dimension cellsize = new Dimension( 0, 0 );
 
-	public void rebuild( Map< Point, Cell > cells ) {
+	public Grid() {
+		Model.getMouse().addMouseButtonListener( new GridMouseListener() );
+	}
+
+	public void rebuildFromCellMap( Map< Point, Cell > cellset ) {
 		this.space.setBounds( 0, 0, 0, 0 );
 		this.cells.clear();
-		cells.forEach( ( point, cell ) -> {
+		cellset.forEach( ( point, cell ) -> {
 			this.space.put( point );
 			this.cells.put( point, cell );
 		} );
@@ -60,12 +55,12 @@ public class Grid implements TargetAdapter {
 	}
 
 	public void updateCellBounds() {
-		if ( space.getWidth() * space.getHeight() == 0 ) return;
+		if ( ( space.getWidth() | space.getHeight() ) == 0 ) return;
 		cellsize.width = drawspace.width / space.getWidth();
 		cellsize.height = drawspace.height / space.getHeight();
-		cells.values().forEach( cell -> {
-			int x = cellsize.width * cell.getLocation().x;
-			int y = cellsize.height * cell.getLocation().y;
+		cells.forEach( ( location, cell ) -> {
+			int x = cellsize.width * location.x;
+			int y = cellsize.height * location.y;
 			cell.setDrawspace( new Rectangle( drawspace.x + x, drawspace.y + y, cellsize.width, cellsize.height ) );
 		} );
 	}
@@ -82,18 +77,17 @@ public class Grid implements TargetAdapter {
 		setBounds( new Rectangle( x, y, size, size ) );
 	}
 
-	public MouseListener getMouseListener() {
-		return mouseListener;
-	}
-
-	public final class GridMouseListener extends MouseAdapter {
+	public final class GridMouseListener implements MouseButtonAdapter {
 		// TODO zoom & move grid from mouse movements
 		@Override
 		public void mouseClicked( MouseEvent e ) {
 			int x = (int)( ( e.getX() - drawspace.x ) / (float)cellsize.width );
 			int y = (int)( ( e.getY() - drawspace.y ) / (float)cellsize.height );
-			cells.get( new Point( x, y ) ).getTerrain().cycleState();
-			Model.getEngine().forceRender();
+			Cell cell = cells.get( new Point( x, y ) );
+			if ( cell != null ) {
+				cell.getTerrain().cycleState();
+				Model.getEngine().forceRender();
+			}
 		}
 	}
 

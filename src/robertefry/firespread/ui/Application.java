@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
-import robertefry.firespread.model.cell.Cell;
+import robertefry.firespread.model.grid.Cell;
 import robertefry.firespread.ui.controller.UIController;
 import robertefry.firespread.ui.dialog.UIDialog;
 import robertefry.firespread.ui.maploader.UICellSetLoader;
@@ -67,8 +67,8 @@ public class Application {
 					}
 					if ( frmCellSetLoader.hasFetched() ) {
 						Model.getEngine().suspend();
-						Model.getGrid().rebuild( cellset );
-						Renderer.clear();
+						Model.getGrid().rebuildFromCellMap( cellset );
+						Model.getGrid().setBounds( Renderer.getCanvas().getSize() );
 						Model.getEngine().forceRender();
 					}
 				} ).start();

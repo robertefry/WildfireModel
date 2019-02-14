@@ -23,9 +23,9 @@ public class Renderer {
 		Model.getEngine().addLogicListener( new EngineLogicAdapter() {
 			@Override
 			public void preRender() {
-				Graphics g = Renderer.getGraphics();
-				g.setColor( Renderer.canvas.getBackground() );
-				g.fillRect( 0, 0, Renderer.getCanvas().getWidth(), Renderer.getCanvas().getHeight() );
+				Dimension size = canvas.getSize();
+				getGraphics().setColor( canvas.getBackground() );
+				getGraphics().fillRect( 0, 0, size.width, size.height );
 			}
 		} );
 
@@ -37,12 +37,6 @@ public class Renderer {
 
 	public static Graphics getGraphics() {
 		return canvas.getGraphics();
-	}
-
-	public static void clear() {
-		Dimension size = canvas.getSize();
-		getGraphics().setColor( canvas.getBackground() );
-		getGraphics().fillRect( 0, 0, size.width, size.height );
 	}
 
 }

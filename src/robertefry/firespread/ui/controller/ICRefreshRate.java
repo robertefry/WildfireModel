@@ -13,7 +13,7 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import robertefry.firespread.model.Model;
 import robertefry.penguin.engine.Engine;
-import robertefry.penguin.engine.targets.SimpleTimer;
+import robertefry.penguin.targets.SimpleTimer;
 
 /**
  * @author Robert E Fry

@@ -11,7 +11,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import robertefry.firespread.io.Resource;
-import robertefry.firespread.model.cell.Cell;
+import robertefry.firespread.model.grid.Cell;
 import robertefry.firespread.model.map.CellMap;
 import robertefry.firespread.model.map.ImageMap;
 import robertefry.firespread.ui.atomic.LabeledComponent;

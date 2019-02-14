@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import robertefry.firespread.math.GridSpace;
 import robertefry.firespread.model.Conversion;
-import robertefry.firespread.model.cell.Cell;
+import robertefry.firespread.model.grid.Cell;
 import robertefry.firespread.model.terrain.Terrain;
 import robertefry.firespread.util.ImageUtil;
 
@@ -29,7 +29,7 @@ public class CellMap {
 				.apply( elevationImage.getRGB( point.x, point.y ) );
 			Terrain terrain = Conversion.getTerrainConversion()
 				.apply( flamabilityImage.getRGB( point.x, point.y ) );
-			cells.put( point, new Cell( point, elevation, terrain ) );
+			cells.put( point, new Cell( elevation, terrain ) );
 		} );
 		return cells;
 	}

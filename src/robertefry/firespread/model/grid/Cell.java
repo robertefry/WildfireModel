@@ -1,5 +1,5 @@
 
-package robertefry.firespread.model.cell;
+package robertefry.firespread.model.grid;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,27 +12,16 @@ import robertefry.firespread.util.GraphicUtil;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.TargetAdapter;
 
-/**
- * @author Robert E Fry
- * @date 7 Feb 2019
- */
 public class Cell implements TargetAdapter {
 
-	public static final int LOCAL_RADIUS = 1;
-
-	private Point location;
-	private Rectangle drawspace = new Rectangle( 0, 0, 0, 0 );
 	private float elevation;
 	private Terrain terrain, next;
 
-	public Cell( Point location, float elevation, Terrain terrain ) {
-		this.location = location;
+	private Rectangle drawspace = new Rectangle( 0, 0, 0, 0 );
+
+	public Cell( float elevation, Terrain terrain ) {
 		this.elevation = elevation;
 		this.terrain = terrain;
-	}
-
-	public void setDrawspace( Rectangle drawspace ) {
-		this.drawspace = drawspace;
 	}
 
 	@Override
@@ -51,16 +40,16 @@ public class Cell implements TargetAdapter {
 		// TODO Cell::makeNext
 	}
 
-	public Point getLocation() {
-		return location;
-	}
-
 	public float getElevation() {
 		return elevation;
 	}
 
 	public Terrain getTerrain() {
 		return terrain;
+	}
+
+	public void setDrawspace( Rectangle drawspace ) {
+		this.drawspace = drawspace;
 	}
 
 }

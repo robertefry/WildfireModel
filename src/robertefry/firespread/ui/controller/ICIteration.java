@@ -15,7 +15,7 @@ import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.animate.RotatingIcon;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.listener.EngineStateAdapter;
-import robertefry.penguin.engine.targets.SimpleCounter;
+import robertefry.penguin.targets.SimpleCounter;
 
 /**
  * @author Robert E Fry
