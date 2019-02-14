@@ -7,11 +7,11 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.event.MouseInputAdapter;
 import robertefry.firespread.math.GridSpace;
 import robertefry.firespread.model.Model;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.TargetAdapter;
-import robertefry.penguin.input.mouse.listener.MouseButtonAdapter;
 
 public class Grid implements TargetAdapter {
 
@@ -77,7 +77,7 @@ public class Grid implements TargetAdapter {
 		setBounds( new Rectangle( x, y, size, size ) );
 	}
 
-	public final class GridMouseListener implements MouseButtonAdapter {
+	public final class GridMouseListener extends MouseInputAdapter {
 		// TODO zoom & move grid from mouse movements
 		@Override
 		public void mouseClicked( MouseEvent e ) {
