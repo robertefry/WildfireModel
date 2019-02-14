@@ -1,5 +1,5 @@
 
-package robertefry.firespread.math;
+package robertefry.firespread.model.grid;
 
 import java.awt.Dimension;
 import java.awt.Point;

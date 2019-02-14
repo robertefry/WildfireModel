@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.event.MouseInputAdapter;
-import robertefry.firespread.math.GridSpace;
 import robertefry.firespread.model.Model;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.TargetAdapter;

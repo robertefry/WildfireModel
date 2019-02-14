@@ -5,9 +5,9 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
-import robertefry.firespread.math.GridSpace;
 import robertefry.firespread.model.Conversion;
 import robertefry.firespread.model.grid.Cell;
+import robertefry.firespread.model.grid.GridSpace;
 import robertefry.firespread.model.terrain.Terrain;
 import robertefry.firespread.util.ImageUtil;
 

@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
-import robertefry.firespread.math.GridSpace;
+import robertefry.firespread.model.grid.GridSpace;
 
 /**
  * @author Robert E Fry
