@@ -1,5 +1,5 @@
 
-package robertefry.firespread.model.type;
+package robertefry.firespread.model.terrain;
 
 /**
  * @author Robert E Fry

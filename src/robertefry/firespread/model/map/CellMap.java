@@ -8,8 +8,7 @@ import java.util.Map;
 import robertefry.firespread.math.GridSpace;
 import robertefry.firespread.model.Conversion;
 import robertefry.firespread.model.cell.Cell;
-import robertefry.firespread.model.type.Elevation;
-import robertefry.firespread.model.type.Terrain;
+import robertefry.firespread.model.terrain.Terrain;
 import robertefry.firespread.util.ImageUtil;
 
 /**
@@ -26,7 +25,7 @@ public class CellMap {
 			.redraw( flamabilityMap.getImage(), space.getSize(), flamabilityMap.getBounds() );
 		Map< Point, Cell > cells = new HashMap<>();
 		space.forEach( point -> {
-			Elevation elevation = Conversion.getElevationConversion()
+			float elevation = Conversion.getElevationConversion()
 				.apply( elevationImage.getRGB( point.x, point.y ) );
 			Terrain terrain = Conversion.getTerrainConversion()
 				.apply( flamabilityImage.getRGB( point.x, point.y ) );

@@ -14,7 +14,7 @@ import robertefry.firespread.io.Resource;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.animate.RotatingIcon;
 import robertefry.penguin.engine.Engine;
-import robertefry.penguin.engine.listener.EngineStateListener;
+import robertefry.penguin.engine.listener.EngineStateAdapter;
 import robertefry.penguin.engine.targets.SimpleCounter;
 
 /**
@@ -68,15 +68,15 @@ public class ICIteration extends JPanel {
 		add( textField );
 		textField.setColumns( 10 );
 
-		Model.getEngine().addStateListener( new EngineStateListener() {
+		Model.getEngine().addStateListener( new EngineStateAdapter() {
 
-			public void onEngineSuspend() {
-				EngineStateListener.super.onEngineSuspend();
+			@Override
+			public void onSuspend() {
 				working.stop();
 			};
 
-			public void onEngineResume() {
-				EngineStateListener.super.onEngineResume();
+			@Override
+			public void onResume() {
 				working.start();
 			}
 

@@ -2,8 +2,7 @@
 package robertefry.firespread.model;
 
 import java.util.function.Function;
-import robertefry.firespread.model.type.Elevation;
-import robertefry.firespread.model.type.Terrain;
+import robertefry.firespread.model.terrain.Terrain;
 
 /**
  * @author Robert E Fry
@@ -11,17 +10,17 @@ import robertefry.firespread.model.type.Terrain;
  */
 public class Conversion {
 
-	public static Function< Integer, Elevation > getElevationConversion() {
+	public static Function< Integer, Float > getElevationConversion() {
 		return ( color ) -> {
 			// TODO ElevationMapConversion
-			return new Elevation( 0.0f );
+			return 0.0f;
 		};
 	}
 
 	public static Function< Integer, Terrain > getTerrainConversion() {
 		return ( color ) -> {
 			// TODO FlamabilityMapConversion
-			return new Terrain( 0.0f );
+			return new Terrain( 1.0f );
 		};
 	}
 

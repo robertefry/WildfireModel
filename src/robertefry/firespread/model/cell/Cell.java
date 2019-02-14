@@ -7,8 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Map;
 import robertefry.firespread.graphic.Renderer;
-import robertefry.firespread.model.type.Elevation;
-import robertefry.firespread.model.type.Terrain;
+import robertefry.firespread.model.terrain.Terrain;
 import robertefry.firespread.util.GraphicUtil;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.TargetAdapter;
@@ -23,10 +22,10 @@ public class Cell implements TargetAdapter {
 
 	private Point location;
 	private Rectangle drawspace = new Rectangle( 0, 0, 0, 0 );
-	private Elevation elevation;
+	private float elevation;
 	private Terrain terrain, next;
 
-	public Cell( Point location, Elevation elevation, Terrain terrain ) {
+	public Cell( Point location, float elevation, Terrain terrain ) {
 		this.location = location;
 		this.elevation = elevation;
 		this.terrain = terrain;
@@ -40,9 +39,8 @@ public class Cell implements TargetAdapter {
 	public void render( Engine engine ) {
 		TargetAdapter.super.render( engine );
 		Graphics g = Renderer.getGraphics();
-		Color crossColor = terrain.isBurning() ? Color.RED : terrain.canBurn() ? Color.GREEN : Color.GRAY;
-		GraphicUtil.drawCross( g, drawspace, crossColor );
 		GraphicUtil.drawRect( g, drawspace, Color.GRAY );
+		GraphicUtil.drawCross( g, drawspace, terrain.getState().getColor() );
 	}
 
 	public void prepNext( Map< Point, Cell > cells ) {
@@ -57,7 +55,7 @@ public class Cell implements TargetAdapter {
 		return location;
 	}
 
-	public Elevation getElevation() {
+	public float getElevation() {
 		return elevation;
 	}
 
