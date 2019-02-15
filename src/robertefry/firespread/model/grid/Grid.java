@@ -7,10 +7,10 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.event.MouseInputAdapter;
 import robertefry.firespread.model.Model;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.target.Target;
+import robertefry.penguin.input.mouse.listener.MouseObjectAdapter;
 
 public class Grid extends Target {
 
@@ -88,10 +88,11 @@ public class Grid extends Target {
 		setBounds( new Rectangle( x, y, size, size ) );
 	}
 
-	public final class GridMouseListener extends MouseInputAdapter {
+	public final class GridMouseListener extends MouseObjectAdapter {
+
 		// TODO zoom & move grid from mouse movements
 		@Override
-		public void mouseClicked( MouseEvent e ) {
+		public void onButtonClick( MouseEvent e ) {
 			int x = (int)( ( e.getX() - drawspace.x ) / (float)cellsize.width );
 			int y = (int)( ( e.getY() - drawspace.y ) / (float)cellsize.height );
 			Cell cell = cells.get( new Point( x, y ) );
@@ -100,6 +101,7 @@ public class Grid extends Target {
 				Model.getEngine().forceRender();
 			}
 		}
+
 	}
 
 }

@@ -7,7 +7,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import robertefry.firespread.model.Model;
-import robertefry.penguin.engine.listener.EngineLogicListener;
+import robertefry.penguin.engine.listener.EngineLogicAdapter;
 
 /**
  * @author Robert E Fry
@@ -24,10 +24,9 @@ public class Renderer {
 		component.setIgnoreRepaint( true );
 		component.setBackground( clearcolor );
 
-		Model.getEngine().addLogicListener( new EngineLogicListener() {
+		Model.getEngine().addLogicListener( new EngineLogicAdapter() {
 			@Override
 			public void preRender() {
-				EngineLogicListener.super.preRender();
 				renewBuffer();
 				Graphics g = getGraphics();
 				g.setColor( clearcolor );
@@ -35,10 +34,9 @@ public class Renderer {
 			}
 		} );
 
-		Model.getEngine().addLogicListener( new EngineLogicListener() {
+		Model.getEngine().addLogicListener( new EngineLogicAdapter() {
 			@Override
 			public void postRender() {
-				EngineLogicListener.super.postRender();
 				component.getGraphics().drawImage(
 					buffer, 0, 0, component.getWidth(), component.getHeight(),
 					0, 0, buffer.getWidth(), buffer.getHeight(), null
