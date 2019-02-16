@@ -13,7 +13,6 @@ import javax.swing.SpringLayout;
 import robertefry.firespread.io.Resource;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.animate.RotatingIcon;
-import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.listener.EngineStateListener;
 import robertefry.penguin.targets.SimpleCounter;
 
@@ -84,11 +83,13 @@ public class ICIteration extends JPanel {
 
 		Model.getEngine().getTargetManager().add( new SimpleCounter() {
 
-			public void tick( Engine engine ) {
-				super.tick( engine );
+			@Override
+			public void update() {
+				super.update();
 				textField.setText( String.valueOf( getCount() ) );
 			}
 
+			@Override
 			public void reset() {
 				super.reset();
 				textField.setText( String.valueOf( 0 ) );

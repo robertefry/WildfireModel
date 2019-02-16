@@ -12,7 +12,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import robertefry.firespread.model.Model;
-import robertefry.penguin.engine.Engine;
 import robertefry.penguin.targets.SimpleTimer;
 
 /**
@@ -59,8 +58,9 @@ public class ICRefreshRate extends JPanel {
 		add( nspt );
 
 		Model.getEngine().getTargetManager().add( new SimpleTimer() {
-			public synchronized void tick( Engine engine ) {
-				super.tick( engine );
+			@Override
+			public void update() {
+				super.update();
 				nspt.setText( String.format( "%s ms/t", NumberFormat.getInstance().format( getDelta() ) ) );
 			}
 		} );

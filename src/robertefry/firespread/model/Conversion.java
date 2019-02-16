@@ -10,18 +10,41 @@ import robertefry.firespread.model.terrain.Terrain;
  */
 public class Conversion {
 
-	public static Function< Integer, Float > getElevationConversion() {
+	public static final Conversion.Type TYPE_INT_NULL = new Conversion.Type( 0x00000000, 0 );
+	public static final Conversion.Type TYPE_INT_RGB = new Conversion.Type( 0x00FFFFFF, 0 );
+	public static final Conversion.Type TYPE_INT_ARGB = new Conversion.Type( 0xFFFFFFFF, 0 );
+	public static final Conversion.Type TYPE_INT_RGB_MONOCHROME_A = new Conversion.Type( 0xFF000000, 16 );
+	public static final Conversion.Type TYPE_INT_ARGB_MONOCHROME_A = new Conversion.Type( 0xFF000000, 16 );
+	public static final Conversion.Type TYPE_INT_RGB_MONOCHROME_R = new Conversion.Type( 0x00FF0000, 8 );
+	public static final Conversion.Type TYPE_INT_ARGB_MONOCHROME_R = new Conversion.Type( 0x00FF00, 8 );
+	public static final Conversion.Type TYPE_INT_RGB_MONOCHROME_G = new Conversion.Type( 0x0000FF00, 4 );
+	public static final Conversion.Type TYPE_INT_ARGB_MONOCHROME_G = new Conversion.Type( 0x0000FF00, 4 );
+	public static final Conversion.Type TYPE_INT_RGB_MONOCHROME_B = new Conversion.Type( 0x000000FF, 0 );
+	public static final Conversion.Type TYPE_INT_ARGB_MONOCHROME_B = new Conversion.Type( 0x000000FF, 0 );
+
+	public static Function< Number, Float > getElevationConversion( Conversion.Type type ) {
+		// TODO ElevationMapConversion
 		return ( color ) -> {
-			// TODO ElevationMapConversion
-			return 0.0f;
+			return (float)( ( color.intValue() & type.mask ) >>> type.postshift );
 		};
 	}
 
-	public static Function< Integer, Terrain > getTerrainConversion() {
+	public static Function< Number, Terrain > getTerrainConversion( Conversion.Type type ) {
+		// TODO FlamabilityMapConversion
 		return ( color ) -> {
-			// TODO FlamabilityMapConversion
-			return new Terrain( 1.0f );
+			return new Terrain( ( color.intValue() & type.mask ) >>> type.postshift, false );
 		};
+	}
+
+	private static final class Type {
+
+		public final int mask, postshift;
+
+		public Type( int mask, int postshift ) {
+			this.mask = mask;
+			this.postshift = postshift;
+		}
+
 	}
 
 }

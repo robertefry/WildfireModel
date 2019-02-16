@@ -25,9 +25,9 @@ public class CellMap {
 			.redraw( flamabilityMap.getImage(), space.getSize(), flamabilityMap.getBounds() );
 		Map< Point, Cell > cells = new HashMap<>();
 		space.forEach( point -> {
-			float elevation = Conversion.getElevationConversion()
+			float elevation = Conversion.getElevationConversion( Conversion.TYPE_INT_ARGB_MONOCHROME_B )
 				.apply( elevationImage.getRGB( point.x, point.y ) );
-			Terrain terrain = Conversion.getTerrainConversion()
+			Terrain terrain = Conversion.getTerrainConversion( Conversion.TYPE_INT_ARGB_MONOCHROME_B )
 				.apply( flamabilityImage.getRGB( point.x, point.y ) );
 			cells.put( point, new Cell( elevation, terrain ) );
 		} );

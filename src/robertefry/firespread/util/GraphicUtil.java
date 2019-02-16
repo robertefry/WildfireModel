@@ -18,4 +18,9 @@ public class GraphicUtil {
 		g.drawRect( bounds.x, bounds.y, bounds.width, bounds.height );
 	}
 
+	public static final void fillRect( Graphics g, Rectangle bounds, Color color ) {
+		g.setColor( color );
+		g.fillRect( bounds.x, bounds.y, bounds.width, bounds.height );
+	}
+
 }

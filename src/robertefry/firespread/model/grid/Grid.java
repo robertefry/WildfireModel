@@ -1,50 +1,56 @@
 
 package robertefry.firespread.model.grid;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
+import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
-import robertefry.penguin.engine.Engine;
-import robertefry.penguin.engine.target.Target;
+import robertefry.firespread.util.GraphicUtil;
 import robertefry.penguin.input.mouse.listener.MouseObjectAdapter;
+import robertefry.penguin.target.TargetBlank;
 
-public class Grid extends Target {
+/**
+ * @author Robert E Fry
+ * @date 25 Jan 2019
+ */
+public class Grid extends TargetBlank {
+	
+	// TODO grid aspect ratio equal to that of map
 
 	public static final int AFFECT_RADIUS = 1;
 
 	private final GridSpace space = new GridSpace();
 	private final Map< Point, Cell > cells = new HashMap<>();
 
-	private Rectangle drawspace = new Rectangle( 0, 0, 0, 0 );
-	private Dimension cellsize = new Dimension( 0, 0 );
+	private Rectangle bounds = new Rectangle( 0, 0, 0, 0 );
 
 	public Grid() {
 		Model.getMouse().addMouseButtonListener( new GridMouseListener() );
 	}
 
 	public void rebuildFromCellMap( Map< Point, Cell > cellset ) {
-		removeSubTargets( cells.values() );
 		this.space.setBounds( 0, 0, 0, 0 );
 		this.cells.clear();
 		cellset.forEach( ( point, cell ) -> {
 			this.space.put( point );
 			this.cells.put( point, cell );
 		} );
-		addSubTargets( cells.values() );
-		updateCellBounds();
 	}
 
 	@Override
-	public void tick( Engine engine ) {
-		super.tick( engine );
+	public void update() {
+		super.update();
 		Map< Point, Cell > localcells = new HashMap<>();
+		cells.values().forEach( Cell::update );
 		cells.forEach( ( point, cell ) -> {
 			localcells.clear();
-			// TODO make localspace circular
+			// TODO Grid::tick - make localspace circular
 			GridSpace localspace = new GridSpace(
 				point.x - AFFECT_RADIUS, point.y - AFFECT_RADIUS, 2 * AFFECT_RADIUS + 1, 2 * AFFECT_RADIUS + 1
 			);
@@ -60,46 +66,66 @@ public class Grid extends Target {
 	}
 
 	@Override
-	public void reset() {
-		super.reset();
-		// TODO reset
-	}
-
-	public void updateCellBounds() {
-		if ( ( space.getWidth() | space.getHeight() ) == 0 ) return;
-		cellsize.width = drawspace.width / space.getWidth();
-		cellsize.height = drawspace.height / space.getHeight();
-		cells.forEach( ( location, cell ) -> {
-			int x = cellsize.width * location.x;
-			int y = cellsize.height * location.y;
-			cell.setDrawspace( new Rectangle( drawspace.x + x, drawspace.y + y, cellsize.width, cellsize.height ) );
+	public void render() {
+		super.render();
+		Graphics g = Renderer.getGraphics();
+		CellSize cellsize = CellSize.generate( bounds, space );
+		cells.forEach( ( point, cell ) -> {
+			int x = (int)( bounds.x + point.x * cellsize.width );
+			int y = (int)( bounds.y + point.y * cellsize.height );
+			Rectangle drawspace = new Rectangle( x, y, (int)cellsize.width, (int)cellsize.height );
+			GraphicUtil.drawRect( g, drawspace, Color.DARK_GRAY );
 		} );
 	}
 
-	public void setBounds( Rectangle drawspace ) {
-		this.drawspace = drawspace;
-		updateCellBounds();
+	@Override
+	public void reset() {
+		super.reset();
+		// TODO Grid::reset
 	}
 
-	public void setBounds( Dimension dimension ) {
+	public void fitBounds( Dimension dimension ) {
 		int size = Math.min( dimension.width, dimension.height );
 		int x = (int)( ( dimension.width - size ) / 2 );
 		int y = (int)( ( dimension.height - size ) / 2 );
 		setBounds( new Rectangle( x, y, size, size ) );
 	}
 
-	public final class GridMouseListener extends MouseObjectAdapter {
+	public void setBounds( Rectangle bounds ) {
+		this.bounds = bounds;
+	}
 
-		// TODO zoom & move grid from mouse movements
+	private final class GridMouseListener extends MouseObjectAdapter {
+
+		// TODO GridMouseListener - zoom & move
+		// zoom & move grid from mouse movements
 		@Override
 		public void onButtonClick( MouseEvent e ) {
-			int x = (int)( ( e.getX() - drawspace.x ) / (float)cellsize.width );
-			int y = (int)( ( e.getY() - drawspace.y ) / (float)cellsize.height );
+			CellSize cellsize = CellSize.generate( bounds, space );
+			int x = (int)( ( e.getX() - bounds.x ) / cellsize.width );
+			int y = (int)( ( e.getY() - bounds.y ) / cellsize.height );
 			Cell cell = cells.get( new Point( x, y ) );
 			if ( cell != null ) {
-				cell.cycleState();
+				cell.cycle();
 				Model.getEngine().forceRender();
 			}
+		}
+
+	}
+
+	private static final class CellSize {
+
+		public final float width, height;
+
+		public CellSize( float width, float height ) {
+			this.width = width;
+			this.height = height;
+		}
+
+		public static final CellSize generate( Rectangle bounds, GridSpace space ) {
+			float width = (float)bounds.width / (float)space.getWidth();
+			float height = (float)bounds.height / (float)space.getHeight();
+			return new CellSize( width, height );
 		}
 
 	}

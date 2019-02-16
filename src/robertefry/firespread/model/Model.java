@@ -1,6 +1,8 @@
 
 package robertefry.firespread.model;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.grid.Grid;
 import robertefry.penguin.engine.Engine;
@@ -22,6 +24,14 @@ public class Model {
 	static {
 
 		// TODO save grid states for later loading
+
+		Renderer.getComponent().addComponentListener( new ComponentAdapter() {
+			@Override
+			public void componentResized( ComponentEvent e ) {
+				grid.fitBounds( Renderer.getComponent().getSize() );
+				engine.forceRender();
+			}
+		} );
 
 		keyboard.register( Renderer.getComponent() );
 		Model.engine.syncInputReciever( keyboard );

@@ -1,22 +1,18 @@
 
 package robertefry.firespread.model.terrain;
 
-import java.awt.Color;
-
 public enum EnumTerrain implements Flamable {
 
-	WILD( true, false, new Color( 0, 128, 0 ) ),
-	BURNING( true, true, new Color( 128, 0, 0 ) ),
-	CLEARED( false, false, Color.DARK_GRAY );
+	WILD( true, false ),
+	BURNING( true, true ),
+	CLEARED( false, false );
 
 	private final boolean flamable;
 	private final boolean burning;
-	private final Color color;
 
-	EnumTerrain( boolean flamable, boolean burning, Color color ) {
+	EnumTerrain( boolean flamable, boolean burning ) {
 		this.flamable = flamable;
 		this.burning = burning;
-		this.color = color;
 	}
 
 	@Override
@@ -29,12 +25,21 @@ public enum EnumTerrain implements Flamable {
 		return false;
 	}
 
+	@Override
 	public boolean isBurning() {
 		return burning;
 	}
 
-	public Color getColor() {
-		return color;
+	public static EnumTerrain find( boolean flamable, boolean burning ) {
+		for ( EnumTerrain terrain : EnumTerrain.values() ) {
+			if ( terrain.flamable == flamable && terrain.burning == burning ) return terrain;
+		}
+		return null;
+	}
+
+	public static EnumTerrain cycle( EnumTerrain terrain ) {
+		int index = ( terrain.ordinal() + 1 ) % EnumTerrain.values().length;
+		return EnumTerrain.values()[index];
 	}
 
 }
