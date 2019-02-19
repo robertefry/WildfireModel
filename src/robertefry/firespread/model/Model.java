@@ -28,7 +28,7 @@ public class Model {
 		Renderer.getComponent().addComponentListener( new ComponentAdapter() {
 			@Override
 			public void componentResized( ComponentEvent e ) {
-				grid.fitBounds( Renderer.getComponent().getSize() );
+				grid.setSize( Renderer.getComponent().getSize() );
 				engine.forceRender();
 			}
 		} );

@@ -1,16 +1,22 @@
 
 package robertefry.firespread.model.grid;
 
+import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.Map;
+import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.terrain.Cyclic;
 import robertefry.firespread.model.terrain.Terrain;
-import robertefry.penguin.target.Updatable;
+import robertefry.firespread.util.GraphicUtil;
+import robertefry.penguin.target.TargetBlank;
 
-public class Cell implements Cyclic, Updatable {
+public class Cell extends TargetBlank implements Cyclic {
 
 	private final float elevation;
 	private Terrain terrain, next;
+
+	private Rectangle bounds = new Rectangle();
 
 	public Cell( float elevation, Terrain terrain ) {
 		this.elevation = elevation;
@@ -35,6 +41,13 @@ public class Cell implements Cyclic, Updatable {
 		next.update();
 	}
 
+	@Override
+	public void render() {
+		GraphicUtil.drawRect( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
+		if ( terrain.isBurning() ) GraphicUtil.drawCross( Renderer.getGraphics(), bounds, Color.RED );
+		if ( !terrain.canBurn() ) GraphicUtil.drawCross( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
+	}
+
 	public void prepNext( Map< Point, Cell > cells ) {
 		// TODO Cell::prepNext
 		cells.values().forEach( cell -> {
@@ -44,6 +57,10 @@ public class Cell implements Cyclic, Updatable {
 
 	public void makeNext() {
 		terrain = new Terrain( next );
+	}
+
+	public void setBounds( Rectangle bounds ) {
+		this.bounds = bounds;
 	}
 
 }
