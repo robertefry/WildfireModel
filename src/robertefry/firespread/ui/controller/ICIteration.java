@@ -67,7 +67,7 @@ public class ICIteration extends JPanel {
 		add( textField );
 		textField.setColumns( 10 );
 
-		Model.getEngine().addStateListener( new EngineStateListener() {
+		Model.getEngine().getEngineStateListeners().add( new EngineStateListener() {
 
 			@Override
 			public void onSuspend() {

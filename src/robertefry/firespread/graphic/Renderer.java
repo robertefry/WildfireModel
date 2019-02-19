@@ -24,7 +24,7 @@ public class Renderer {
 		component.setIgnoreRepaint( true );
 		component.setBackground( clearcolor );
 
-		Model.getEngine().addLogicListener( new EngineLogicAdapter() {
+		Model.getEngine().getEngineLogicListeners().add( new EngineLogicAdapter() {
 			@Override
 			public void preRender() {
 				renewBuffer();
@@ -34,7 +34,7 @@ public class Renderer {
 			}
 		} );
 
-		Model.getEngine().addLogicListener( new EngineLogicAdapter() {
+		Model.getEngine().getEngineLogicListeners().add( new EngineLogicAdapter() {
 			@Override
 			public void postRender() {
 				component.getGraphics().drawImage(
