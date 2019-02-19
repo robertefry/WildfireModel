@@ -1,8 +1,13 @@
 
 package robertefry.firespread.model.terrain;
 
+import java.awt.Color;
 import robertefry.penguin.target.Updatable;
 
+/**
+ * @author Robert E Fry
+ * @date 19 Feb 2019
+ */
 public class Terrain implements Cyclic, Updatable, Flamable {
 
 	private float material;
@@ -47,6 +52,10 @@ public class Terrain implements Cyclic, Updatable, Flamable {
 	@Override
 	public boolean isBurning() {
 		return state.isBurning();
+	}
+
+	public Color getDrawColor() {
+		return state.getColor();
 	}
 
 }

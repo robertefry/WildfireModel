@@ -11,12 +11,12 @@ import robertefry.firespread.model.Model;
 import robertefry.penguin.input.mouse.listener.MouseObjectAdapter;
 import robertefry.penguin.target.TargetBlank;
 
+// TODO control to show cell borders
+
 /**
  * @author Robert E Fry
  * @date 25 Jan 2019
  */
-
-// TODO control to show cell borders
 
 public class Grid extends TargetBlank {
 
@@ -25,7 +25,8 @@ public class Grid extends TargetBlank {
 	private final GridSpace space = new GridSpace();
 	private final Map< Point, Cell > cells = new HashMap<>();
 
-	private Dimension size = new Dimension( 0, 0 );
+	private final Dimension size = new Dimension( 0, 0 );
+	private final GridDrawHints drawhints = new GridDrawHints();
 
 	public Grid() {
 		Model.getMouse().addMouseButtonListener( new GridMouseListener() );
@@ -38,7 +39,7 @@ public class Grid extends TargetBlank {
 			this.space.put( point );
 			this.cells.put( point, cell );
 		} );
-		reboundCells();
+		redefineBounds();
 	}
 
 	@Override
@@ -73,19 +74,19 @@ public class Grid extends TargetBlank {
 		// TODO Grid::reset
 	}
 
-	private void reboundCells() {
-		GridDrawHints hints = GridDrawHints.generate( size, space );
+	private void redefineBounds() {
+		drawhints.update( size, space );
 		cells.entrySet().stream().forEach( entry -> {
-			int x = (int)( hints.gridX + entry.getKey().x * hints.cellWidth );
-			int y = (int)( hints.gridY + entry.getKey().y * hints.cellHeight );
-			Rectangle bounds = new Rectangle( x, y, (int)hints.cellWidth, (int)hints.cellHeight );
+			int x = (int)( drawhints.getGridX() + entry.getKey().x * drawhints.getCellWidth() );
+			int y = (int)( drawhints.getGridY() + entry.getKey().y * drawhints.getCellHeight() );
+			Rectangle bounds = new Rectangle( x, y, (int)drawhints.getCellWidth(), (int)drawhints.getCellHeight() );
 			entry.getValue().setBounds( bounds );
 		} );
 	}
 
 	public void setSize( Dimension size ) {
-		this.size = size;
-		reboundCells();
+		this.size.setSize( size );
+		redefineBounds();
 	}
 
 	private final class GridMouseListener extends MouseObjectAdapter {
@@ -94,37 +95,14 @@ public class Grid extends TargetBlank {
 		// zoom & move grid from mouse movements
 		@Override
 		public void onButtonClick( MouseEvent e ) {
-			//	TODO calculate cell on mouseclick
-			//	CellSize cellsize = CellSize.generate( bounds, space );
-			//	int x = (int)( ( e.getX() - bounds.x ) / cellsize.width );
-			//	int y = (int)( ( e.getY() - bounds.y ) / cellsize.height );
-			//	Cell cell = cells.get( new Point( x, y ) );
-			//	if ( cell != null ) {
-			//		cell.cycle();
-			//		Model.getEngine().forceRender();
-			//	}
-		}
-
-	}
-
-	private static final class GridDrawHints {
-
-		public float gridX, gridY;
-		public float cellWidth, cellHeight;
-
-		public static final GridDrawHints generate( Dimension size, GridSpace space ) {
-			GridDrawHints hints = new GridDrawHints();
-
-			float segWidth = (float)size.width / (float)space.getWidth();
-			float segHeight = (float)size.height / (float)space.getHeight();
-			hints.cellWidth = hints.cellHeight = Math.min( segWidth, segHeight );
-
-			float drawWidth = hints.cellWidth * space.getWidth();
-			float drawHeight = hints.cellHeight * space.getHeight();
-			hints.gridX = (float)( size.width - drawWidth ) / 2;
-			hints.gridY = (float)( size.height - drawHeight ) / 2;
-
-			return hints;
+			// TODO calculate cell on mouseclick
+			int x = (int)( ( e.getX() - drawhints.getGridX() ) / drawhints.getCellWidth() );
+			int y = (int)( ( e.getY() - drawhints.getGridY() ) / drawhints.getCellHeight() );
+			Cell cell = cells.get( new Point( x, y ) );
+			if ( cell != null ) {
+				cell.cycle();
+				Model.getEngine().forceRender();
+			}
 		}
 
 	}

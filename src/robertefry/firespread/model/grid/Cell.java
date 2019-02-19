@@ -11,6 +11,10 @@ import robertefry.firespread.model.terrain.Terrain;
 import robertefry.firespread.util.GraphicUtil;
 import robertefry.penguin.target.TargetBlank;
 
+/**
+ * @author Robert E Fry
+ * @date 19 Feb 2019
+ */
 public class Cell extends TargetBlank implements Cyclic {
 
 	private final float elevation;
@@ -44,8 +48,7 @@ public class Cell extends TargetBlank implements Cyclic {
 	@Override
 	public void render() {
 		GraphicUtil.drawRect( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
-		if ( terrain.isBurning() ) GraphicUtil.drawCross( Renderer.getGraphics(), bounds, Color.RED );
-		if ( !terrain.canBurn() ) GraphicUtil.drawCross( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
+		GraphicUtil.drawCross( Renderer.getGraphics(), bounds, terrain.getDrawColor() );
 	}
 
 	public void prepNext( Map< Point, Cell > cells ) {
