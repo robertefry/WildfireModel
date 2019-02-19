@@ -44,8 +44,8 @@ public class Grid extends TargetBlank {
 
 	@Override
 	public void update() {
-		cells.values().stream().forEach( Cell::update );
-		cells.entrySet().stream().forEach( entry -> {
+		cells.values().parallelStream().forEach( Cell::update );
+		cells.entrySet().parallelStream().forEach( entry -> {
 			Map< Point, Cell > localcells = new HashMap<>();
 			// TODO Grid::tick - make localspace circular
 			GridSpace localspace = new GridSpace(
@@ -58,14 +58,14 @@ public class Grid extends TargetBlank {
 			} );
 			entry.getValue().prepNext( localcells );
 		} );
-		cells.values().stream().forEach( cell -> {
+		cells.values().parallelStream().forEach( cell -> {
 			cell.makeNext();
 		} );
 	}
 
 	@Override
 	public void render() {
-		cells.values().stream().forEach( Cell::render );
+		cells.values().parallelStream().forEach( Cell::render );
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class Grid extends TargetBlank {
 
 	private void redefineBounds() {
 		drawhints.update( size, space );
-		cells.entrySet().stream().forEach( entry -> {
+		cells.entrySet().parallelStream().forEach( entry -> {
 			int x = (int)( drawhints.getGridX() + entry.getKey().x * drawhints.getCellWidth() );
 			int y = (int)( drawhints.getGridY() + entry.getKey().y * drawhints.getCellHeight() );
 			Rectangle bounds = new Rectangle( x, y, (int)drawhints.getCellWidth(), (int)drawhints.getCellHeight() );

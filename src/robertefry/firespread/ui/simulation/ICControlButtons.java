@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.controller;
+package robertefry.firespread.ui.simulation;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

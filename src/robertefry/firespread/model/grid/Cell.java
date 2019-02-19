@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Map;
 import robertefry.firespread.graphic.Renderer;
+import robertefry.firespread.model.Model;
 import robertefry.firespread.model.terrain.Cyclic;
 import robertefry.firespread.model.terrain.Terrain;
 import robertefry.firespread.util.GraphicUtil;
@@ -47,8 +48,10 @@ public class Cell extends TargetBlank implements Cyclic {
 
 	@Override
 	public void render() {
-		GraphicUtil.drawRect( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
-		GraphicUtil.drawCross( Renderer.getGraphics(), bounds, terrain.getDrawColor() );
+		if ( Model.CellRenderHints.DrawCellBorder ) {
+			GraphicUtil.drawRect( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
+			GraphicUtil.drawCross( Renderer.getGraphics(), bounds, terrain.getDrawColor() );
+		}
 	}
 
 	public void prepNext( Map< Point, Cell > cells ) {

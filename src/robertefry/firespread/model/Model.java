@@ -3,10 +3,14 @@ package robertefry.firespread.model;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import robertefry.firespread.graphic.Renderer;
+import robertefry.firespread.model.grid.CellRenderHints;
 import robertefry.firespread.model.grid.Grid;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.input.keyboard.Keyboard;
+import robertefry.penguin.input.keyboard.Keys;
+import robertefry.penguin.input.keyboard.listener.KeyboardAdapter;
 import robertefry.penguin.input.mouse.Mouse;
 
 /**
@@ -14,6 +18,8 @@ import robertefry.penguin.input.mouse.Mouse;
  * @date 25 Jan 2019
  */
 public class Model {
+
+	public static final CellRenderHints CellRenderHints = new CellRenderHints();
 
 	private static final Engine engine = new Engine();
 	private static final Keyboard keyboard = new Keyboard();
@@ -30,6 +36,13 @@ public class Model {
 			public void componentResized( ComponentEvent e ) {
 				grid.setSize( Renderer.getComponent().getSize() );
 				engine.forceRender();
+			}
+		} );
+
+		keyboard.addKeyboardListener( new KeyboardAdapter() {
+			@Override
+			public void onKeyPress( KeyEvent e ) {
+				if ( e.getID() == Keys.KEY_R ) engine.forceRender();
 			}
 		} );
 

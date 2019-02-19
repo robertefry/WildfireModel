@@ -16,9 +16,10 @@ import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.grid.Cell;
-import robertefry.firespread.ui.controller.UIController;
 import robertefry.firespread.ui.dialog.UIDialog;
 import robertefry.firespread.ui.maploader.UICellSetLoader;
+import robertefry.firespread.ui.render.UIRenderController;
+import robertefry.firespread.ui.simulation.UISimulationController;
 
 /**
  * @author Robert E Fry
@@ -27,7 +28,6 @@ import robertefry.firespread.ui.maploader.UICellSetLoader;
 public class Application {
 
 	private JFrame frmMainModel = new JFrame( "Wildfire Model" );
-	private JFrame frmSimulationController = new UIController();
 
 	public Application() {
 		initialize();
@@ -82,11 +82,22 @@ public class Application {
 		JMenuItem mntmOpenSimulationController = new JMenuItem( "Open Simulation Controller" );
 		mntmOpenSimulationController.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
+				JFrame frmSimulationController = new UISimulationController();
 				frmSimulationController.setLocationRelativeTo( frmMainModel );
 				frmSimulationController.setVisible( true );
 			}
 		} );
 		mnSimulation.add( mntmOpenSimulationController );
+
+		JMenuItem mntmOpenRenderController = new JMenuItem( "Open Render Controller" );
+		mntmOpenRenderController.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				JFrame frmRenderController = new UIRenderController();
+				frmRenderController.setLocationRelativeTo( frmMainModel );
+				frmRenderController.setVisible( true );
+			}
+		} );
+		mnSimulation.add( mntmOpenRenderController );
 
 	}
 
