@@ -24,8 +24,8 @@ import robertefry.firespread.ui.dialog.UIDialog;
 public class UICellSetLoader extends UIDialog< Map< Point, Cell > > {
 	private static final long serialVersionUID = 1557112471549371181L;
 
-	private final ICImageMapLoading srcElevationMap = new ICImageMapLoading( "Elevation map", true );
-	private final ICImageMapLoading srcFlamabilityMap = new ICImageMapLoading( "Flamability map", true );
+	private final ICImageMapLoader srcElevationMap = new ICImageMapLoader( "Elevation map", true );
+	private final ICImageMapLoader srcFlamabilityMap = new ICImageMapLoader( "Flamability map", true );
 
 	LabeledComponent< JSpinner > spnRows = new LabeledComponent<>(
 		"rows", new JSpinner( new SpinnerNumberModel( 1, 1, Integer.MAX_VALUE, 1 ) )

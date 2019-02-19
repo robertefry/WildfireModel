@@ -20,7 +20,7 @@ import robertefry.firespread.ui.dialog.UIDialog;
  * @author Robert E Fry
  * @date 29 Jan 2019
  */
-public class ICImageMapLoading extends JPanel {
+public class ICImageMapLoader extends JPanel {
 	private static final long serialVersionUID = 739973722131778461L;
 
 	private final LabeledComponent<
@@ -38,7 +38,7 @@ public class ICImageMapLoading extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ICImageMapLoading( String description, boolean required ) {
+	public ICImageMapLoader( String description, boolean required ) {
 
 		setPreferredSize( new Dimension( 416, 25 ) );
 		SpringLayout springLayout = new SpringLayout();

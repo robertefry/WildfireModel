@@ -16,6 +16,8 @@ import robertefry.firespread.util.ImageUtil;
  * @date 7 Feb 2019
  */
 public class CellMap {
+	
+	// TODO grid aspect ratio equal to that of map
 
 	public static Map< Point, Cell > generate( int rows, int cols, ImageMap elevationMap, ImageMap flamabilityMap ) {
 		GridSpace space = new GridSpace( 0, 0, cols, rows );

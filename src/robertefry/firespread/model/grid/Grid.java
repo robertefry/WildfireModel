@@ -20,8 +20,6 @@ import robertefry.penguin.target.TargetBlank;
  * @date 25 Jan 2019
  */
 public class Grid extends TargetBlank {
-	
-	// TODO grid aspect ratio equal to that of map
 
 	public static final int AFFECT_RADIUS = 1;
 
