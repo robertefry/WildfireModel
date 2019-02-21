@@ -21,19 +21,25 @@ public class Conversion {
 	public static final Conversion.Type TYPE_INT_ARGB_MONOCHROME_G = new Conversion.Type( 0x0000FF00, 4 );
 	public static final Conversion.Type TYPE_INT_RGB_MONOCHROME_B = new Conversion.Type( 0x000000FF, 0 );
 	public static final Conversion.Type TYPE_INT_ARGB_MONOCHROME_B = new Conversion.Type( 0x000000FF, 0 );
+	
+	// TODO fix conversion functions & image map loading
 
 	public static Function< Number, Float > getElevationConversion( Conversion.Type type ) {
-		// TODO ElevationMapConversion
 		return ( color ) -> {
-			return (float)( ( color.intValue() & type.mask ) >>> type.postshift );
+			return 1.0f;
 		};
+		//		return ( color ) -> {
+		//			return (float)( ( color.intValue() & type.mask ) >>> type.postshift );
+		//		};
 	}
 
 	public static Function< Number, Terrain > getTerrainConversion( Conversion.Type type ) {
-		// TODO FlamabilityMapConversion
 		return ( color ) -> {
-			return new Terrain( ( color.intValue() & type.mask ) >>> type.postshift, false );
+			return new Terrain( 1.0f, false );
 		};
+		//		return ( color ) -> {
+		//			return new Terrain( ( color.intValue() & type.mask ) >>> type.postshift, false );
+		//		};
 	}
 
 	private static final class Type {

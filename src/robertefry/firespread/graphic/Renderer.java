@@ -15,9 +15,11 @@ import robertefry.penguin.engine.listener.EngineLogicAdapter;
  */
 public class Renderer {
 
-	private static Color clearcolor = Color.BLACK;
 	private static final Component component = new Canvas();
 	private static BufferedImage buffer = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
+
+	private static Color clearcolor = Color.BLACK;
+	private static boolean visable = false;
 
 	static {
 
@@ -25,37 +27,33 @@ public class Renderer {
 		component.setBackground( clearcolor );
 
 		Model.getEngine().getEngineLogicListeners().add( new EngineLogicAdapter() {
+
 			@Override
 			public void preRender() {
-				renewBuffer();
-				Graphics g = getGraphics();
+				Graphics g = buffer.getGraphics();
 				g.setColor( clearcolor );
 				g.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
 			}
-		} );
 
-		Model.getEngine().getEngineLogicListeners().add( new EngineLogicAdapter() {
 			@Override
 			public void postRender() {
-				component.getGraphics().drawImage(
+				if ( visable ) component.getGraphics().drawImage(
 					buffer, 0, 0, component.getWidth(), component.getHeight(),
 					0, 0, buffer.getWidth(), buffer.getHeight(), null
 				);
 			}
+
 		} );
 
 	}
 
-	private static final void renewBuffer() {
+	public static final void notifyVisible() {
 		buffer = new BufferedImage( component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB );
+		visable = true;
 	}
 
 	public static final Component getComponent() {
 		return component;
-	}
-
-	public static final BufferedImage getBuffer() {
-		return buffer;
 	}
 
 	public static final Graphics getGraphics() {

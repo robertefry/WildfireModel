@@ -1,16 +1,12 @@
 
 package robertefry.firespread.model;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.grid.CellRenderHints;
 import robertefry.firespread.model.grid.Grid;
 import robertefry.penguin.engine.Engine;
+import robertefry.penguin.engine.listener.EngineLogicAdapter;
 import robertefry.penguin.input.keyboard.Keyboard;
-import robertefry.penguin.input.keyboard.Keys;
-import robertefry.penguin.input.keyboard.listener.KeyboardAdapter;
 import robertefry.penguin.input.mouse.Mouse;
 
 /**
@@ -29,32 +25,22 @@ public class Model {
 
 	static {
 
-		// TODO save grid states for later loading
-
-		Renderer.getComponent().addComponentListener( new ComponentAdapter() {
+		engine.getEngineLogicListeners().add(new EngineLogicAdapter() {
 			@Override
-			public void componentResized( ComponentEvent e ) {
-				grid.setSize( Renderer.getComponent().getSize() );
-				engine.forceRender();
+			public void postReset() {
+				engine.suspend();
 			}
-		} );
+		});
 
-		keyboard.addKeyboardListener( new KeyboardAdapter() {
-			@Override
-			public void onKeyPress( KeyEvent e ) {
-				if ( e.getID() == Keys.KEY_R ) engine.forceRender();
-			}
-		} );
+		keyboard.register(Renderer.getComponent());
+		Model.engine.getEngineInputRecievers().add(keyboard);
 
-		keyboard.register( Renderer.getComponent() );
-		Model.engine.getEngineInputRecievers().add( keyboard );
+		mouse.register(Renderer.getComponent());
+		Model.engine.getEngineInputRecievers().add(mouse);
 
-		mouse.register( Renderer.getComponent() );
-		Model.engine.getEngineInputRecievers().add( mouse );
+		Model.engine.getTargetManager().add(grid);
 
-		Model.engine.getTargetManager().add( grid );
-
-		Model.engine.setRefreshRate( 1 );
+		Model.engine.setRefreshRate(1);
 		Model.engine.suspend();
 		Model.engine.start();
 

@@ -10,7 +10,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
-import robertefry.firespread.io.Resource;
+import robertefry.firespread.io.ImageResource;
 import robertefry.firespread.model.grid.Cell;
 import robertefry.firespread.model.map.CellMap;
 import robertefry.firespread.model.map.ImageMap;
@@ -82,10 +82,10 @@ public class UICellSetLoader extends UIDialog< Map< Point, Cell > > {
 	@Override
 	protected Map< Point, Cell > getReturn() {
 		ImageMap elevationmap = new ImageMap(
-			Resource.loadImage( srcElevationMap.getText() ), srcElevationMap.getSelection()
+			ImageResource.loadImage( srcElevationMap.getText() ), srcElevationMap.getSelection()
 		);
 		ImageMap flamabilitymap = new ImageMap(
-			Resource.loadImage( srcFlamabilityMap.getText() ), srcFlamabilityMap.getSelection()
+			ImageResource.loadImage( srcFlamabilityMap.getText() ), srcFlamabilityMap.getSelection()
 		);
 		int rows = (int)spnRows.getComponent().getValue();
 		int cols = (int)spnCols.getComponent().getValue();

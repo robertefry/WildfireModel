@@ -2,26 +2,31 @@
 package robertefry.firespread.model.terrain;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public enum EnumTerrain implements Flamable {
+public enum EnumTerrain implements Flamable, Serializable {
 
-	NULL( -1, -1, false, false, Color.WHITE ),
-	WILD( 0, 1, true, false, Color.GREEN ),
-	BURNING( 1, 2, true, true, Color.RED ),
-	CLEARED( 2, 3, false, false, Color.BLACK ),
-	WATER( 3, 0, false, false, Color.BLUE );
+	NULL( false, false, false, Color.WHITE ),
+	WILD( true, true, false, Color.GREEN ),
+	BURNING( true, true, true, Color.RED ),
+	CLEARED( true, false, false, Color.BLACK ),
+	WATER( true, false, false, Color.BLUE );
 
-	private final int id, cycle;
+	private final boolean userOption;
+
 	private final boolean flamable;
 	private final boolean burning;
 	private final Color color;
 
-	EnumTerrain( int id, int cycle, boolean flamable, boolean burning, Color color ) {
-		this.id = id;
-		this.cycle = cycle;
+	EnumTerrain( boolean userOption, boolean flamable, boolean burning, Color color ) {
+		this.userOption = userOption;
 		this.flamable = flamable;
 		this.burning = burning;
 		this.color = color;
+	}
+
+	public boolean isUserOption() {
+		return userOption;
 	}
 
 	@Override
@@ -43,18 +48,15 @@ public enum EnumTerrain implements Flamable {
 		return color;
 	}
 
+	public static EnumTerrain getUserDefault() {
+		return EnumTerrain.WILD;
+	}
+
 	public static EnumTerrain find( boolean flamable, boolean burning ) {
-		for ( EnumTerrain terrain : EnumTerrain.values() ) if ( terrain.id >= 0 ) {
+		for ( EnumTerrain terrain : EnumTerrain.values() ) if ( terrain.isUserOption() ) {
 			if ( terrain.flamable == flamable && terrain.burning == burning ) return terrain;
 		}
 		return EnumTerrain.NULL;
-	}
-
-	public static EnumTerrain cycle( EnumTerrain terrain ) {
-		for ( EnumTerrain element : EnumTerrain.values() ) {
-			if ( element.id == terrain.cycle ) return element;
-		}
-		return terrain;
 	}
 
 }

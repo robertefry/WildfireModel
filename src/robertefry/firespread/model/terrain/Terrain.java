@@ -2,13 +2,17 @@
 package robertefry.firespread.model.terrain;
 
 import java.awt.Color;
+import java.io.Serializable;
 import robertefry.penguin.target.api.Updatable;
+
+// TODO rework
 
 /**
  * @author Robert E Fry
  * @date 19 Feb 2019
  */
-public class Terrain implements Cyclic, Updatable, Flamable {
+public class Terrain implements Updatable, Flamable, Serializable {
+	private static final long serialVersionUID = 163053639252165241L;
 
 	private float material;
 	private EnumTerrain state;
@@ -23,15 +27,18 @@ public class Terrain implements Cyclic, Updatable, Flamable {
 		this.state = terrain.state;
 	}
 
-	@Override
-	public void cycle() {
-		state = EnumTerrain.cycle( state );
+	public Terrain() {
+		this.material = 1.0f;
+		this.state = EnumTerrain.getUserDefault();
 	}
 
 	@Override
 	public void update() {
-		if ( isBurning() ) material = Math.max( 0, material - 1 );
-		if ( !canBurn() ) state = EnumTerrain.CLEARED;
+		if ( isBurning() ) {
+			material = Math.max( 0, material - 1 );
+			if ( !canBurn() ) state = EnumTerrain.CLEARED;
+		}
+		
 	}
 
 	@Override
@@ -52,6 +59,14 @@ public class Terrain implements Cyclic, Updatable, Flamable {
 	@Override
 	public boolean isBurning() {
 		return state.isBurning();
+	}
+
+	public EnumTerrain getState() {
+		return state;
+	}
+
+	public void setState( EnumTerrain state ) {
+		this.state = state;
 	}
 
 	public Color getDrawColor() {

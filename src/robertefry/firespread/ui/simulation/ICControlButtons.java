@@ -25,7 +25,7 @@ public class ICControlButtons extends JPanel {
 		JButton btnReset = new JButton( "Reset" );
 		btnReset.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				Model.getEngine().getTargetManager().reset();
+				Model.getEngine().reset();
 			}
 		} );
 		add( btnReset );

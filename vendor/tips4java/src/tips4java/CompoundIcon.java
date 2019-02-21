@@ -1,8 +1,9 @@
 
 package tips4java;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Graphics;
+import javax.swing.Icon;
 
 /**
  *  The CompoundIcon will paint two, or more, Icons as a single Icon. The

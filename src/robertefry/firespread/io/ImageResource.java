@@ -13,24 +13,24 @@ import org.apache.commons.logging.LogFactory;
  * @author Robert E Fry
  * @date 28 Jan 2019
  */
-public class Resource {
+public class ImageResource {
 
 	public static BufferedImage loadImage( String source ) {
 		if (source.isEmpty()) {
-			LogFactory.getLog( Resource.class ).warn( "null image from empty source string" );
+			LogFactory.getLog( ImageResource.class ).warn( "null image from empty source string" );
 			return null;
 		}
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read( new File( source ) );
 		} catch ( IOException e ) {
-			LogFactory.getLog( Resource.class ).warn( "failed to load image " + source, e );
+			LogFactory.getLog( ImageResource.class ).warn( "failed to load image " + source, e );
 		}
 		return image;
 	}
 
 	public static BufferedImage loadImage( String source, int width, int height ) {
-		BufferedImage image = Resource.loadImage( source );
+		BufferedImage image = ImageResource.loadImage( source );
 		BufferedImage resized = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
 		Graphics2D g2 = resized.createGraphics();
 		g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR );

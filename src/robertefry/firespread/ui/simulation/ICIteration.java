@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import robertefry.firespread.io.Resource;
+import robertefry.firespread.io.ImageResource;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.animate.RotatingIcon;
 import robertefry.penguin.engine.listener.EngineStateListener;
@@ -50,7 +50,7 @@ public class ICIteration extends JPanel {
 		add( button );
 
 		RotatingIcon working = new RotatingIcon(
-			new ImageIcon( Resource.loadImage( "res/icon/working.png", 20, 20 ) ), 0.5f
+			new ImageIcon( ImageResource.loadImage( "res/icon/working.png", 20, 20 ) ), 0.5f
 		);
 		working.setPreferredSize( new Dimension( 25, 25 ) );
 		springLayout.putConstraint( SpringLayout.NORTH, working, 0, SpringLayout.NORTH, this );

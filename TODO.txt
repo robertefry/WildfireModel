@@ -1,0 +1,7 @@
+
+fix conversion functions & image map loading
+
+click & drag cell state change
+window for which state to change cells to
+drop-down menu for cells?
+grid save & loading
