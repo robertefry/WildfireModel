@@ -10,7 +10,6 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.MapEditHints;
@@ -63,29 +62,18 @@ public class Grid extends TargetBlank {
 		} );
 	}
 
-	private Map< Point, Cell > getLocalCells( Point point ) {
-		return cellmap.entrySet().stream().filter( entry -> {
-			Point local = entry.getKey();
-			return Math.hypot( local.x - point.x, local.y - point.y ) <= AFFECT_RADIUS;
-		} ).collect( Collectors.toMap( Map.Entry::getKey, Map.Entry::getValue ) );
-	}
-
 	@Override
 	public void update() {
-		// generate list of burning cells
-		// generate list of cells neibouring burning cell
-		// try to burn the neibouring cell
-		cellmap.entrySet().stream()
+		cellmap.entrySet().stream().parallel()
 			.filter( entry -> entry.getValue().getTerrain().isBurning() )
 			.forEach( entry -> {
-				getLocalCells( entry.getKey() ).entrySet().forEach( local -> {
+				cellmap.entrySet().stream().parallel().filter( local -> {
+					Point p1 = entry.getKey(), p2 = local.getKey();
+					return Math.hypot( p1.x - p2.x, p1.y - p2.y ) <= AFFECT_RADIUS;
+				} ).forEach( local -> {
 					entry.trySpread( local );
 				} );
 			} );
-		//		cellmap.forEach( ( point, cell ) -> {
-		//			Map< Point, Cell > localcells = getLocalCells( point );
-		//			cell.prepNext( localcells );
-		//		} );
 		cellmap.values().stream().parallel().forEach( Cell::makeNext );
 	};
 
@@ -94,12 +82,10 @@ public class Grid extends TargetBlank {
 		cellmap.values().forEach( Cell::render );
 	};
 
+	// TODO zoom & move grid from mouse movements
 	private final class GridMouseListener extends MouseObjectAdapter {
 
-		// TODO GridMouseListener - zoom & move
-		// zoom & move grid from mouse movements
-		@Override
-		public void onButtonClick( MouseEvent e ) {
+		private void processMouseEventOnCell( MouseEvent e ) {
 			int x = (int)( ( e.getX() - gridDrawhints.getGridX() ) / gridDrawhints.getCellWidth() );
 			int y = (int)( ( e.getY() - gridDrawhints.getGridY() ) / gridDrawhints.getCellHeight() );
 			Cell cell = cellmap.get( new Point( x, y ) );
@@ -107,6 +93,21 @@ public class Grid extends TargetBlank {
 				cell.setState( MapEditHints.getEditSelection() );
 				Model.getEngine().forceRender();
 			}
+		}
+
+		@Override
+		public void onButtonPress( MouseEvent e ) {
+			processMouseEventOnCell( e );
+		}
+
+		@Override
+		public void onButtonClick( MouseEvent e ) {
+			processMouseEventOnCell( e );
+		}
+
+		@Override
+		public void onMouseDrag( MouseEvent e ) {
+			processMouseEventOnCell( e );
 		}
 
 	}
