@@ -3,24 +3,30 @@ package robertefry.firespread.util;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 public class GraphicUtil {
 
-	public static final void drawCross( Graphics g, Rectangle bounds, Color color ) {
+	public static final void drawCross( Graphics g, Rectangle2D bounds, Color color ) {
 		g.setColor( color );
-		g.drawLine( bounds.x, bounds.y, bounds.x + bounds.width, bounds.y + bounds.height );
-		g.drawLine( bounds.x + bounds.width, bounds.y, bounds.x, bounds.y + bounds.height );
+		g.drawLine(
+			(int)bounds.getX(), (int)bounds.getY(), (int)bounds.getX() + (int)bounds.getWidth(),
+			(int)bounds.getY() + (int)bounds.getHeight()
+		);
+		g.drawLine(
+			(int)bounds.getX() + (int)bounds.getWidth(), (int)bounds.getY(), (int)bounds.getX(),
+			(int)bounds.getY() + (int)bounds.getHeight()
+		);
 	}
 
-	public static final void drawRect( Graphics g, Rectangle bounds, Color color ) {
+	public static final void drawRect( Graphics g, Rectangle2D bounds, Color color ) {
 		g.setColor( color );
-		g.drawRect( bounds.x, bounds.y, bounds.width, bounds.height );
+		g.drawRect( (int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight() );
 	}
 
-	public static final void fillRect( Graphics g, Rectangle bounds, Color color ) {
+	public static final void fillRect( Graphics g, Rectangle2D bounds, Color color ) {
 		g.setColor( color );
-		g.fillRect( bounds.x, bounds.y, bounds.width, bounds.height );
+		g.fillRect( (int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight() );
 	}
 
 }

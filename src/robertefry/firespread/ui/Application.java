@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.grid.Cell;
-import robertefry.firespread.model.terrain.EnumTerrain;
+import robertefry.firespread.model.terain.TerrainState;
 import robertefry.firespread.ui.dialog.UIDialog;
 import robertefry.firespread.ui.maploader.UICellSetLoader;
 import robertefry.firespread.ui.maploader.UIGridLoader;
@@ -32,6 +32,8 @@ import robertefry.firespread.ui.simulation.UISimulationController;
  * @date 29 Jan 2019
  */
 public class Application {
+	
+	// TODO include a bar on the left containing edit / engine / controller / e.t.c information & settings
 
 	private final JFrame frmMainModel = new JFrame( "Wildfire Model" );
 
@@ -91,16 +93,16 @@ public class Application {
 					UIDialog< Map< Point, Cell > > frmCellSetLoader = new UICellSetLoader();
 					frmCellSetLoader.setLocationRelativeTo( frmMainModel );
 					frmCellSetLoader.setVisible( true );
-					Map< Point, Cell > cellset = null;
+					Map< Point, Cell > cellmap = null;
 					try {
-						cellset = frmCellSetLoader.fetch();
+						cellmap = frmCellSetLoader.fetch();
 					} catch ( CancellationException e1 ) {
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "cellset fetch failed", e1 );
 					}
 					if ( frmCellSetLoader.hasFetched() ) {
 						Model.getEngine().suspend();
-						Model.getGrid().reconstruct( cellset );
+						Model.getGrid().reconstruct( cellmap );
 						Model.getEngine().forceRender();
 					}
 				} ).start();
@@ -161,7 +163,7 @@ public class Application {
 			} );
 			mnEdit.add( rdbtnmntmCellEditType );
 			btngCellEditType.add( rdbtnmntmCellEditType );
-			if ( state == EnumTerrain.getUserDefault() ) {
+			if ( state == TerrainState.getDefault() ) {
 				rdbtnmntmCellEditType.setSelected( true );
 			}
 		} );

@@ -1,16 +1,16 @@
 
-package robertefry.firespread.model.terrain;
+package robertefry.firespread.model;
 
 /**
  * @author Robert E Fry
- * @date 7 Feb 2019
+ * @date 22 Feb 2019
  */
 public interface Flamable {
-
+	
+	public void tryIgnite();
+	
 	public boolean canBurn();
-
-	public boolean tryBurn();
-
+	
 	public boolean isBurning();
-
+	
 }

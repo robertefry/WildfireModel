@@ -4,86 +4,61 @@ package robertefry.firespread.model.grid;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.io.Serializable;
-import java.util.Map;
 import robertefry.firespread.graphic.Renderer;
-import robertefry.firespread.model.Model;
-import robertefry.firespread.model.terrain.EnumTerrain;
-import robertefry.firespread.model.terrain.Terrain;
+import robertefry.firespread.model.terain.Terrain;
 import robertefry.firespread.util.GraphicUtil;
 import robertefry.penguin.target.TargetBlank;
 
-// TODO rework
-
 /**
  * @author Robert E Fry
- * @date 19 Feb 2019
+ * @date 22 Feb 2019
  */
-public class Cell extends TargetBlank implements Serializable {
-	private static final long serialVersionUID = -3964239828345858975L;
-
-	private final float elevation;
-	private Terrain terrain, next;
-
-	private Rectangle bounds = new Rectangle();
-
-	public Cell( float elevation, Terrain terrain ) {
-		this.elevation = elevation;
+public class Cell extends TargetBlank {
+	
+	private final Point point;
+	private Terrain terrain;
+	
+	private final Rectangle bounds = new Rectangle();
+	
+	public Cell( Point point, Terrain terrain ) {
+		this.point = point;
 		this.terrain = terrain;
-		this.next = new Terrain( terrain );
 	}
-
+	
 	public Cell( Cell cell ) {
-		this.elevation = cell.elevation;
+		this.point = new Point( cell.point );
 		this.terrain = new Terrain( cell.terrain );
-		this.next = new Terrain( cell.next );
-	}
-
-	public Cell() {
-		this.elevation = 0.0f;
-		this.terrain = new Terrain();
-		this.next = new Terrain();
-	}
-
-	@Override
-	public void update() {
-		next.update();
-	}
-
-	@Override
-	public void render() {
-		if ( Model.CellRenderHints.DrawCellBorder ) {
-			GraphicUtil.drawRect( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
-			GraphicUtil.drawCross( Renderer.getGraphics(), bounds, terrain.getDrawColor() );
-		}
 	}
 	
 	public void trySpread( Cell cell ) {
-		
+		if ( terrain.isBurning() ) cell.getTerrain().tryIgnite();
 	}
-
-	public void prepNext( Map< Point, Cell > cells ) {
-		// TODO Cell::prepNext
-		cells.values().forEach( cell -> {
-			if ( cell.terrain.isBurning() ) next.tryBurn();
-		} );
+	
+	@Override
+	public void update() {
+		terrain.update();
 	}
-
-	public void setState( EnumTerrain state ) {
-		terrain.setState( state );
-		next.setState( state );
+	
+	@Override
+	public void render() {
+		GraphicUtil.drawRect( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
+		GraphicUtil.drawCross( Renderer.getGraphics(), bounds, terrain.getState().getDrawColor() );
 	}
-
-	public void makeNext() {
-		terrain = new Terrain( next );
+	
+	public Point getPoint() {
+		return point;
 	}
-
-	public void setBounds( Rectangle bounds ) {
-		this.bounds = bounds;
-	}
-
+	
 	public Terrain getTerrain() {
 		return terrain;
 	}
-
+	
+	public Rectangle getBounds() {
+		return bounds;
+	}
+	
+	public void setBounds( Rectangle r ) {
+		bounds.setBounds( r );
+	}
+	
 }

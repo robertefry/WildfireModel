@@ -2,8 +2,8 @@
 package robertefry.firespread.model;
 
 import robertefry.firespread.graphic.Renderer;
-import robertefry.firespread.model.grid.CellRenderHints;
 import robertefry.firespread.model.grid.Grid;
+import robertefry.firespread.ui.GridHints;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.listener.EngineLogicAdapter;
 import robertefry.penguin.input.keyboard.Keyboard;
@@ -15,7 +15,7 @@ import robertefry.penguin.input.mouse.Mouse;
  */
 public class Model {
 
-	public static final CellRenderHints CellRenderHints = new CellRenderHints();
+	public static final GridHints CellRenderHints = new GridHints();
 
 	private static final Engine engine = new Engine();
 	private static final Keyboard keyboard = new Keyboard();
