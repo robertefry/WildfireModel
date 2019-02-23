@@ -16,6 +16,8 @@ public class Terrain implements Flamable, Updatable {
 	private float burnrate;
 	private float elevation;
 	
+	private boolean ignite = false;
+	
 	public Terrain( float fuelmass, float elevation ) {
 		this.fuelmass = fuelmass;
 		this.elevation = elevation;
@@ -33,6 +35,10 @@ public class Terrain implements Flamable, Updatable {
 	
 	@Override
 	public void update() {
+		if ( ignite ) {
+			state = TerrainState.BURNING;
+			burnrate++;
+		}
 		if ( isBurning() ) {
 			fuelmass = Math.max( fuelmass - burnrate, 0 );
 		}
@@ -45,8 +51,7 @@ public class Terrain implements Flamable, Updatable {
 	@Override
 	public void tryIgnite() {
 		if ( canBurn() ) {
-			state = TerrainState.BURNING;
-			burnrate++;
+			ignite = true;
 		}
 	}
 	

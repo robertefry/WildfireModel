@@ -42,7 +42,7 @@ public class Cell extends TargetBlank {
 	@Override
 	public void render() {
 		GraphicUtil.drawRect( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
-		GraphicUtil.drawCross( Renderer.getGraphics(), bounds, terrain.getState().getDrawColor() );
+		GraphicUtil.fillRect( Renderer.getGraphics(), bounds, terrain.getState().getDrawColor() );
 	}
 	
 	public Point getPoint() {

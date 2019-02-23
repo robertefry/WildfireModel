@@ -27,7 +27,7 @@ import robertefry.penguin.target.TargetBlank;
  */
 public class Grid extends TargetBlank {
 	
-	public static final double AFFECT_RADIUS = 1;
+	public static final double AFFECT_RADIUS = 1.2;
 	
 	private final Map< Point, Cell > cellmap = new ConcurrentHashMap<>();
 	private final GridRenderContext context = new GridRenderContext();
@@ -63,6 +63,7 @@ public class Grid extends TargetBlank {
 	
 	@Override
 	public void update() {
+		// TODO cache burning cells
 		cellmap.values().stream().parallel()
 			.filter( cell -> cell.getTerrain().isBurning() )
 			.map( cell -> new Pair<>( cell, getLocalCells( cell ) ) )
