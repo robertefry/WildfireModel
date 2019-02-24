@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.maploader;
+package robertefry.firespread.ui.menubar.maploader;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -14,7 +14,7 @@ import robertefry.firespread.ui.dialog.UIDialog;
  * @author Robert E Fry
  * @date 1 Feb 2019
  */
-public class UIImageMapSettings extends UIDialog< Rectangle > {
+public class ICBoundsSelection extends UIDialog< Rectangle > {
 	private static final long serialVersionUID = 3254004359139003291L;
 
 	private final LabeledComponent< JSpinner > litfSelectionX;
@@ -25,7 +25,7 @@ public class UIImageMapSettings extends UIDialog< Rectangle > {
 	/**
 	 * Create the frame.
 	 */
-	public UIImageMapSettings( Rectangle bounds ) {
+	public ICBoundsSelection( Rectangle bounds ) {
 
 		litfSelectionX = new LabeledComponent<>(
 			"Selection X",

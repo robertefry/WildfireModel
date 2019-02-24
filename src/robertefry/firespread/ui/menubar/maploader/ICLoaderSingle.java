@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.maploader;
+package robertefry.firespread.ui.menubar.maploader;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -20,7 +20,7 @@ import robertefry.firespread.ui.dialog.UIDialog;
  * @author Robert E Fry
  * @date 29 Jan 2019
  */
-public class ICImageMapLoader extends JPanel {
+public class ICLoaderSingle extends JPanel {
 	private static final long serialVersionUID = 739973722131778461L;
 
 	private final LabeledComponent<
@@ -38,7 +38,7 @@ public class ICImageMapLoader extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ICImageMapLoader( String description, boolean required ) {
+	public ICLoaderSingle( String description, boolean required ) {
 
 		setPreferredSize( new Dimension( 416, 25 ) );
 		SpringLayout springLayout = new SpringLayout();
@@ -57,7 +57,7 @@ public class ICImageMapLoader extends JPanel {
 		btnProperties.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new Thread( () -> {
-					UIDialog< Rectangle > settings = new UIImageMapSettings( selection );
+					UIDialog< Rectangle > settings = new ICBoundsSelection( selection );
 					settings.setLocationRelativeTo( textComponent );
 					settings.setVisible( true );
 					Rectangle space = null;

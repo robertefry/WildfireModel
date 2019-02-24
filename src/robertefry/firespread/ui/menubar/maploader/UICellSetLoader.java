@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.maploader;
+package robertefry.firespread.ui.menubar.maploader;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -24,8 +24,8 @@ import robertefry.firespread.ui.dialog.UIDialog;
 public class UICellSetLoader extends UIDialog< Map< Point, Cell > > {
 	private static final long serialVersionUID = 1557112471549371181L;
 	
-	private final ICImageMapLoader srcElevationMap = new ICImageMapLoader( "Elevation map", true );
-	private final ICImageMapLoader srcFlamabilityMap = new ICImageMapLoader( "Flamability map", true );
+	private final ICLoaderSingle srcElevationMap = new ICLoaderSingle( "Elevation map", true );
+	private final ICLoaderSingle srcFlamabilityMap = new ICLoaderSingle( "Flamability map", true );
 	
 	LabeledComponent< JSpinner > spnRows = new LabeledComponent<>(
 		"rows", new JSpinner( new SpinnerNumberModel( 1, 1, Integer.MAX_VALUE, 1 ) )

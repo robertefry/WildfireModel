@@ -1,7 +1,6 @@
 
-package robertefry.firespread.ui.simulation;
+package robertefry.firespread.ui.sidebar.control;
 
-import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
@@ -20,25 +19,23 @@ import robertefry.penguin.targets.SimpleTimer;
  */
 public class ICRefreshRate extends JPanel {
 	private static final long serialVersionUID = -2128361965375480595L;
-
-	/**
-	 * Create the panel.
-	 */
+	
+	private final JLabel label = new JLabel( "Refresh Rate :" );
+	private final JLabel nspt = new JLabel( "0 ms/t", SwingConstants.RIGHT );
+	private final JSpinner spinner = new JSpinner(
+		new SpinnerNumberModel( Model.getEngine().getRefreshRate(), 0, Integer.MAX_VALUE, 1 )
+	);
+	
 	public ICRefreshRate() {
-
+		
 		SpringLayout layout = new SpringLayout();
 		setLayout( layout );
-
-		JLabel label = new JLabel( "refresh rate :" );
-		label.setPreferredSize( new Dimension( 89, 14 ) );
+		
 		layout.putConstraint( SpringLayout.NORTH, label, 0, SpringLayout.NORTH, this );
 		layout.putConstraint( SpringLayout.WEST, label, 0, SpringLayout.WEST, this );
 		layout.putConstraint( SpringLayout.SOUTH, label, 0, SpringLayout.SOUTH, this );
 		add( label );
-
-		JSpinner spinner = new JSpinner(
-			new SpinnerNumberModel( Model.getEngine().getRefreshRate(), -1, Integer.MAX_VALUE, 1 )
-		);
+		
 		spinner.addPropertyChangeListener( new PropertyChangeListener() {
 			public void propertyChange( PropertyChangeEvent evt ) {
 				Model.getEngine().setRefreshRate( ( (Number)spinner.getValue() ).floatValue() );
@@ -48,15 +45,13 @@ public class ICRefreshRate extends JPanel {
 		layout.putConstraint( SpringLayout.WEST, spinner, 6, SpringLayout.EAST, label );
 		layout.putConstraint( SpringLayout.SOUTH, spinner, 0, SpringLayout.SOUTH, this );
 		add( spinner );
-
-		JLabel nspt = new JLabel( "0 ms/t", SwingConstants.RIGHT );
-		nspt.setPreferredSize( new Dimension( 89, 14 ) );
+		
 		layout.putConstraint( SpringLayout.EAST, spinner, -6, SpringLayout.WEST, nspt );
 		layout.putConstraint( SpringLayout.NORTH, nspt, 0, SpringLayout.NORTH, this );
 		layout.putConstraint( SpringLayout.SOUTH, nspt, 0, SpringLayout.SOUTH, this );
 		layout.putConstraint( SpringLayout.EAST, nspt, 0, SpringLayout.EAST, this );
 		add( nspt );
-
+		
 		Model.getEngine().getTargetManager().add( new SimpleTimer() {
 			@Override
 			public void update() {
@@ -64,6 +59,19 @@ public class ICRefreshRate extends JPanel {
 				nspt.setText( String.format( "%s ms/t", NumberFormat.getInstance().format( getDelta() ) ) );
 			}
 		} );
-
+		
 	}
+	
+	public JLabel getLabel() {
+		return label;
+	}
+	
+	public JLabel getNspt() {
+		return nspt;
+	}
+	
+	public JSpinner getSpinner() {
+		return spinner;
+	}
+	
 }

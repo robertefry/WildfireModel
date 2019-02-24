@@ -1,5 +1,5 @@
 
-package robertefry.firespread.ui.maploader;
+package robertefry.firespread.ui.menubar.maploader;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -30,7 +30,7 @@ public class UIGridLoader extends UIDialog< Map< Point, Cell > > {
 	public UIGridLoader() {
 
 		setTitle( "New map" );
-		contentPane.setPreferredSize( new Dimension( 300, 100 ) );
+		contentPane.setPreferredSize( new Dimension(300, 95) );
 
 		SpringLayout layout = new SpringLayout();
 		contentPane.setLayout( layout );
@@ -44,11 +44,13 @@ public class UIGridLoader extends UIDialog< Map< Point, Cell > > {
 		spnRows.getLabel().setPreferredSize( new Dimension( 50, 14 ) );
 		layout.putConstraint( SpringLayout.NORTH, spnRows, 10, SpringLayout.SOUTH, lblEnterTheNumber );
 		layout.putConstraint( SpringLayout.WEST, spnRows, 10, SpringLayout.WEST, contentPane );
+		spnRows.getLabel().setText("Rows");
 		contentPane.add( spnRows );
 
 		spnCols.getLabel().setPreferredSize( new Dimension( 50, 14 ) );
 		layout.putConstraint( SpringLayout.NORTH, spnCols, 10, SpringLayout.SOUTH, spnRows );
 		layout.putConstraint( SpringLayout.WEST, spnCols, 10, SpringLayout.WEST, contentPane );
+		spnCols.getLabel().setText("Columns");
 		contentPane.add( spnCols );
 
 		pack();

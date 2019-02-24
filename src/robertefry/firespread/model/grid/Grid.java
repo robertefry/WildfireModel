@@ -17,7 +17,6 @@ import robertefry.firespread.cache.SimpleConcurrentCache;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.terain.TerrainState;
-import robertefry.firespread.ui.MapEditHints;
 import robertefry.firespread.util.MathUtil;
 import robertefry.penguin.input.mouse.listener.MouseObjectAdapter;
 import robertefry.penguin.input.mouse.listener.MouseObjectListener;
@@ -90,7 +89,7 @@ public class Grid extends TargetBlank {
 		private void processMouseEvent( MouseEvent e ) {
 			Cell cell = getCell( e.getPoint() );
 			if ( cell != null ) {
-				cell.getTerrain().setState( MapEditHints.getEditSelection() );
+				cell.getTerrain().setState( GridEditOptions.getSelection() );
 				Model.getEngine().forceRender();
 			}
 		}
