@@ -2,3 +2,4 @@
 image loading
 grid save & loading
 advanced edit options ( material density, flamability, etc )
+edit pen size/thickness
