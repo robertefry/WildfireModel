@@ -14,22 +14,23 @@ import robertefry.firespread.model.Model;
  */
 public class ICControlButtons extends JPanel {
 	private static final long serialVersionUID = 3938882238925642865L;
-
+	
 	/**
 	 * Create the panel.
 	 */
 	public ICControlButtons() {
-
+		
 		setLayout( new GridLayout( 0, 3, 2, 2 ) );
-
+		
 		JButton btnReset = new JButton( "Reset" );
 		btnReset.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				Model.getEngine().reset();
 			}
 		} );
+		btnReset.setEnabled( false );
 		add( btnReset );
-
+		
 		JButton btnStop = new JButton( "Stop" );
 		btnStop.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
@@ -37,7 +38,7 @@ public class ICControlButtons extends JPanel {
 			}
 		} );
 		add( btnStop );
-
+		
 		JButton btnStart = new JButton( "Start" );
 		btnStart.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
@@ -45,6 +46,6 @@ public class ICControlButtons extends JPanel {
 			}
 		} );
 		add( btnStart );
-
+		
 	}
 }

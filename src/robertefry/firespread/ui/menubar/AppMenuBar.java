@@ -78,6 +78,7 @@ public class AppMenuBar extends JMenuBar {
 				} ).start();
 			}
 		} );
+		mntmNewMapGrid.setEnabled( false );
 		mnFile.add( mntmNewMapGrid );
 
 		JSeparator separator_1 = new JSeparator();
@@ -93,6 +94,7 @@ public class AppMenuBar extends JMenuBar {
 		//				}
 		//			}
 		//		} );
+		mntmSaveModel.setEnabled( false );
 		mnFile.add( mntmSaveModel );
 
 		JMenuItem mntmLoadModel = new JMenuItem( "Load Model" );
@@ -106,6 +108,7 @@ public class AppMenuBar extends JMenuBar {
 		//				}
 		//			}
 		//		} );
+		mntmLoadModel.setEnabled( false );
 		mnFile.add( mntmLoadModel );
 		
 	}
