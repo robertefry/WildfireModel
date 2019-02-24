@@ -7,11 +7,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import org.javatuples.Pair;
+import robertefry.firespread.cache.Cache;
+import robertefry.firespread.cache.SimpleConcurrentCache;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.terain.TerrainState;
@@ -30,8 +32,10 @@ public class Grid extends TargetBlank {
 	public static final double AFFECT_RADIUS = 1.2;
 	
 	private final Map< Point, Cell > cellmap = new ConcurrentHashMap<>();
+	private final Cache< Cell, Set< Cell > > localcells = new SimpleConcurrentCache<>();
+	
+	private final GridShape gridshape = new GridShape();
 	private final GridRenderContext context = new GridRenderContext();
-	private final GridShape shape = new GridShape();
 	
 	private final MouseObjectListener gridMouseObjectListener = new GridMouseListener();
 	private final ComponentListener gridComponentListener = new GridComponentListener();
@@ -42,35 +46,36 @@ public class Grid extends TargetBlank {
 	}
 	
 	public void reconstruct( Map< Point, Cell > cellmap ) {
+		this.localcells.clear();
 		this.cellmap.clear();
-		this.shape.setBounds( 0, 0, 0, 0 );
+		this.gridshape.setBounds( 0, 0, 0, 0 );
 		cellmap.entrySet().stream().parallel().forEach( entry -> {
-			this.cellmap.put( entry.getKey(), entry.getValue() );
-			this.shape.include( entry.getKey() );
+			Point point = entry.getKey();
+			Cell cell = entry.getValue();
+			this.cellmap.put( point, cell );
+			this.gridshape.include( point );
 		} );
-		context.enforceCellBounds( shape.getSize(), cellmap.values() );
+		context.enforceCellBounds( gridshape.getSize(), cellmap.values() );
 	}
 	
-	public Set< Cell > getLocalCells( Cell cell ) {
-		return cellmap.entrySet().stream().parallel()
+	public Set< Cell > getLocalCells( Collection< Cell > cellset, Cell cell ) {
+		return cellset.stream().parallel()
 			.filter( local -> {
-				Point p1 = cell.getPoint(), p2 = local.getKey();
+				Point p1 = cell.getPoint(), p2 = local.getPoint();
 				return Math.hypot( p1.x - p2.x, p1.y - p2.y ) <= AFFECT_RADIUS;
 			} )
-			.map( Map.Entry::getValue )
 			.collect( Collectors.toSet() );
 	}
 	
 	@Override
 	public void update() {
-		// TODO cache burning cells
 		cellmap.values().stream().parallel()
 			.filter( cell -> cell.getTerrain().isBurning() )
-			.map( cell -> new Pair<>( cell, getLocalCells( cell ) ) )
-			.forEach( pair -> {
-				pair.getValue1().stream().parallel().forEach( dest -> {
-					pair.getValue0().trySpread( dest );
-				} );
+			.forEach( cell -> {
+				localcells.get( cell, () -> getLocalCells( cellmap.values(), cell ) )
+					.forEach( local -> {
+						cell.trySpread( local );
+					} );
 			} );
 		cellmap.values().stream().parallel().forEach( Cell::update );
 	};
@@ -129,7 +134,7 @@ public class Grid extends TargetBlank {
 		@Override
 		public void componentResized( ComponentEvent e ) {
 			context.setCanvasSize( Renderer.getComponent().getSize() );
-			context.enforceCellBounds( shape.getSize(), cellmap.values() );
+			context.enforceCellBounds( gridshape.getSize(), cellmap.values() );
 			Model.getEngine().forceRender();
 		}
 		

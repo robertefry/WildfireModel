@@ -63,6 +63,47 @@ public class GridShape implements Iterable< Point > {
 		include( p.x, p.y );
 	}
 	
+	public synchronized boolean contains( double x, double y ) {
+		if ( x < this.x || y < this.y ) {
+			return false;
+		}
+		if ( x > this.x + this.width || y > this.y + this.height ) {
+			return false;
+		}
+		return true;
+	}
+	
+	public synchronized boolean contains( Point p ) {
+		return contains( p.x, p.y );
+	}
+	
+	public synchronized boolean contains( int x, int y, int width, int height ) {
+		assertPosativeSize( width, height );
+		if ( x < this.x || y < this.y ) {
+			return false;
+		}
+		if ( x + width > this.x + this.width || y + height > this.y + this.height ) {
+			return false;
+		}
+		return true;
+	}
+	
+	public synchronized boolean contains( Rectangle r ) {
+		return contains( r.x, r.y, r.width, r.height );
+	}
+	
+	public synchronized boolean intersects( Rectangle r ) {
+		return getBounds().intersects( r );
+	}
+	
+	public synchronized GridShape intersection( Rectangle r ) {
+		return new GridShape( getBounds().intersection( r ) );
+	}
+	
+	public synchronized GridShape union( Rectangle r ) {
+		return new GridShape( getBounds().union( r ) );
+	}
+	
 	public synchronized int getX() {
 		return x;
 	}
@@ -88,10 +129,12 @@ public class GridShape implements Iterable< Point > {
 	}
 	
 	public synchronized void setWidth( int width ) {
+		assertPosativeSize( width );
 		this.width = width;
 	}
 	
 	public synchronized void setHeight( int height ) {
+		assertPosativeSize( height );
 		this.height = height;
 	}
 	
@@ -132,6 +175,7 @@ public class GridShape implements Iterable< Point > {
 	}
 	
 	public synchronized void setBounds( int x, int y, int width, int height ) {
+		assertPosativeSize( width, height );
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -160,6 +204,7 @@ public class GridShape implements Iterable< Point > {
 	}
 	
 	public synchronized void setSize( int width, int height ) {
+		assertPosativeSize( width, height );
 		this.width = width;
 		this.height = height;
 	}
@@ -169,7 +214,7 @@ public class GridShape implements Iterable< Point > {
 	}
 	
 	@Override
-	public Iterator< Point > iterator() {
+	public synchronized Iterator< Point > iterator() {
 		return new Itr();
 	}
 	
@@ -203,6 +248,18 @@ public class GridShape implements Iterable< Point > {
 	@Override
 	public String toString() {
 		return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
+	}
+	
+	private static final void assertPosativeSize( int width, int height ) {
+		if ( ( width | height ) < 0 ) {
+			throw new IllegalArgumentException( "size must be non-negative" );
+		}
+	}
+	
+	private static final void assertPosativeSize( int size ) {
+		if ( size < 0 ) {
+			throw new IllegalArgumentException( "size must be non-negative" );
+		}
 	}
 	
 }
