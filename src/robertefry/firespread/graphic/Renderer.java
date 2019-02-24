@@ -15,7 +15,7 @@ import robertefry.penguin.engine.listener.EngineLogicAdapter;
  */
 public class Renderer {
 	
-	private static final Component component = new Canvas();
+	private static final Component canvas = new Canvas();
 	private static BufferedImage buffer = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
 	
 	private static Color clearcolor = Color.BLACK;
@@ -23,23 +23,28 @@ public class Renderer {
 	
 	static {
 		
-		component.setIgnoreRepaint( true );
-		component.setBackground( clearcolor );
+		canvas.setIgnoreRepaint( true );
+		canvas.setBackground( clearcolor );
 		
 		Model.getEngine().getEngineLogicListeners().add( new EngineLogicAdapter() {
 			
 			@Override
 			public void preRender() {
-				buffer = new BufferedImage( component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB );
+				if ( canvas.getWidth() != buffer.getWidth() || canvas.getHeight() != buffer.getHeight() ) {
+					buffer = new BufferedImage( canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_INT_ARGB );
+				}
+				Graphics g = buffer.getGraphics();
+				g.setColor( clearcolor );
+				g.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
 			}
 			
 			@Override
 			public void postRender() {
 				if ( visable ) {
-					component.getGraphics().setColor( clearcolor );
-					component.getGraphics().fillRect( 0, 0, component.getWidth(), component.getHeight() );
-					component.getGraphics().drawImage(
-						buffer, 0, 0, component.getWidth(), component.getHeight(),
+					canvas.getGraphics().setColor( clearcolor );
+					canvas.getGraphics().fillRect( 0, 0, canvas.getWidth(), canvas.getHeight() );
+					canvas.getGraphics().drawImage(
+						buffer, 0, 0, canvas.getWidth(), canvas.getHeight(),
 						0, 0, buffer.getWidth(), buffer.getHeight(), null
 					);
 				}
@@ -53,8 +58,8 @@ public class Renderer {
 		visable = true;
 	}
 	
-	public static final Component getComponent() {
-		return component;
+	public static final Component getCanvas() {
+		return canvas;
 	}
 	
 	public static final Graphics getGraphics() {
@@ -67,7 +72,7 @@ public class Renderer {
 	
 	public static final void setClearColor( Color clearcolor ) {
 		Renderer.clearcolor = clearcolor;
-		component.setBackground( clearcolor );
+		canvas.setBackground( clearcolor );
 	}
 	
 }

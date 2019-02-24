@@ -19,7 +19,7 @@ public class Application {
 	// information & settings
 	
 	private final JFrame frmMainModel = new JFrame( "Wildfire Model" );
-	private final Component canvas = Renderer.getComponent();
+	private final Component canvas = Renderer.getCanvas();
 	
 	public Application() {
 		initialize();

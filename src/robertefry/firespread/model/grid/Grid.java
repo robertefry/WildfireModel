@@ -41,7 +41,7 @@ public class Grid extends TargetBlank {
 	
 	public Grid() {
 		Model.getMouse().addMouseObjectListener( gridMouseObjectListener );
-		Renderer.getComponent().addComponentListener( gridComponentListener );
+		Renderer.getCanvas().addComponentListener( gridComponentListener );
 	}
 	
 	public void reconstruct( Map< Point, Cell > cellmap ) {
@@ -132,7 +132,7 @@ public class Grid extends TargetBlank {
 		
 		@Override
 		public void componentResized( ComponentEvent e ) {
-			context.setCanvasSize( Renderer.getComponent().getSize() );
+			context.setCanvasSize( Renderer.getCanvas().getSize() );
 			context.enforceCellBounds( gridshape.getSize(), cellmap.values() );
 			Model.getEngine().forceRender();
 		}
