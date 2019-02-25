@@ -4,7 +4,9 @@ package robertefry.firespread.model.grid;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import robertefry.firespread.graphic.Renderer;
+import robertefry.firespread.model.Spread;
 import robertefry.firespread.model.terain.Terrain;
 import robertefry.firespread.util.GraphicUtil;
 import robertefry.penguin.target.TargetBlank;
@@ -31,7 +33,11 @@ public class Cell extends TargetBlank {
 	}
 	
 	public void trySpread( Cell cell ) {
-		if ( terrain.isBurning() ) cell.getTerrain().tryIgnite();
+		if ( Spread.passSpreadModel( this, cell ) ) {
+			if ( terrain.isBurning() ) {
+				cell.getTerrain().tryIgnite();
+			}
+		}
 	}
 	
 	@Override

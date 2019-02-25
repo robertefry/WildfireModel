@@ -16,6 +16,7 @@ import robertefry.firespread.cache.Cache;
 import robertefry.firespread.cache.SimpleConcurrentCache;
 import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
+import robertefry.firespread.model.Spread;
 import robertefry.firespread.model.terain.TerrainState;
 import robertefry.firespread.util.MathUtil;
 import robertefry.penguin.input.mouse.listener.MouseObjectAdapter;
@@ -27,8 +28,6 @@ import robertefry.penguin.target.TargetBlank;
  * @date 22 Feb 2019
  */
 public class Grid extends TargetBlank {
-	
-	public static final double AFFECT_RADIUS = 1.2;
 	
 	private final Map< Point, Cell > cellmap = new ConcurrentHashMap<>();
 	private final Cache< Cell, Set< Cell > > localcells = new SimpleConcurrentCache<>();
@@ -61,7 +60,7 @@ public class Grid extends TargetBlank {
 		return cellset.stream().parallel()
 			.filter( local -> {
 				Point p1 = cell.getPoint(), p2 = local.getPoint();
-				return Math.hypot( p1.x - p2.x, p1.y - p2.y ) <= AFFECT_RADIUS;
+				return Math.hypot( p1.x - p2.x, p1.y - p2.y ) <= Spread.GRID_AFFECT_RADIUS;
 			} )
 			.collect( Collectors.toSet() );
 	}
