@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JFrame;
-import robertefry.firespread.graphic.Renderer;
+import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.menubar.AppMenuBar;
 import robertefry.firespread.ui.sidebar.AppSideBar;
 
@@ -19,7 +19,7 @@ public class Application {
 	// information & settings
 	
 	private final JFrame frmMainModel = new JFrame( "Wildfire Model" );
-	private final Component canvas = Renderer.getComponent();
+	private final Component canvas = Model.getEngine().getRenderer().getComponent();
 	
 	public Application() {
 		initialize();

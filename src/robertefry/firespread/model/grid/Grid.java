@@ -1,6 +1,7 @@
 
 package robertefry.firespread.model.grid;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -14,7 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import robertefry.firespread.cache.Cache;
 import robertefry.firespread.cache.SimpleConcurrentCache;
-import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.Spread;
 import robertefry.firespread.model.terain.TerrainState;
@@ -40,7 +40,7 @@ public class Grid extends TargetBlank {
 	
 	public Grid() {
 		Model.getMouse().addMouseObjectListener( gridMouseObjectListener );
-		Renderer.getComponent().addComponentListener( gridComponentListener );
+		Model.getEngine().getRenderer().getComponent().addComponentListener( gridComponentListener );
 	}
 	
 	public void reconstruct( Map< Point, Cell > cellmap ) {
@@ -79,8 +79,8 @@ public class Grid extends TargetBlank {
 	};
 	
 	@Override
-	public void render() {
-		cellmap.values().forEach( Cell::render );
+	public void render( Graphics g ) {
+		cellmap.values().forEach( cell -> cell.render( g ) );
 	};
 	
 	private final class GridMouseListener extends MouseObjectAdapter {
@@ -131,7 +131,7 @@ public class Grid extends TargetBlank {
 		
 		@Override
 		public void componentResized( ComponentEvent e ) {
-			context.setCanvasSize( Renderer.getComponent().getSize() );
+			context.setCanvasSize( Model.getEngine().getRenderer().getComponent().getSize() );
 			context.enforceCellBounds( gridshape.getSize(), cellmap.values() );
 			Model.getEngine().forceRender();
 		}

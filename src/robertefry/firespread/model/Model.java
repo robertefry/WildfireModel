@@ -1,7 +1,6 @@
 
 package robertefry.firespread.model;
 
-import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.grid.Grid;
 import robertefry.penguin.engine.Engine;
 import robertefry.penguin.engine.listener.EngineLogicAdapter;
@@ -29,10 +28,10 @@ public class Model {
 			}
 		} );
 		
-		keyboard.register( Renderer.getComponent() );
+		keyboard.register( engine.getRenderer().getComponent() );
 		Model.engine.getEngineInputRecievers().add( keyboard );
 		
-		mouse.register( Renderer.getComponent() );
+		mouse.register( engine.getRenderer().getComponent() );
 		Model.engine.getEngineInputRecievers().add( mouse );
 		
 		Model.engine.getTargetManager().add( grid );

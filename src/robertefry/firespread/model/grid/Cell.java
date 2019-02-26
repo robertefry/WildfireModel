@@ -2,10 +2,9 @@
 package robertefry.firespread.model.grid;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-
-import robertefry.firespread.graphic.Renderer;
 import robertefry.firespread.model.Spread;
 import robertefry.firespread.model.terain.Terrain;
 import robertefry.firespread.util.GraphicUtil;
@@ -46,9 +45,9 @@ public class Cell extends TargetBlank {
 	}
 	
 	@Override
-	public void render() {
-		GraphicUtil.drawRect( Renderer.getGraphics(), bounds, Color.DARK_GRAY );
-		GraphicUtil.drawCross( Renderer.getGraphics(), bounds, terrain.getState().getDrawColor() );
+	public void render( Graphics g ) {
+		GraphicUtil.drawRect( g, bounds, Color.DARK_GRAY );
+		GraphicUtil.drawCross( g, bounds, terrain.getState().getDrawColor() );
 	}
 	
 	public Point getPoint() {

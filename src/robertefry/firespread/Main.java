@@ -2,11 +2,8 @@
 package robertefry.firespread;
 
 import java.awt.EventQueue;
-
 import javax.swing.UIManager;
-
 import org.apache.commons.logging.LogFactory;
-
 import robertefry.firespread.ui.Application;
 
 /**
@@ -14,9 +11,9 @@ import robertefry.firespread.ui.Application;
  * @date 31 Jan 2019
  */
 public class Main {
-
+	
 	public static void main( String[] args ) {
-
+		
 		EventQueue.invokeLater( () -> {
 			try {
 				UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
@@ -26,7 +23,7 @@ public class Main {
 			Application application = new Application();
 			application.show();
 		} );
-
+		
 	}
-
+	
 }
