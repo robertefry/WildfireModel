@@ -1,11 +1,11 @@
 
 package robertefry.firespread.graphic;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import javax.swing.JPanel;
 import robertefry.firespread.model.Model;
 import robertefry.penguin.engine.listener.EngineLogicAdapter;
 
@@ -15,11 +15,10 @@ import robertefry.penguin.engine.listener.EngineLogicAdapter;
  */
 public class Renderer {
 	
-	private static final Component canvas = new Canvas();
+	private static final JPanel canvas = new InstanceCanvas();
 	private static BufferedImage buffer = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
 	
 	private static Color clearcolor = Color.BLACK;
-	private static boolean visable = false;
 	
 	static {
 		
@@ -30,35 +29,19 @@ public class Renderer {
 			
 			@Override
 			public void preRender() {
-				if ( canvas.getWidth() != buffer.getWidth() || canvas.getHeight() != buffer.getHeight() ) {
-					buffer = new BufferedImage( canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_INT_ARGB );
-				}
-				Graphics g = buffer.getGraphics();
-				g.setColor( clearcolor );
-				g.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
+				buffer = new BufferedImage( canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_INT_ARGB );
 			}
 			
 			@Override
 			public void postRender() {
-				if ( visable ) {
-					canvas.getGraphics().setColor( clearcolor );
-					canvas.getGraphics().fillRect( 0, 0, canvas.getWidth(), canvas.getHeight() );
-					canvas.getGraphics().drawImage(
-						buffer, 0, 0, canvas.getWidth(), canvas.getHeight(),
-						0, 0, buffer.getWidth(), buffer.getHeight(), null
-					);
-				}
+				canvas.repaint();
 			}
 			
 		} );
 		
 	}
 	
-	public static final void notifyVisible() {
-		visable = true;
-	}
-	
-	public static final Component getCanvas() {
+	public static final Component getComponent() {
 		return canvas;
 	}
 	
@@ -73,6 +56,24 @@ public class Renderer {
 	public static final void setClearColor( Color clearcolor ) {
 		Renderer.clearcolor = clearcolor;
 		canvas.setBackground( clearcolor );
+	}
+	
+	private static final class InstanceCanvas extends JPanel {
+		private static final long serialVersionUID = 692123362907724199L;
+		
+		@Override
+		protected void paintComponent( Graphics g ) {
+			super.paintComponent( g );
+			
+			g.setColor( clearcolor );
+			g.fillRect( 0, 0, canvas.getWidth(), canvas.getHeight() );
+			g.drawImage(
+				buffer, 0, 0, canvas.getWidth(), canvas.getHeight(),
+				0, 0, buffer.getWidth(), buffer.getHeight(), null
+			);
+			
+		}
+		
 	}
 	
 }

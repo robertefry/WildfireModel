@@ -48,9 +48,9 @@ public class AppSideBar extends JPanel {
 		springLayout.putConstraint( SpringLayout.WEST, wind, 5, SpringLayout.WEST, this );
 		springLayout.putConstraint( SpringLayout.EAST, wind, -5, SpringLayout.EAST, this );
 		wind.setBorder(
-			new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Wind ( speed & direction )", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0))
+			new TitledBorder( new LineBorder( new Color( 0, 0, 0 ), 1, true ), "Wind ( speed & direction )", TitledBorder.LEADING, TitledBorder.TOP, null, new Color( 0, 0, 0 ) )
 		);
-		wind.setPreferredSize( new Dimension(100, 200) );
+		wind.setPreferredSize( new Dimension( 100, 200 ) );
 		add( wind );
 		
 	}

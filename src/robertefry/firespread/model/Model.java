@@ -29,10 +29,10 @@ public class Model {
 			}
 		} );
 		
-		keyboard.register( Renderer.getCanvas() );
+		keyboard.register( Renderer.getComponent() );
 		Model.engine.getEngineInputRecievers().add( keyboard );
 		
-		mouse.register( Renderer.getCanvas() );
+		mouse.register( Renderer.getComponent() );
 		Model.engine.getEngineInputRecievers().add( mouse );
 		
 		Model.engine.getTargetManager().add( grid );

@@ -19,7 +19,7 @@ public class Application {
 	// information & settings
 	
 	private final JFrame frmMainModel = new JFrame( "Wildfire Model" );
-	private final Component canvas = Renderer.getCanvas();
+	private final Component canvas = Renderer.getComponent();
 	
 	public Application() {
 		initialize();
@@ -27,7 +27,6 @@ public class Application {
 	
 	public void show() {
 		frmMainModel.setVisible( true );
-		Renderer.notifyVisible();
 	}
 	
 	private void initialize() {
