@@ -8,17 +8,18 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import robertefry.firespread.cache.Cache;
-import robertefry.firespread.cache.ConcurrentHashCache;
 import robertefry.firespread.model.Model;
-import robertefry.firespread.model.Spread;
 import robertefry.firespread.model.terain.TerrainState;
 import robertefry.firespread.util.MathUtil;
+import robertefry.jtoolkit.cache.MapCache;
+import robertefry.jtoolkit.cache.SetCache;
 import robertefry.penguin.input.mouse.listener.MouseObjectAdapter;
 import robertefry.penguin.input.mouse.listener.MouseObjectListener;
 import robertefry.penguin.target.TargetBlank;
@@ -30,7 +31,9 @@ import robertefry.penguin.target.TargetBlank;
 public class Grid extends TargetBlank {
 	
 	private final Map< Point, Cell > cellmap = new ConcurrentHashMap<>();
-	private final Cache< Cell, Set< Cell > > localcells = new ConcurrentHashCache<>();
+	
+	private final SetCache< Cell > cacheBurning = new SetCache<>( new HashSet<>() );
+	private final MapCache< Cell, Set< Cell > > cacheLocal = new MapCache<>( new HashMap<>() );
 	
 	private final GridShape gridshape = new GridShape();
 	private final GridRenderContext context = new GridRenderContext();
@@ -44,38 +47,44 @@ public class Grid extends TargetBlank {
 	}
 	
 	public void reconstruct( Map< Point, Cell > cellmap ) {
-		this.localcells.clear();
+		this.cacheBurning.clear();
+		this.cacheLocal.clear();
 		this.cellmap.clear();
 		this.gridshape.setBounds( 0, 0, 0, 0 );
 		cellmap.entrySet().stream().parallel().forEach( entry -> {
 			Point point = entry.getKey();
 			Cell cell = entry.getValue();
 			this.cellmap.put( point, cell );
+			if ( cell.getTerrain().isBurning() ) this.cacheBurning.cache( cell );
 			this.gridshape.include( point );
 		} );
 		context.enforceCellBounds( gridshape.getSize(), cellmap.values() );
 	}
 	
-	public Set< Cell > getLocalCells( Collection< Cell > cellset, Cell cell ) {
-		return cellset.stream().parallel()
-			.filter( local -> {
-				Point p1 = cell.getPoint(), p2 = local.getPoint();
-				return Math.hypot( p1.x - p2.x, p1.y - p2.y ) <= Spread.GRID_AFFECT_RADIUS;
-			} )
-			.collect( Collectors.toSet() );
+	public Set< Cell > getLocalCells( Cell cell ) {
+		Point point = cell.getPoint();
+		GridShape shape = new GridShape( point.x - 1, point.y - 1, 3, 3 );
+		return shape.stream().map( cellmap::get ).filter( Objects::nonNull ).collect( Collectors.toSet() );
 	}
 	
 	@Override
 	public void update() {
-		cellmap.values().stream().parallel()
-			.filter( cell -> cell.getTerrain().isBurning() )
+		
+		Set< Cell > cellsToBurn = new HashSet<>();
+		cacheBurning.stream().parallel()
 			.forEach( cell -> {
-				localcells.retrieve( cell, () -> getLocalCells( cellmap.values(), cell ) )
+				cacheLocal.retrieve( cell, () -> getLocalCells( cell ) )
 					.forEach( local -> {
-						cell.trySpread( local );
+						boolean ignite = cell.trySpread( local );
+						if ( ignite ) cellsToBurn.add( local );
 					} );
 			} );
-		cellmap.values().stream().parallel().forEach( Cell::update );
+		cellsToBurn.forEach( cacheBurning::cache );
+		
+		cacheBurning.stream().parallel().forEach( Cell::update );
+		
+		cacheBurning.clean( ( cell ) -> !cell.getTerrain().isBurning() );
+		
 	};
 	
 	@Override
@@ -85,11 +94,20 @@ public class Grid extends TargetBlank {
 	
 	private final class GridMouseListener extends MouseObjectAdapter {
 		
+		private void process( Cell cell, TerrainState state ) {
+			cell.getTerrain().setState( state );
+			if ( state.isBurning() ) {
+				cacheBurning.cache( cell );
+			} else {
+				cacheBurning.remove( cell );
+			}
+			Model.getEngine().forceRender();
+		}
+		
 		private void processMouseEvent( MouseEvent e ) {
 			Cell cell = getCell( e.getPoint() );
 			if ( cell != null ) {
-				cell.getTerrain().setState( GridEditOptions.getSelection() );
-				Model.getEngine().forceRender();
+				process( cell, GridEditOptions.getSelection() );
 			}
 		}
 		
@@ -99,8 +117,7 @@ public class Grid extends TargetBlank {
 				int index = (int)MathUtil.clamp(
 					cell.getTerrain().getState().ordinal() + e.getWheelRotation(), 0, TerrainState.values().length
 				);
-				cell.getTerrain().setState( TerrainState.values()[index] );
-				Model.getEngine().forceRender();
+				process( cell, TerrainState.values()[index] );
 			}
 		}
 		

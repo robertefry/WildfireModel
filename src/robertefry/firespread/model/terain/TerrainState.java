@@ -2,7 +2,6 @@
 package robertefry.firespread.model.terain;
 
 import java.awt.Color;
-import robertefry.firespread.model.Flamable;
 
 /**
  * @author Robert E Fry
@@ -22,10 +21,6 @@ public enum TerrainState implements Flamable {
 		this.canBurn = canBurn;
 		this.isBurning = isBurning;
 		this.color = color;
-	}
-	
-	@Override
-	public void tryIgnite() {
 	}
 	
 	@Override

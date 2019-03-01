@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Iterator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * @author Robert E Fry
@@ -216,6 +218,14 @@ public class GridShape implements Iterable< Point > {
 	@Override
 	public synchronized Iterator< Point > iterator() {
 		return new Itr();
+	}
+	
+	public Stream< Point > stream() {
+		return StreamSupport.stream( spliterator(), false );
+	}
+	
+	public Stream< Point > parallelStream() {
+		return StreamSupport.stream( spliterator(), true );
 	}
 	
 	private final class Itr implements Iterator< Point > {

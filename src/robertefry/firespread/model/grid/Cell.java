@@ -31,12 +31,14 @@ public class Cell extends TargetBlank {
 		this.terrain = new Terrain( cell.terrain );
 	}
 	
-	public void trySpread( Cell cell ) {
+	public boolean trySpread( Cell cell ) {
+		boolean ignite = false;
 		if ( Spread.passSpreadModel( this, cell ) ) {
 			if ( terrain.isBurning() ) {
-				cell.getTerrain().tryIgnite();
+				ignite = cell.getTerrain().tryIgnite();
 			}
 		}
+		return ignite;
 	}
 	
 	@Override

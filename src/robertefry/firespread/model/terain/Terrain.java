@@ -1,7 +1,6 @@
 
 package robertefry.firespread.model.terain;
 
-import robertefry.firespread.model.Flamable;
 import robertefry.penguin.target.api.Updatable;
 
 /**
@@ -48,11 +47,11 @@ public class Terrain implements Flamable, Updatable {
 		}
 	}
 	
-	@Override
-	public void tryIgnite() {
+	public boolean tryIgnite() {
 		if ( canBurn() ) {
 			ignite = true;
 		}
+		return ignite;
 	}
 	
 	@Override

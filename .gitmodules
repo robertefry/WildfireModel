@@ -1,3 +1,6 @@
 [submodule "vendor/PenguinEngine"]
 	path = vendor/PenguinEngine
 	url = https://github.com/robertefry/PenguinEngine.git
+[submodule "vendor/JToolkit-Cache"]
+	path = vendor/JToolkit-Cache
+	url = https://github.com/robertefry/JToolkit-Cache.git
