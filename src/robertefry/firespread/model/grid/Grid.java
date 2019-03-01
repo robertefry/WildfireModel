@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import robertefry.firespread.cache.Cache;
-import robertefry.firespread.cache.SimpleConcurrentCache;
+import robertefry.firespread.cache.ConcurrentHashCache;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.Spread;
 import robertefry.firespread.model.terain.TerrainState;
@@ -30,7 +30,7 @@ import robertefry.penguin.target.TargetBlank;
 public class Grid extends TargetBlank {
 	
 	private final Map< Point, Cell > cellmap = new ConcurrentHashMap<>();
-	private final Cache< Cell, Set< Cell > > localcells = new SimpleConcurrentCache<>();
+	private final Cache< Cell, Set< Cell > > localcells = new ConcurrentHashCache<>();
 	
 	private final GridShape gridshape = new GridShape();
 	private final GridRenderContext context = new GridRenderContext();
@@ -70,7 +70,7 @@ public class Grid extends TargetBlank {
 		cellmap.values().stream().parallel()
 			.filter( cell -> cell.getTerrain().isBurning() )
 			.forEach( cell -> {
-				localcells.get( cell, () -> getLocalCells( cellmap.values(), cell ) )
+				localcells.retrieve( cell, () -> getLocalCells( cellmap.values(), cell ) )
 					.forEach( local -> {
 						cell.trySpread( local );
 					} );

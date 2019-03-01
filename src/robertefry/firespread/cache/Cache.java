@@ -1,6 +1,7 @@
 
 package robertefry.firespread.cache;
 
+import java.beans.IntrospectionException;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -10,6 +11,8 @@ import java.util.function.Supplier;
  */
 public interface Cache< K, V > extends Map< K, V > {
 	
-	public V get( K key, Supplier< V > supplier );
+	public V retrieve( K key ) throws IntrospectionException;
+	
+	public V retrieve( K key, Supplier< V > supplier );
 	
 }
