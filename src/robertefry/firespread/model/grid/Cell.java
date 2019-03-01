@@ -46,7 +46,7 @@ public class Cell extends TargetBlank {
 	
 	@Override
 	public void render( Graphics g ) {
-		GraphicUtil.drawRect( g, bounds, Color.DARK_GRAY );
+		if ( ( bounds.width | bounds.height ) > 2 ) GraphicUtil.drawRect( g, bounds, Color.DARK_GRAY );
 		GraphicUtil.drawCross( g, bounds, terrain.getState().getDrawColor() );
 	}
 	
