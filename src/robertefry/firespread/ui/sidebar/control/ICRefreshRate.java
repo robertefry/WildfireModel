@@ -45,19 +45,19 @@ public class ICRefreshRate extends JPanel {
 		} );
 		( (JSpinner.DefaultEditor)spinner.getEditor() ).getTextField().addKeyListener( new KeyAdapter() {
 			public void keyReleased( KeyEvent e ) {
-				if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
-					process();
-				}
+				process();
 			}
 		} );
 		( (JSpinner.DefaultEditor)spinner.getEditor() ).getTextField().addMouseWheelListener( new MouseWheelListener() {
 			public void mouseWheelMoved( MouseWheelEvent e ) {
 				spinner.setValue( ( (Number)spinner.getValue() ).doubleValue() - e.getWheelRotation() );
+				process();
 			}
 		} );
 		layout.putConstraint( SpringLayout.NORTH, spinner, 0, SpringLayout.NORTH, this );
 		layout.putConstraint( SpringLayout.WEST, spinner, 6, SpringLayout.EAST, label );
 		layout.putConstraint( SpringLayout.SOUTH, spinner, 0, SpringLayout.SOUTH, this );
+		spinner.setValue( 1 );
 		add( spinner );
 		
 		layout.putConstraint( SpringLayout.EAST, spinner, -6, SpringLayout.WEST, nspt );
