@@ -137,11 +137,11 @@ public class Grid extends TargetBlank {
 		}
 		
 		private Set< Cell > getCells( Point p ) {
-			double x = ( p.x - context.getGridX() ) / context.getCellWidth();
-			double y = ( p.y - context.getGridY() ) / context.getCellHeight();
+			int x = (int)( ( p.x - context.getGridX() ) / context.getCellWidth() );
+			int y = (int)( ( p.y - context.getGridY() ) / context.getCellHeight() );
 			GridSpace space = new GridSpace(
-				(int)Math.floor( x - GridEditOptions.getPenSize() / 2 + 1 ), (int)Math.floor( y - GridEditOptions.getPenSize() / 2 + 1 ),
-				(int)Math.ceil( 2 * GridEditOptions.getPenSize() / 2 ), (int)Math.ceil( 2 * GridEditOptions.getPenSize() / 2 )
+				(int)Math.ceil( x - GridEditOptions.getPenSize() / 2 ), (int)Math.ceil( y - GridEditOptions.getPenSize() / 2 ),
+				(int)Math.floor( GridEditOptions.getPenSize() ), (int)Math.floor( GridEditOptions.getPenSize() )
 			);
 			return space.stream().map( cellmap::get ).collect( Collectors.toSet() );
 		}
