@@ -4,10 +4,12 @@ package robertefry.firespread.ui.menubar.maploader;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.Map;
+
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
+
 import robertefry.firespread.model.grid.Cell;
 import robertefry.firespread.model.map.CellMap;
 import robertefry.firespread.ui.atomic.LabeledComponent;

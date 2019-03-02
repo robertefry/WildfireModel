@@ -8,11 +8,14 @@ import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+
 import org.apache.commons.logging.LogFactory;
+
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.grid.Cell;
 import robertefry.firespread.ui.dialog.UIDialog;

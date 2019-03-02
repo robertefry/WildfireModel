@@ -2,9 +2,11 @@
 package robertefry.firespread.ui.animate;
 
 import java.awt.BorderLayout;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+
 import tips4java.AnimatedIcon;
 import tips4java.RotatedIcon;
 

@@ -3,6 +3,7 @@ package robertefry.firespread.ui.sidebar.wind;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JPanel;
 
 /**

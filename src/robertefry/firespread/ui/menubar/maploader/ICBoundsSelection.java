@@ -3,10 +3,12 @@ package robertefry.firespread.ui.menubar.maploader;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
+
 import robertefry.firespread.ui.atomic.LabeledComponent;
 import robertefry.firespread.ui.dialog.UIDialog;
 

@@ -3,6 +3,7 @@ package robertefry.firespread.model.grid;
 
 import java.util.Arrays;
 import java.util.List;
+
 import robertefry.firespread.model.terain.TerrainState;
 
 /**
@@ -12,6 +13,7 @@ import robertefry.firespread.model.terain.TerrainState;
 public class GridEditOptions {
 	
 	private static TerrainState selection = TerrainState.getDefault();
+	private static double pensize = 1;
 	
 	public static List< TerrainState > getOptionSet() {
 		return Arrays.asList( TerrainState.values() );
@@ -23,6 +25,14 @@ public class GridEditOptions {
 	
 	public static void setSelection( TerrainState selection ) {
 		GridEditOptions.selection = selection;
+	}
+	
+	public static double getPenSize() {
+		return pensize;
+	}
+	
+	public static void setPenSize( double pensize ) {
+		GridEditOptions.pensize = pensize;
 	}
 	
 }

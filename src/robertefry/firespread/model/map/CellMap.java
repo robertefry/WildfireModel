@@ -5,9 +5,10 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+
 import robertefry.firespread.model.Conversion;
 import robertefry.firespread.model.grid.Cell;
-import robertefry.firespread.model.grid.GridShape;
+import robertefry.firespread.model.grid.GridSpace;
 import robertefry.firespread.model.terain.Terrain;
 import robertefry.firespread.util.ImageUtil;
 
@@ -18,7 +19,7 @@ import robertefry.firespread.util.ImageUtil;
 public class CellMap {
 	
 	public static Map< Point, Cell > generate( int rows, int cols, ImageMap elevationMap, ImageMap flamabilityMap ) {
-		GridShape space = new GridShape( 0, 0, cols, rows );
+		GridSpace space = new GridSpace( 0, 0, cols, rows );
 		BufferedImage elevationImage = ImageUtil
 			.redraw( elevationMap.getImage(), space.getSize(), elevationMap.getBounds() );
 		BufferedImage flamabilityImage = ImageUtil
@@ -36,7 +37,7 @@ public class CellMap {
 	}
 	
 	public static Map< Point, Cell > generate( int rows, int cols ) {
-		GridShape space = new GridShape( 0, 0, cols, rows );
+		GridSpace space = new GridSpace( 0, 0, cols, rows );
 		Map< Point, Cell > cells = new HashMap<>();
 		space.forEach( point -> {
 			cells.put(

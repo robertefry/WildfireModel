@@ -6,7 +6,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
-import robertefry.firespread.model.grid.GridShape;
+
+import robertefry.firespread.model.grid.GridSpace;
 
 /**
  * @author Robert E Fry
@@ -37,7 +38,7 @@ public class ImageMap implements Iterable< Color > {
 	
 	private final class Itr implements Iterator< Color > {
 		
-		private final Iterator< Point > itr = ( new GridShape( bounds ) ).iterator();
+		private final Iterator< Point > itr = ( new GridSpace( bounds ) ).iterator();
 		
 		@Override
 		public boolean hasNext() {

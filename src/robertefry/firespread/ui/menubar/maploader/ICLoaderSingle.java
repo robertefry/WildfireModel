@@ -7,11 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+
 import org.apache.commons.logging.LogFactory;
+
 import robertefry.firespread.ui.atomic.LabeledComponent;
 import robertefry.firespread.ui.atomic.ToolTipTextField;
 import robertefry.firespread.ui.dialog.UIDialog;

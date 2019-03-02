@@ -2,6 +2,7 @@
 package robertefry.firespread.ui.sidebar.control;
 
 import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 

@@ -3,10 +3,12 @@ package robertefry.firespread.ui.sidebar;
 
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+
 import robertefry.firespread.ui.sidebar.control.UIEngineController;
 import robertefry.firespread.ui.sidebar.gridedit.UIGridEdit;
 import robertefry.firespread.ui.sidebar.wind.UIWindController;
@@ -40,7 +42,7 @@ public class AppSideBar extends JPanel {
 		editer.setBorder(
 			new TitledBorder( new LineBorder( new Color( 0, 0, 0 ), 1, true ), "Grid Edit Options", TitledBorder.LEADING, TitledBorder.TOP, null, null )
 		);
-		editer.setPreferredSize( new Dimension( 100, 133 ) );
+		editer.setPreferredSize( new Dimension( 100, 120 ) );
 		add( editer );
 		
 		UIWindController wind = new UIWindController();

@@ -12,6 +12,7 @@ import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 

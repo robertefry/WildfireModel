@@ -4,7 +4,9 @@ package robertefry.firespread.ui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
+
 import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.menubar.AppMenuBar;
 import robertefry.firespread.ui.sidebar.AppSideBar;

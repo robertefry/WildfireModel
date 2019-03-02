@@ -5,11 +5,13 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.util.Map;
+
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+
 import robertefry.firespread.io.ImageResource;
 import robertefry.firespread.model.grid.Cell;
 import robertefry.firespread.model.map.CellMap;

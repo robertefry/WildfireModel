@@ -9,11 +9,13 @@ import java.awt.event.MouseWheelListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+
 import robertefry.firespread.model.Model;
 import robertefry.penguin.targets.SimpleTimer;
 

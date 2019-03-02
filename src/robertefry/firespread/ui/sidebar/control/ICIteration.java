@@ -3,12 +3,14 @@ package robertefry.firespread.ui.sidebar.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+
 import robertefry.firespread.io.ImageResource;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.animate.RotatingIcon;

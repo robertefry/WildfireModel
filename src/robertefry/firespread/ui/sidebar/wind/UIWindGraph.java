@@ -10,7 +10,9 @@ import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JPanel;
+
 import robertefry.firespread.model.Wind;
 import robertefry.penguin.input.mouse.Mouse;
 import robertefry.penguin.input.mouse.listener.MouseObjectAdapter;

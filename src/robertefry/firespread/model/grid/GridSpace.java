@@ -12,42 +12,42 @@ import java.util.stream.StreamSupport;
  * @author Robert E Fry
  * @date 22 Feb 2019
  */
-public class GridShape implements Iterable< Point > {
+public class GridSpace implements Iterable< Point > {
 	
 	private int x, y, width, height;
 	
-	public GridShape( int x, int y, int width, int height ) {
+	public GridSpace( int x, int y, int width, int height ) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 	}
 	
-	public GridShape( int width, int height ) {
+	public GridSpace( int width, int height ) {
 		this( 0, 0, width, height );
 	}
 	
-	public GridShape( Rectangle r ) {
+	public GridSpace( Rectangle r ) {
 		this( r.x, r.y, r.width, r.height );
 	}
 	
-	public GridShape( Point p, Dimension d ) {
+	public GridSpace( Point p, Dimension d ) {
 		this( p.x, p.y, d.width, d.height );
 	}
 	
-	public GridShape( Point p ) {
+	public GridSpace( Point p ) {
 		this( p.x, p.y, 0, 0 );
 	}
 	
-	public GridShape( Dimension d ) {
+	public GridSpace( Dimension d ) {
 		this( 0, 0, d.width, d.height );
 	}
 	
-	public GridShape( GridShape g ) {
+	public GridSpace( GridSpace g ) {
 		this( g.x, g.y, g.width, g.height );
 	}
 	
-	public GridShape() {
+	public GridSpace() {
 		this( 0, 0, 0, 0 );
 	}
 	
@@ -98,12 +98,12 @@ public class GridShape implements Iterable< Point > {
 		return getBounds().intersects( r );
 	}
 	
-	public synchronized GridShape intersection( Rectangle r ) {
-		return new GridShape( getBounds().intersection( r ) );
+	public synchronized GridSpace intersection( Rectangle r ) {
+		return new GridSpace( getBounds().intersection( r ) );
 	}
 	
-	public synchronized GridShape union( Rectangle r ) {
-		return new GridShape( getBounds().union( r ) );
+	public synchronized GridSpace union( Rectangle r ) {
+		return new GridSpace( getBounds().union( r ) );
 	}
 	
 	public synchronized int getX() {
@@ -249,10 +249,10 @@ public class GridShape implements Iterable< Point > {
 	
 	@Override
 	public boolean equals( Object obj ) {
-		if ( !( obj instanceof GridShape ) ) {
+		if ( !( obj instanceof GridSpace ) ) {
 			return false;
 		}
-		return ( (GridShape)obj ).getBounds().equals( getBounds() );
+		return ( (GridSpace)obj ).getBounds().equals( getBounds() );
 	}
 	
 	@Override

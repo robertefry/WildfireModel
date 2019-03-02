@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import robertefry.firespread.model.spread.Spread;
 import robertefry.firespread.model.terain.Terrain;
 import robertefry.firespread.util.GraphicUtil;
