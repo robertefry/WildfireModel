@@ -55,7 +55,7 @@ public class UIWindGraph extends JPanel {
 		double scale = ( (double)bounds.width / 2 ) / max;
 		this.pointer.x = (int)( scale * mag * +Math.sin( dir ) );
 		this.pointer.y = (int)( scale * mag * -Math.cos( dir ) );
-		Wind.setSpeed( mag / max );
+		Wind.setMagnitude( mag / max );
 		Wind.setDirection( dir );
 	}
 	

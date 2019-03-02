@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import robertefry.firespread.model.Spread;
+import robertefry.firespread.model.spread.Spread;
 import robertefry.firespread.model.terain.Terrain;
 import robertefry.firespread.util.GraphicUtil;
 import robertefry.penguin.target.TargetBlank;
@@ -33,7 +33,7 @@ public class Cell extends TargetBlank {
 	
 	public boolean trySpread( Cell cell ) {
 		boolean ignite = false;
-		if ( Spread.passSpreadModel( this, cell ) ) {
+		if ( Spread.pass( this, cell ) ) {
 			if ( terrain.isBurning() ) {
 				ignite = cell.getTerrain().tryIgnite();
 			}

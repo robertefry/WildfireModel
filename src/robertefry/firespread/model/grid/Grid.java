@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import robertefry.firespread.model.Model;
+import robertefry.firespread.model.spread.Spread;
 import robertefry.firespread.model.terain.TerrainState;
 import robertefry.firespread.util.MathUtil;
 import robertefry.jtoolkit.cache.MapCache;
@@ -63,7 +64,10 @@ public class Grid extends TargetBlank {
 	
 	public Set< Cell > getLocalCells( Cell cell ) {
 		Point point = cell.getPoint();
-		GridShape shape = new GridShape( point.x - 1, point.y - 1, 3, 3 );
+		GridShape shape = new GridShape(
+			(int)( point.x - Spread.GRID_AFFECT_RADIUS ), (int)( point.y - Spread.GRID_AFFECT_RADIUS ),
+			(int)( Spread.GRID_AFFECT_RADIUS * 2 + 1 ), (int)( Spread.GRID_AFFECT_RADIUS * 2 + 1 )
+		);
 		return shape.stream().map( cellmap::get ).filter( Objects::nonNull ).collect( Collectors.toSet() );
 	}
 	

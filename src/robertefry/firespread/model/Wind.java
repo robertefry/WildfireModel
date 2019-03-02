@@ -7,16 +7,14 @@ package robertefry.firespread.model;
  */
 public class Wind {
 	
-	// TODO implement into model
+	private static double magnitude, direction;
 	
-	private static double speed, direction;
-	
-	public static double getSpeed() {
-		return speed;
+	public static double getMagnitude() {
+		return magnitude;
 	}
 	
-	public static void setSpeed( double speed ) {
-		Wind.speed = speed;
+	public static void setMagnitude( double magnitude ) {
+		Wind.magnitude = magnitude;
 	}
 	
 	public static double getDirection() {
