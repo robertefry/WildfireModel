@@ -3,7 +3,7 @@ package robertefry.firespread.ui.param;
 
 import javax.swing.SpringLayout;
 import robertefry.firespread.model.spread.Spread;
-import robertefry.firespread.ui.atomic.ICFunction;
+import robertefry.firespread.ui.atomic.func.ICLinearFunction;
 import robertefry.firespread.ui.dialog.UIMessage;
 
 /**
@@ -13,7 +13,7 @@ import robertefry.firespread.ui.dialog.UIMessage;
 public class UISpreadParamController extends UIMessage {
 	private static final long serialVersionUID = 4438663642399166090L;
 	
-	private final ICFunction fnDistSpread = new ICFunction( "Spread probability function", "distance", "probability" );
+	private final ICLinearFunction fnDistSpread = new ICLinearFunction( "Spread probability function", "distance", "probability" );
 	
 	public UISpreadParamController() {
 		
