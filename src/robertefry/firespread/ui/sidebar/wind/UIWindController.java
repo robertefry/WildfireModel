@@ -2,9 +2,10 @@
 package robertefry.firespread.ui.sidebar.wind;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-
+import java.awt.Color;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 /**
  * @author Robert E Fry
@@ -19,8 +20,11 @@ public class UIWindController extends JPanel {
 		
 		setLayout( new BorderLayout( 0, 0 ) );
 		
-		wind.setPreferredSize( new Dimension( 100, 100 ) );
 		add( wind, BorderLayout.CENTER );
+		
+		setBorder(
+			new TitledBorder( new LineBorder( new Color( 0, 0, 0 ), 1, true ), "Wind ( speed & direction )", TitledBorder.LEADING, TitledBorder.TOP, null, new Color( 0, 0, 0 ) )
+		);
 		
 	}
 	

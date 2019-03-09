@@ -2,7 +2,6 @@
 package robertefry.firespread.model;
 
 import java.util.function.Function;
-
 import robertefry.firespread.model.terain.Terrain;
 
 /**

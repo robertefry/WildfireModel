@@ -2,11 +2,8 @@
 package robertefry.firespread;
 
 import java.awt.EventQueue;
-
 import javax.swing.UIManager;
-
 import org.apache.commons.logging.LogFactory;
-
 import robertefry.firespread.ui.Application;
 
 /**

@@ -1,21 +1,15 @@
 
 package robertefry.firespread.ui.sidebar.gridedit;
 
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.SpringLayout;
-import javax.swing.border.EtchedBorder;
-
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import robertefry.firespread.model.grid.GridEditOptions;
-import robertefry.firespread.ui.atomic.LabeledComponent;
+import robertefry.firespread.ui.atomic.ICSpinner;
 
 /**
  * @author Robert E Fry
@@ -24,55 +18,39 @@ import robertefry.firespread.ui.atomic.LabeledComponent;
 public class UIGridEdit extends JPanel {
 	private static final long serialVersionUID = 8009175195973692506L;
 	
-	private final LabeledComponent< JSpinner > lblcmpPenSize = new LabeledComponent<>(
-		(String)"Pen size;", new JSpinner()
-	);
-	
 	public UIGridEdit() {
 		
-		SpringLayout springLayout = new SpringLayout();
-		setLayout( springLayout );
+		SpringLayout layout = new SpringLayout();
+		setLayout( layout );
 		
-		JPanel icEditTerrainType = new ICEditTerrainType();
-		icEditTerrainType.setBorder( new EtchedBorder( EtchedBorder.LOWERED, null, null ) );
-		springLayout.putConstraint( SpringLayout.NORTH, icEditTerrainType, 4, SpringLayout.NORTH, this );
-		springLayout.putConstraint( SpringLayout.WEST, icEditTerrainType, 4, SpringLayout.WEST, this );
-		springLayout.putConstraint( SpringLayout.SOUTH, icEditTerrainType, -4, SpringLayout.SOUTH, this );
-		icEditTerrainType.setPreferredSize( new Dimension( 80, 0 ) );
-		add( icEditTerrainType );
+		JPanel pnlTerrainTypes = new ICEditTerrainType();
+		layout.putConstraint( SpringLayout.NORTH, pnlTerrainTypes, 10, SpringLayout.NORTH, this );
+		layout.putConstraint( SpringLayout.WEST, pnlTerrainTypes, 10, SpringLayout.WEST, this );
+		add( pnlTerrainTypes );
 		
-		lblcmpPenSize.getComponent().addPropertyChangeListener( new PropertyChangeListener() {
-			public void propertyChange( PropertyChangeEvent evt ) {
-				processPenSize();
-			}
+		JLabel lblPenSize = new JLabel( "Pen Size: " );
+		layout.putConstraint( SpringLayout.NORTH, lblPenSize, 10, SpringLayout.NORTH, this );
+		layout.putConstraint( SpringLayout.WEST, lblPenSize, 10, SpringLayout.EAST, pnlTerrainTypes );
+		add( lblPenSize );
+		
+		ICSpinner spnPenSize = new ICSpinner();
+		spnPenSize.addPropertyChangeTask( () -> {
+			double size = Math.max( spnPenSize.getNumberValue().doubleValue(), 1 );
+			spnPenSize.setValue( size );
+			GridEditOptions.setPenSize( size );
 		} );
-		( (JSpinner.DefaultEditor)lblcmpPenSize.getComponent().getEditor() ).getTextField()
-			.addKeyListener( new KeyAdapter() {
-				public void keyReleased( KeyEvent e ) {
-					processPenSize();
-				}
-			} );
-		( (JSpinner.DefaultEditor)lblcmpPenSize.getComponent().getEditor() ).getTextField()
-			.addMouseWheelListener( new MouseWheelListener() {
-				public void mouseWheelMoved( MouseWheelEvent e ) {
-					double size = ( (Number)lblcmpPenSize.getComponent().getValue() ).doubleValue();
-					size = Math.max( size - e.getWheelRotation(), 1 );
-					lblcmpPenSize.getComponent().setValue( size );
-					processPenSize();
-				}
-			} );
-		lblcmpPenSize.getComponent().setValue( GridEditOptions.getPenSize() );
-		lblcmpPenSize.getComponent().setPreferredSize( new Dimension( 80, 20 ) );
-		lblcmpPenSize.getLabel().setText( "Pen size:" );
-		lblcmpPenSize.getLabel().setPreferredSize( new Dimension( 50, 14 ) );
-		springLayout.putConstraint( SpringLayout.NORTH, lblcmpPenSize, 6, SpringLayout.NORTH, this );
-		springLayout.putConstraint( SpringLayout.WEST, lblcmpPenSize, 6, SpringLayout.EAST, icEditTerrainType );
-		add( lblcmpPenSize );
+		layout.putConstraint( SpringLayout.NORTH, spnPenSize, 6, SpringLayout.SOUTH, lblPenSize );
+		layout.putConstraint( SpringLayout.WEST, spnPenSize, 10, SpringLayout.EAST, pnlTerrainTypes );
+		spnPenSize.setValue( GridEditOptions.getPenSize() );
+		spnPenSize.setPreferredSize( new Dimension( 100, 23 ) );
+		add( spnPenSize );
 		
-	}
-	
-	private void processPenSize() {
-		GridEditOptions.setPenSize( ( (Number)lblcmpPenSize.getComponent().getValue() ).doubleValue() );
+		setBorder(
+			new TitledBorder( new LineBorder( new Color( 0, 0, 0 ), 1, true ), "Grid Edit Options", TitledBorder.LEADING, TitledBorder.TOP, null, null )
+		);
+		layout.putConstraint( SpringLayout.SOUTH, this, 10, SpringLayout.SOUTH, pnlTerrainTypes );
+		layout.putConstraint( SpringLayout.EAST, this, 10, SpringLayout.EAST, spnPenSize );
+		
 	}
 	
 }
