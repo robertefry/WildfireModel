@@ -1,13 +1,12 @@
 
-package robertefry.firespread.model.grid;
+package robertefry.firespread.model.cell;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import robertefry.firespread.model.spread.Spread;
-import robertefry.firespread.model.terain.Terrain;
+import robertefry.firespread.model.terrain.Terrain;
 import robertefry.firespread.util.GraphicUtil;
 import robertefry.penguin.target.TargetBlank;
 
@@ -17,18 +16,17 @@ import robertefry.penguin.target.TargetBlank;
  */
 public class Cell extends TargetBlank {
 	
-	private final Point point;
+	private Point location;
 	private Terrain terrain;
-	
 	private final Rectangle bounds = new Rectangle();
 	
-	public Cell( Point point, Terrain terrain ) {
-		this.point = point;
+	public Cell( Point location, Terrain terrain ) {
+		this.location = location;
 		this.terrain = terrain;
 	}
 	
 	public Cell( Cell cell ) {
-		this.point = new Point( cell.point );
+		this.location = new Point( cell.location );
 		this.terrain = new Terrain( cell.terrain );
 	}
 	
@@ -53,8 +51,8 @@ public class Cell extends TargetBlank {
 		GraphicUtil.drawCross( g, bounds, terrain.getState().getDrawColor() );
 	}
 	
-	public Point getPoint() {
-		return point;
+	public Point getLocation() {
+		return location;
 	}
 	
 	public Terrain getTerrain() {

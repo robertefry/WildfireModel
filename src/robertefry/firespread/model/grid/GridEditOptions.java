@@ -3,8 +3,7 @@ package robertefry.firespread.model.grid;
 
 import java.util.Arrays;
 import java.util.List;
-
-import robertefry.firespread.model.terain.TerrainState;
+import robertefry.firespread.model.terrain.TerrainState;
 
 /**
  * @author Robert E Fry

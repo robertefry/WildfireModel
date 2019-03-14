@@ -1,13 +1,10 @@
 
-package robertefry.firespread.model.map;
+package robertefry.firespread.io.map;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
-
-import robertefry.firespread.model.grid.GridSpace;
 
 /**
  * @author Robert E Fry
@@ -38,17 +35,19 @@ public class ImageMap implements Iterable< Color > {
 	
 	private final class Itr implements Iterator< Color > {
 		
-		private final Iterator< Point > itr = ( new GridSpace( bounds ) ).iterator();
+		private int local = 0;
 		
 		@Override
 		public boolean hasNext() {
-			return itr.hasNext();
+			return local < bounds.width * bounds.height;
 		}
 		
 		@Override
 		public Color next() {
-			Point point = itr.next();
-			return new Color( image.getRGB( point.x, point.y ) );
+			int x = local / bounds.width;
+			int y = local % bounds.width;
+			local++;
+			return new Color( image.getRGB( bounds.x + x, bounds.y + y ) );
 		}
 		
 	}

@@ -1,5 +1,5 @@
 
-package robertefry.firespread.io;
+package robertefry.firespread.io.resource;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;

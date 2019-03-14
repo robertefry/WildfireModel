@@ -2,7 +2,7 @@
 package robertefry.firespread.model;
 
 import java.util.function.Function;
-import robertefry.firespread.model.terain.Terrain;
+import robertefry.firespread.model.terrain.Terrain;
 
 /**
  * @author Robert E Fry

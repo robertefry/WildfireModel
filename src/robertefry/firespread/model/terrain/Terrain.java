@@ -1,5 +1,5 @@
 
-package robertefry.firespread.model.terain;
+package robertefry.firespread.model.terrain;
 
 import robertefry.penguin.target.api.Updatable;
 
@@ -26,10 +26,8 @@ public class Terrain implements Flamable, Updatable {
 		this( terrain.fuelmass, terrain.elevation );
 	}
 	
-	public void make( Terrain terrain ) {
-		this.fuelmass = terrain.fuelmass;
-		this.burnrate = terrain.burnrate;
-		this.elevation = terrain.elevation;
+	public Terrain() {
+		this( 10, 0 );
 	}
 	
 	@Override

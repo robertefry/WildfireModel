@@ -1,7 +1,7 @@
 
 package robertefry.firespread.model.spread;
 
-import robertefry.firespread.model.grid.Cell;
+import robertefry.firespread.model.cell.Cell;
 import robertefry.firespread.util.MathUtil;
 
 /**

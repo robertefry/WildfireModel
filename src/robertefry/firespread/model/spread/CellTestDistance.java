@@ -1,7 +1,7 @@
 
 package robertefry.firespread.model.spread;
 
-import robertefry.firespread.model.grid.Cell;
+import robertefry.firespread.model.cell.Cell;
 
 /**
  * @author Robert E Fry
@@ -13,7 +13,7 @@ public class CellTestDistance extends CellTest {
 	
 	@Override
 	public double apply( Cell src, Cell dest ) {
-		double distance = src.getPoint().distance( dest.getPoint() );
+		double distance = src.getLocation().distance( dest.getLocation() );
 		return gradient * distance + constant;
 	}
 	

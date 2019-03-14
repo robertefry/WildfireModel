@@ -1,5 +1,5 @@
 
-package robertefry.firespread.io;
+package robertefry.firespread.io.resource;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -3,7 +3,8 @@ package robertefry.firespread.model.grid;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.util.Collection;
+import java.util.stream.StreamSupport;
+import robertefry.firespread.model.cell.CellGrid;
 
 /**
  * @author Robert E Fry
@@ -15,15 +16,15 @@ public class GridRenderContext {
 	private double gridX, gridY;
 	private double cellWidth, cellHeight;
 	
-	public void enforceCellBounds( Dimension grid, Collection< Cell > cells ) {
-		double width = canvas.getWidth() / grid.getWidth();
-		double height = canvas.getHeight() / grid.getHeight();
+	public void enforceCellBounds( CellGrid cellgrid ) {
+		double width = canvas.getWidth() / cellgrid.cols();
+		double height = canvas.getHeight() / cellgrid.rows();
 		cellWidth = cellHeight = Math.min( width, height );
-		gridX = ( canvas.getWidth() - cellWidth * grid.getWidth() ) / 2;
-		gridY = ( canvas.getHeight() - cellHeight * grid.getHeight() ) / 2;
-		cells.stream().parallel().forEach( cell -> {
-			double x = gridX + cellWidth * cell.getPoint().getX();
-			double y = gridY + cellHeight * cell.getPoint().getY();
+		gridX = ( canvas.getWidth() - cellWidth * cellgrid.cols() ) / 2;
+		gridY = ( canvas.getHeight() - cellHeight * cellgrid.rows() ) / 2;
+		StreamSupport.stream( cellgrid.spliterator(), true ).forEach( cell -> {
+			double x = gridX + cellWidth * cell.getLocation().getX();
+			double y = gridY + cellHeight * cell.getLocation().getY();
 			cell.setBounds( new Rectangle( (int)x, (int)y, (int)cellWidth, (int)cellHeight ) );
 		} );
 	}

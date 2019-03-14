@@ -10,16 +10,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 import robertefry.firespread.model.Model;
+import robertefry.firespread.model.cell.Cell;
+import robertefry.firespread.model.cell.CellGrid;
 import robertefry.firespread.model.spread.Spread;
-import robertefry.firespread.model.terain.TerrainState;
+import robertefry.firespread.model.terrain.TerrainState;
 import robertefry.firespread.util.MathUtil;
 import robertefry.jtoolkit.cache.MapCache;
 import robertefry.jtoolkit.cache.SetCache;
@@ -29,18 +29,15 @@ import robertefry.penguin.target.TargetBlank;
 
 /**
  * @author Robert E Fry
- * @date 22 Feb 2019
+ * @date 14 Mar 2019
  */
 public class Grid extends TargetBlank {
 	
-	private final Map< Point, Cell > cellmap = new ConcurrentHashMap<>();
+	private CellGrid cellgrid = new CellGrid();
+	private final SetCache< Cell > burning = new SetCache<>( new HashSet<>() );
+	private final MapCache< Cell, Set< Cell > > local = new MapCache<>( new HashMap<>() );
 	
-	private final SetCache< Cell > cacheBurning = new SetCache<>( new HashSet<>() );
-	private final MapCache< Cell, Set< Cell > > cacheLocal = new MapCache<>( new HashMap<>() );
-	
-	private final GridSpace gridshape = new GridSpace();
-	private final GridRenderContext context = new GridRenderContext();
-	
+	private final GridRenderContext gridRenderContext = new GridRenderContext();
 	private final MouseObjectListener gridMouseObjectListener = new GridMouseListener();
 	private final ComponentListener gridComponentListener = new GridComponentListener();
 	
@@ -49,57 +46,54 @@ public class Grid extends TargetBlank {
 		Model.getEngine().getRenderer().getComponent().addComponentListener( gridComponentListener );
 	}
 	
-	public void reconstruct( Map< Point, Cell > cellmap ) {
-		this.cacheBurning.clear();
-		this.cacheLocal.clear();
-		this.cellmap.clear();
-		this.gridshape.setBounds( 0, 0, 0, 0 );
-		cellmap.entrySet().stream().parallel().forEach( entry -> {
-			Point point = entry.getKey();
-			Cell cell = entry.getValue();
-			this.cellmap.put( point, cell );
-			if ( cell.getTerrain().isBurning() ) this.cacheBurning.cache( cell );
-			this.gridshape.include( point );
+	public void rebuildFrom( CellGrid cellgrid ) {
+		this.cellgrid = cellgrid;
+		this.burning.clear();
+		this.local.clear();
+		this.cellgrid.forEach( cell -> {
+			if ( cell.getTerrain().isBurning() ) this.burning.cache( cell );
 		} );
-		context.enforceCellBounds( gridshape.getSize(), cellmap.values() );
+		this.gridRenderContext.enforceCellBounds( this.cellgrid );
 	}
 	
-	public Set< Cell > getLocalCells( Cell cell ) {
-		Point point = cell.getPoint();
-		GridSpace shape = new GridSpace(
-			(int)( point.x - Spread.GRID_AFFECT_RADIUS ), (int)( point.y - Spread.GRID_AFFECT_RADIUS ),
-			(int)( Spread.GRID_AFFECT_RADIUS * 2 + 1 ), (int)( Spread.GRID_AFFECT_RADIUS * 2 + 1 )
+	private Set< Cell > getLocalCells( Cell cell ) {
+		GridSpace space = new GridSpace(
+			(int)Math.floor( cell.getLocation().getX() - Spread.GRID_AFFECT_RADIUS ),
+			(int)Math.floor( cell.getLocation().getY() - Spread.GRID_AFFECT_RADIUS ),
+			(int)Math.ceil( 2 * Spread.GRID_AFFECT_RADIUS + 1 ),
+			(int)Math.ceil( 2 * Spread.GRID_AFFECT_RADIUS + 1 )
 		);
-		return shape.stream().map( cellmap::get ).filter( Objects::nonNull ).collect( Collectors.toSet() );
+		return space.stream()
+			.filter( point -> point.distance( point.x, point.y ) < Spread.GRID_AFFECT_RADIUS )
+			.map( point -> cellgrid.get( point.x, point.y ) )
+			.filter( Objects::nonNull )
+			.collect( Collectors.toSet() );
 	}
 	
 	@Override
 	public void update() {
 		
 		Set< Cell > cellsToBurn = new HashSet<>();
-		cacheBurning.stream().parallel()
-			.forEach( cell -> {
-				cacheLocal.retrieve( cell, () -> getLocalCells( cell ) )
-					.stream()
-					.filter( Objects::nonNull )
-					.forEach( local -> {
-						boolean ignite = cell.trySpread( local );
-						if ( ignite ) cellsToBurn.add( local );
-					} );
-			} );
-		cellsToBurn.forEach( cacheBurning::cache );
+		burning.forEach( cell -> {
+			local.retrieve( cell, () -> getLocalCells( cell ) )
+				.forEach( local -> {
+					boolean ignite = cell.trySpread( local );
+					if ( ignite ) cellsToBurn.add( local );
+				} );
+		} );
+		cellsToBurn.forEach( burning::cache );
 		
-		cacheBurning.stream().parallel().forEach( Cell::update );
+		burning.stream().parallel().forEach( Cell::update );
 		
-		cacheBurning.clean( cell -> !cell.getTerrain().isBurning() );
-		cacheLocal.clean( elem -> !elem.getKey().getTerrain().isBurning() );
+		burning.clean( cell -> !cell.getTerrain().isBurning() );
+		local.clean( elem -> !elem.getKey().getTerrain().isBurning() );
 		
-	};
+	}
 	
 	@Override
 	public void render( Graphics g ) {
-		cellmap.values().forEach( cell -> cell.render( g ) );
-	};
+		cellgrid.forEach( cell -> cell.render( g ) );
+	}
 	
 	private final class GridMouseListener extends MouseObjectAdapter {
 		
@@ -114,9 +108,9 @@ public class Grid extends TargetBlank {
 		private void process( Cell cell, TerrainState state ) {
 			cell.getTerrain().setState( state );
 			if ( state.isBurning() ) {
-				cacheBurning.cache( cell );
+				burning.cache( cell );
 			} else {
-				cacheBurning.remove( cell );
+				burning.remove( cell );
 			}
 			Model.getEngine().forceRender();
 		}
@@ -137,13 +131,15 @@ public class Grid extends TargetBlank {
 		}
 		
 		private Set< Cell > getCells( Point p ) {
-			int x = (int)( ( p.x - context.getGridX() ) / context.getCellWidth() );
-			int y = (int)( ( p.y - context.getGridY() ) / context.getCellHeight() );
+			int x = (int)( ( p.x - gridRenderContext.getGridX() ) / gridRenderContext.getCellWidth() );
+			int y = (int)( ( p.y - gridRenderContext.getGridY() ) / gridRenderContext.getCellHeight() );
 			GridSpace space = new GridSpace(
 				(int)Math.ceil( x - GridEditOptions.getPenSize() / 2 ), (int)Math.ceil( y - GridEditOptions.getPenSize() / 2 ),
 				(int)Math.floor( GridEditOptions.getPenSize() ), (int)Math.floor( GridEditOptions.getPenSize() )
 			);
-			return space.stream().map( cellmap::get ).collect( Collectors.toSet() );
+			return space.stream()
+				.map( point -> cellgrid.get( point.x, point.y ) )
+				.collect( Collectors.toSet() );
 		}
 		
 		@Override
@@ -179,8 +175,8 @@ public class Grid extends TargetBlank {
 		
 		@Override
 		public void componentResized( ComponentEvent e ) {
-			context.setCanvasSize( Model.getEngine().getRenderer().getComponent().getSize() );
-			context.enforceCellBounds( gridshape.getSize(), cellmap.values() );
+			gridRenderContext.setCanvasSize( Model.getEngine().getRenderer().getComponent().getSize() );
+			gridRenderContext.enforceCellBounds( cellgrid );
 			Model.getEngine().forceRender();
 		}
 		

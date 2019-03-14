@@ -1,5 +1,5 @@
 
-package robertefry.firespread.model.terain;
+package robertefry.firespread.model.terrain;
 
 import java.awt.Color;
 

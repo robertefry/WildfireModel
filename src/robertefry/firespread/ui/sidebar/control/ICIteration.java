@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import robertefry.firespread.io.ImageResource;
+import robertefry.firespread.io.resource.ImageResource;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.ui.animate.RotatingIcon;
 import robertefry.penguin.engine.listener.EngineStateListener;

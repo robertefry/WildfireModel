@@ -17,7 +17,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import org.apache.commons.logging.LogFactory;
 import robertefry.firespread.model.Model;
-import robertefry.firespread.model.grid.Cell;
+import robertefry.firespread.model.cell.Cell;
+import robertefry.firespread.model.cell.CellGrid;
 import robertefry.firespread.ui.dialog.UIDialog;
 import robertefry.firespread.ui.maploader.UICellSetLoader;
 import robertefry.firespread.ui.maploader.UIGridLoader;
@@ -67,19 +68,19 @@ public class Application {
 		mntmCreateEmptyGrid.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new Thread( () -> {
-					UIDialog< Map< Point, Cell > > frmGridLoader = new UIGridLoader();
+					UIDialog< CellGrid > frmGridLoader = new UIGridLoader();
 					frmGridLoader.setLocationRelativeTo( frmMainModel );
 					frmGridLoader.setVisible( true );
-					Map< Point, Cell > cellmap = null;
+					CellGrid cellgrid = null;
 					try {
-						cellmap = frmGridLoader.fetch();
+						cellgrid = frmGridLoader.fetch();
 					} catch ( CancellationException e1 ) {
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "cellset fetch failed", e1 );
 					}
 					if ( frmGridLoader.isFetched() ) {
 						Model.getEngine().suspend();
-						Model.getGrid().reconstruct( cellmap );
+						Model.getGrid().rebuildFrom( cellgrid );
 						Model.getEngine().forceRender();
 					}
 				} ).start();
@@ -91,19 +92,19 @@ public class Application {
 		mntmPopulateGrid.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new Thread( () -> {
-					UIDialog< Map< Point, Cell > > frmCellSetLoader = new UICellSetLoader();
+					UIDialog< CellGrid > frmCellSetLoader = new UICellSetLoader();
 					frmCellSetLoader.setLocationRelativeTo( frmMainModel );
 					frmCellSetLoader.setVisible( true );
-					Map< Point, Cell > cellmap = null;
+					CellGrid cellgrid = null;
 					try {
-						cellmap = frmCellSetLoader.fetch();
+						cellgrid = frmCellSetLoader.fetch();
 					} catch ( CancellationException e1 ) {
 					} catch ( InterruptedException | ExecutionException e1 ) {
 						LogFactory.getLog( getClass() ).error( "cellset fetch failed", e1 );
 					}
 					if ( frmCellSetLoader.isFetched() ) {
 						Model.getEngine().suspend();
-						Model.getGrid().reconstruct( cellmap );
+						Model.getGrid().rebuildFrom( cellgrid );
 						Model.getEngine().forceRender();
 					}
 				} ).start();

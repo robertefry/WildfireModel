@@ -10,7 +10,7 @@ import javax.swing.JRadioButton;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 import robertefry.firespread.model.grid.GridEditOptions;
-import robertefry.firespread.model.terain.TerrainState;
+import robertefry.firespread.model.terrain.TerrainState;
 
 /**
  * @author Robert E Fry
