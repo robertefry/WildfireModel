@@ -14,6 +14,8 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import robertefry.firespread.model.Model;
 import robertefry.firespread.model.cell.Cell;
@@ -34,6 +36,7 @@ import robertefry.penguin.target.TargetBlank;
 public class Grid extends TargetBlank {
 	
 	private CellGrid cellgrid = new CellGrid();
+	private final Lock gridlock = new ReentrantLock();
 	private final SetCache< Cell > burning = new SetCache<>( new HashSet<>() );
 	private final MapCache< Cell, Set< Cell > > local = new MapCache<>( new HashMap<>() );
 	
@@ -47,13 +50,18 @@ public class Grid extends TargetBlank {
 	}
 	
 	public void rebuildFrom( CellGrid cellgrid ) {
-		this.cellgrid = cellgrid;
-		this.burning.clear();
-		this.local.clear();
-		this.cellgrid.forEach( cell -> {
-			if ( cell.getTerrain().isBurning() ) this.burning.cache( cell );
-		} );
-		this.gridRenderContext.enforceCellBounds( this.cellgrid );
+		gridlock.lock();
+		try {
+			this.cellgrid = cellgrid;
+			this.burning.clear();
+			this.local.clear();
+			this.cellgrid.forEach( cell -> {
+				if ( cell.getTerrain().isBurning() ) this.burning.cache( cell );
+			} );
+			this.gridRenderContext.enforceCellBounds( this.cellgrid );
+		} finally {
+			gridlock.unlock();
+		}
 	}
 	
 	private Set< Cell > getLocalCells( Cell cell ) {
@@ -63,7 +71,7 @@ public class Grid extends TargetBlank {
 			(int)Math.ceil( 2 * Spread.GRID_AFFECT_RADIUS + 1 ),
 			(int)Math.ceil( 2 * Spread.GRID_AFFECT_RADIUS + 1 )
 		);
-		return space.stream()
+		return space.stream().parallel()
 			.filter( point -> point.distance( point.x, point.y ) < Spread.GRID_AFFECT_RADIUS )
 			.map( point -> cellgrid.get( point.x, point.y ) )
 			.filter( Objects::nonNull )
@@ -74,13 +82,14 @@ public class Grid extends TargetBlank {
 	public void update() {
 		
 		Set< Cell > cellsToBurn = new HashSet<>();
-		burning.forEach( cell -> {
-			local.retrieve( cell, () -> getLocalCells( cell ) )
-				.forEach( local -> {
-					boolean ignite = cell.trySpread( local );
-					if ( ignite ) cellsToBurn.add( local );
-				} );
-		} );
+		burning.stream().parallel()
+			.forEach( cell -> {
+				local.retrieve( cell, () -> getLocalCells( cell ) )
+					.forEach( local -> {
+						boolean ignite = cell.trySpread( local );
+						if ( ignite ) cellsToBurn.add( local );
+					} );
+			} );
 		cellsToBurn.forEach( burning::cache );
 		
 		burning.stream().parallel().forEach( Cell::update );

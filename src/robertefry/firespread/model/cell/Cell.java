@@ -30,7 +30,7 @@ public class Cell extends TargetBlank {
 		this.terrain = new Terrain( cell.terrain );
 	}
 	
-	public boolean trySpread( Cell cell ) {
+	public synchronized boolean trySpread( Cell cell ) {
 		boolean ignite = false;
 		if ( Spread.pass( this, cell ) ) {
 			if ( terrain.isBurning() ) {

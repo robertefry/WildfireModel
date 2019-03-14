@@ -45,7 +45,7 @@ public class Terrain implements Flamable, Updatable {
 		}
 	}
 	
-	public boolean tryIgnite() {
+	public synchronized boolean tryIgnite() {
 		if ( canBurn() ) {
 			ignite = true;
 		}
@@ -53,12 +53,12 @@ public class Terrain implements Flamable, Updatable {
 	}
 	
 	@Override
-	public boolean canBurn() {
+	public synchronized boolean canBurn() {
 		return state.canBurn() && fuelmass > 0;
 	}
 	
 	@Override
-	public boolean isBurning() {
+	public synchronized boolean isBurning() {
 		return state.isBurning();
 	}
 	
