@@ -23,8 +23,6 @@ import robertefry.firespread.model.cell.CellGrid;
 import robertefry.firespread.model.spread.Spread;
 import robertefry.firespread.model.terrain.TerrainState;
 import robertefry.firespread.util.MathUtil;
-import robertefry.jtoolkit.cache.MapCache;
-import robertefry.jtoolkit.cache.SetCache;
 import robertefry.penguin.input.mouse.listener.MouseObjectAdapter;
 import robertefry.penguin.input.mouse.listener.MouseObjectListener;
 import robertefry.penguin.target.TargetBlank;
@@ -37,8 +35,7 @@ public class Grid extends TargetBlank {
 	
 	private CellGrid cellgrid = new CellGrid();
 	private final Lock gridlock = new ReentrantLock();
-	private final SetCache< Cell > burning = new SetCache<>( new HashSet<>() );
-	private final MapCache< Cell, Set< Cell > > local = new MapCache<>( new HashMap<>() );
+	private final HashSet< Cell > burning = new HashSet<>();
 	
 	private final GridRenderContext gridRenderContext = new GridRenderContext();
 	private final MouseObjectListener gridMouseObjectListener = new GridMouseListener();
@@ -54,9 +51,8 @@ public class Grid extends TargetBlank {
 		try {
 			this.cellgrid = cellgrid;
 			this.burning.clear();
-			this.local.clear();
 			this.cellgrid.forEach( cell -> {
-				if ( cell.getTerrain().isBurning() ) this.burning.cache( cell );
+				if ( cell.getTerrain().isBurning() ) this.burning.add( cell );
 			} );
 			this.gridRenderContext.enforceCellBounds( this.cellgrid );
 		} finally {
@@ -84,18 +80,16 @@ public class Grid extends TargetBlank {
 		Set< Cell > cellsToBurn = new HashSet<>();
 		burning.stream().parallel()
 			.forEach( cell -> {
-				local.retrieve( cell, () -> getLocalCells( cell ) )
-					.forEach( local -> {
-						boolean ignite = cell.trySpread( local );
-						if ( ignite ) cellsToBurn.add( local );
-					} );
+				getLocalCells( cell ).forEach( local -> {
+					boolean ignite = cell.trySpread( local );
+					if ( ignite ) cellsToBurn.add( local );
+				} );
 			} );
-		cellsToBurn.forEach( burning::cache );
+		cellsToBurn.forEach( burning::add );
 		
 		burning.stream().parallel().forEach( Cell::update );
 		
-		burning.clean( cell -> !cell.getTerrain().isBurning() );
-		local.clean( elem -> !elem.getKey().getTerrain().isBurning() );
+		burning.removeIf( cell -> !cell.getTerrain().isBurning() );
 		
 	}
 	
@@ -117,7 +111,7 @@ public class Grid extends TargetBlank {
 		private void process( Cell cell, TerrainState state ) {
 			cell.getTerrain().setState( state );
 			if ( state.isBurning() ) {
-				burning.cache( cell );
+				burning.add( cell );
 			} else {
 				burning.remove( cell );
 			}
